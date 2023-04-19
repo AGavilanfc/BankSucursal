@@ -2,7 +2,7 @@ package com.optimissa.training.userservice.model;
 
 public class User {
 
-    private Integer id;
+    private int id;
     private String name;
     private String lastName1;
     private String lastName2;
@@ -13,26 +13,26 @@ public class User {
     public User() {
     }
 
-    public User(String name, String lastName1, String lastName2, String email, String phone) {
+    public User(String name, String lastName1, String lastName2, String email, String phone, Boolean active) {
         this.name = name;
         this.lastName1 = lastName1;
         this.lastName2 = lastName2;
         this.email = email;
         this.phone = phone;
-        this.active = true;
+        this.active = active;
     }
 
-    public User(Integer id, String name, String lastName1, String lastName2, String email, String phone) {
+    public User(int id, String name, String lastName1, String lastName2, String email, String phone, Boolean active) {
         this.id = id;
         this.name = name;
         this.lastName1 = lastName1;
         this.lastName2 = lastName2;
         this.email = email;
         this.phone = phone;
-        this.active = true;
+        this.active = active;
     }
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
