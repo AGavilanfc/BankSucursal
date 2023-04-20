@@ -10,4 +10,8 @@ public interface ITransactionRepository {
 
 
     public Transactions getByIdTransaction(int id);
+
+
+
+    public int insertNewTransaction(Transactions transactions);
 }

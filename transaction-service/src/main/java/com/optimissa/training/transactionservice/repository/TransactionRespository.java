@@ -38,8 +38,12 @@ public class TransactionRespository implements ITransactionRepository {
         );
 
 
-
     }
 
+    public int insertNewTransaction(Transactions transactions) {
+        String sql = "INSERT INTO TRANSACTION (DATE, TRANSACTION_NUMBER, AMOUNT, ACCOUNT_ID, FUND_ID) VALUES (NOW(), ?, ?, 1, 1);";
+
+        return jdbcTemplate.update(sql, transactions.getTransaction_Number(), transactions.getAmount());
 
     }
+}

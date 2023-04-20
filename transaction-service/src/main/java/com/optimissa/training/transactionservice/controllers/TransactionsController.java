@@ -33,9 +33,9 @@ public class TransactionsController {
 
 
     @PostMapping
-    public String createTransaction(@RequestBody String transaction) {
+    public int createTransaction(@RequestBody Transactions transaction) {
 
-        return "este es mi id: " + transaction;
+        return tranService.insertNewTransaction(transaction);
     }
 
 }
