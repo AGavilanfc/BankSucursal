@@ -2,20 +2,24 @@ package com.optimissa.training.transactionservice.dtos;
 
 public class Transactions {
 
-    public Transactions(int id, String date, String transactioNumber, double amount, int account_Id, int fund_Id) {
+    private int id;
+    private String date;
+    private String transaction_Number;
+    private double amount;
+    private int account_Id;
+    private int fund_Id;
+
+    public Transactions() {
+    }
+
+    public Transactions(int id, String date, String transaction_Number, double amount, int account_Id, int fund_Id) {
         this.id = id;
         this.date = date;
-        this.transactioNumber = transactioNumber;
+        this.transaction_Number = transaction_Number;
         this.amount = amount;
         this.account_Id = account_Id;
         this.fund_Id = fund_Id;
     }
-    private int id;
-    private String date;
-    private String transactioNumber;
-    private double amount;
-    private int account_Id;
-    private int fund_Id;
 
     public int getId() {
         return id;
@@ -33,12 +37,12 @@ public class Transactions {
         this.date = date;
     }
 
-    public String getTransactioNumber() {
-        return transactioNumber;
+    public String getTransaction_Number() {
+        return transaction_Number;
     }
 
-    public void setTransactioNumber(String transactioNumber) {
-        this.transactioNumber = transactioNumber;
+    public void setTransaction_Number(String transaction_Number) {
+        this.transaction_Number = transaction_Number;
     }
 
     public double getAmount() {
@@ -63,5 +67,17 @@ public class Transactions {
 
     public void setFund_Id(int fund_Id) {
         this.fund_Id = fund_Id;
+    }
+
+    @Override
+    public String toString() {
+        return "Transactions{" +
+                "id=" + id +
+                ", date='" + date + '\'' +
+                ", transaction_Number='" + transaction_Number + '\'' +
+                ", amount=" + amount +
+                ", account_Id=" + account_Id +
+                ", fund_Id=" + fund_Id +
+                '}';
     }
 }
