@@ -26,8 +26,18 @@ public class UserController {
     }
 
     @PostMapping()
-    public void adduser(@RequestBody User user) {
-        
+    public int addUser(@RequestBody User user) {
+        return userService.addUser(user);
+    }
+
+    @PutMapping("/{id}")
+    public int modifyUser(@RequestBody User user, @PathVariable int id) {
+        return userService.modifyUser(user, id);
+    }
+
+    @DeleteMapping("/{id}")
+    public int removeUser(@PathVariable int id){
+        return userService.removeUser(id);
     }
 
 }
