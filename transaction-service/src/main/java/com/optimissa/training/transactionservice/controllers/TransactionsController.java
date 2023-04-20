@@ -14,9 +14,7 @@ import java.util.List;
 public class TransactionsController {
 
     @Autowired
-    private TransactionRespository tranService;
-
-
+    private TransactionsService tranService;
 
     @GetMapping("/{id}")
     public Transactions getTransaction(@PathVariable int id) {
@@ -28,9 +26,6 @@ public class TransactionsController {
 
         return tranService.getAllTransactions();
     }
-
-
-
 
     @PostMapping
     public int createTransaction(@RequestBody Transactions transaction) {
