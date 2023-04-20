@@ -13,15 +13,6 @@ public class User {
     public User() {
     }
 
-    public User(String name, String lastName1, String lastName2, String email, String phone, Boolean active) {
-        this.name = name;
-        this.lastName1 = lastName1;
-        this.lastName2 = lastName2;
-        this.email = email;
-        this.phone = phone;
-        this.active = active;
-    }
-
     public User(int id, String name, String lastName1, String lastName2, String email, String phone, Boolean active) {
         this.id = id;
         this.name = name;
@@ -32,8 +23,21 @@ public class User {
         this.active = active;
     }
 
+    public User(String name, String lastName1, String lastName2, String email, String phone, Boolean active) {
+        this.name = name;
+        this.lastName1 = lastName1;
+        this.lastName2 = lastName2;
+        this.email = email;
+        this.phone = phone;
+        this.active = active;
+    }
+
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getName() {

@@ -1,5 +1,7 @@
 package com.optimissa.training.userservice.util;
 
+import org.springframework.context.annotation.Bean;
+
 import java.util.regex.Pattern;
 
 public class UserUtil {

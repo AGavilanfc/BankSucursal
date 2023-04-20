@@ -11,8 +11,7 @@ import java.util.List;
 @Service
 public class UserService {
 
-    @Autowired
-    UserUtil userUtil;
+    private final UserUtil userUtil = new UserUtil();
     @Autowired
     UserRepositoryJDBC userRepository;
 
@@ -20,7 +19,7 @@ public class UserService {
         return userRepository.selectAll();
     }
 
-    public User getUser(Integer id) {
+    public User getUser(int id) {
         return userRepository.selectById(id);
     }
 
@@ -30,8 +29,14 @@ public class UserService {
                 : 0;
     }
 
-    public int modifyUser(User user, int id) { return userRepository.update(user, id); }
+    public int modifyUser(User user, int id) {
+        return userUtil.checkEmail(user.getEmail())
+                ? userRepository.update(user,id)
+                : 0;
+    }
 
-    public int removeUser(int id) { return userRepository.delete(id); }
+    public int removeUser(int id) {
+        return userRepository.delete(id);
+    }
 
 }

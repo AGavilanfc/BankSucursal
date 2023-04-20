@@ -3,12 +3,11 @@ package com.optimissa.training.userservice.controller;
 import com.optimissa.training.userservice.model.User;
 import com.optimissa.training.userservice.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/user")
 public class UserController {
 
@@ -36,7 +35,7 @@ public class UserController {
     }
 
     @DeleteMapping("/{id}")
-    public int removeUser(@PathVariable int id){
+    public int removeUser(@PathVariable int id) {
         return userService.removeUser(id);
     }
 
