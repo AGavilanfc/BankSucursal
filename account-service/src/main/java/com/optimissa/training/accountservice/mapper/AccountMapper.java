@@ -1,0 +1,23 @@
+package com.optimissa.training.accountservice.mapper;
+
+import com.optimissa.training.accountservice.Models.Account;
+import org.springframework.jdbc.core.RowMapper;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+
+public class AccountMapper implements RowMapper<Account> {
+    @Override
+    public Account mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Account account = new Account();
+        account.setId(rs.getInt("ID"));
+        account.setBalance(rs.getDouble("BALANCE"));
+        account.setIban_id(rs.getInt("IBAN_ID"));
+        account.setClient_id(rs.getInt("CLIENT_ID"));
+        account.setCurrency_id(rs.getInt("CURRENCY_ID"));
+        account.setActive(rs.getBoolean("ACTIVE"));
+
+        return account;
+    }
+}
