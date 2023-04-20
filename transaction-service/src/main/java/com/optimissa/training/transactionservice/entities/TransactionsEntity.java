@@ -23,11 +23,10 @@ public class TransactionsEntity implements Serializable {
     @Column(name="AMOUNT", nullable = false)
     private double amount;
 
-    @ManyToOne
+
     @Column(name="ACCOUNT_ID", nullable = false)
     private int account_Id;
 
-    @ManyToOne
     @Column(name="FUND_ID", nullable = false)
     private int fund_Id;
 

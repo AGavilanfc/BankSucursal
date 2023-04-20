@@ -10,32 +10,4 @@ import java.util.List;
 public class TransactionsService {
 
 
-
-    private final JdbcTemplate jdbcTemplate;
-
-    public TransactionsService(JdbcTemplate jdbcTemplate) {
-        //this.entityManagerFactoryBuilder = entityManagerFactoryBuilder;
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    public String getSaludo(String nombre) {
-        return "¡Hola, " + nombre + "!";
-    }
-
-    public List<Transactions> getAllTransactions() {
-        String sql = "SELECT * FROM transaction";
-
-        return jdbcTemplate.query(
-                sql,
-                (rs, rowNum) ->
-                        new Transactions(
-                                rs.getInt("id"),
-                                rs.getString("date"),
-                                rs.getString("transaction_Number"),
-                                rs.getDouble("amount"),
-                                rs.getInt("account_Id"),
-                                rs.getInt("fund_Id")
-                        )
-        );
-    }
 }

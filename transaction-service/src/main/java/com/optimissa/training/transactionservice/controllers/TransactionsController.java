@@ -1,6 +1,7 @@
 package com.optimissa.training.transactionservice.controllers;
 
 import com.optimissa.training.transactionservice.dtos.Transactions;
+import com.optimissa.training.transactionservice.repository.TransactionRespository;
 import com.optimissa.training.transactionservice.services.TransactionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -13,20 +14,21 @@ import java.util.List;
 public class TransactionsController {
 
     @Autowired
-    private TransactionsService tranService;
+    private TransactionRespository tranService;
 
 
 
     @GetMapping("/{id}")
-    public String getTransaction(@PathVariable String id) {
+    public Transactions getTransaction(@PathVariable int id) {
 
-        return tranService.getSaludo(id);
+        return tranService.getByIdTransaction(id);
     }
     @GetMapping("/all")
     public List<Transactions> getAllTransaction() {
 
         return tranService.getAllTransactions();
     }
+
 
 
 
