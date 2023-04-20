@@ -1,26 +1,26 @@
 package com.optimissa.training.currencyservice.model;
 
-public class Currency_model {
+public class Currency {
     private int id;
     private String name;
     private String symbol;
     private String code;
 
 
-    public Currency_model(String name, String symbol, String code) {
+    public Currency(String name, String symbol, String code) {
         this.name = name;
         this.symbol = symbol;
         this.code = code;
     }
 
-    public Currency_model(int id, String name, String symbol, String code) {
+    public Currency(int id, String name, String symbol, String code) {
         this.id = id;
         this.name = name;
         this.symbol = symbol;
         this.code = code;
     }
 
-    public Currency_model() {
+    public Currency() {
     }
 
     public String getName() {
