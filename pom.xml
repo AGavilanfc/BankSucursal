@@ -7,9 +7,10 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<!--<module>user-service</module>-->
+		<module>fund-service</module>
+		<module>user-service</module>
 		<module>transaction-service</module>
 	</modules>
 
-	
+
 </project>
