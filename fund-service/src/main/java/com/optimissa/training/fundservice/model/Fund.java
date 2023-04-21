@@ -1,5 +1,8 @@
 package com.optimissa.training.fundservice.model;
 
+import org.springframework.data.relational.core.mapping.Table;
+
+@Table("FUND")
 public class Fund {
 
     private int id;
