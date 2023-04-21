@@ -1,0 +1,84 @@
+{
+	"info": {
+		"_postman_id": "5b3cb0a3-0e58-413b-a38c-a2eb78f2c1de",
+		"name": "TransactionModule",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26584073"
+	},
+	"item": [
+		{
+			"name": "getAllTransactions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-TRANS}}/transactions/all",
+					"host": [
+						"{{URL-TRANS}}"
+					],
+					"path": [
+						"transactions",
+						"all"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getTransactionById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-TRANS}}/transactions/3",
+					"host": [
+						"{{URL-TRANS}}"
+					],
+					"path": [
+						"transactions",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "insertNewTransaction",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"transaction_Number\": \"NUM00047\",\r\n    \"amount\": \"856778898.89\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL-TRANS}}/transactions",
+					"host": [
+						"{{URL-TRANS}}"
+					],
+					"path": [
+						"transactions"
+					],
+					"query": [
+						{
+							"key": "transaction_number",
+							"value": "\"NUM0001\"",
+							"disabled": true
+						},
+						{
+							"key": "amount",
+							"value": "80839645.89",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
