@@ -21,12 +21,14 @@ public class CurrencyController {
 
     @GetMapping(value = "/{id}")
     public Currency getCurrencyById(@PathVariable int id) {
+
         return currencyService.getCurrencyById(id);
     }
 
     @PostMapping(value = "/")
     @ResponseStatus(HttpStatus.CREATED)
     public String createCurrency(@RequestBody Currency currency) {
+
         return currencyService.createCurrency(currency);
     }
 
@@ -38,7 +40,22 @@ public class CurrencyController {
 
     }
 
-    
+//    @PutMapping(value = "/")
+//    public String updateCurrency(@PathVariable int id, @RequestBody Currency currency) {
+//        currency.setId(id);
+//        return currencyService.updateCurrency(currency);
+//    }
+
+    @PatchMapping("/{id}")
+    public String updateCurrency(@PathVariable int id, @RequestBody Currency currency) {
+        boolean updated = currencyService.updateCurrency(id, currency);
+        if (updated) {
+            return "Currency updated successfully!";
+        } else {
+            return "Failed to update currency";
+        }
+    }
+
 
 }
 

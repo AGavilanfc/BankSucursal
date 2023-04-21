@@ -37,7 +37,15 @@ private JdbcTemplate jdbcTemplate;
 
 
 
+//    public int updateCurrency(Currency currency) {
+//        String query = "UPDATE CURRENCY SET name = ?, symbol = ?, code = ? WHERE id = ?";
+//        return jdbcTemplate.update(query, currency.getName(), currency.getSymbol(), currency.getCode(), currency.getId());
+//    }
 
+    public int update(Currency currency) {
+        String query = "UPDATE CURRENCY SET name = ?, symbol = ?, code = ? WHERE id = ?";
+        return jdbcTemplate.update(query, currency.getName(), currency.getSymbol(), currency.getCode(), currency.getId());
+    }
 
 
 }

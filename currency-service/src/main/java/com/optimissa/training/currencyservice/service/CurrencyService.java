@@ -43,5 +43,35 @@ public int deleteById(int id) {
     return currencyRepository.delete(id);
 
 }
+
+//    public String updateCurrency(Currency currency) {
+//        Currency currentCurrency = currencyRepository.findById(currency.getId());
+//        if (currentCurrency == null) {
+//            return "Currency not found";
+//        }
+//        currentCurrency.updateCurrency(currency);
+//        int updatedCurrency = currencyRepository.updateCurrency(currentCurrency);
+//        if (updatedCurrency == 1) {
+//            return "Currency updated successfully!";
+//        } else {
+//            return "Failed to update currency";
+//        }
+//    }
+public boolean updateCurrency(int id, Currency currency) {
+    Currency existingCurrency = currencyRepository.findById(id);
+    if (existingCurrency == null) {
+        return false;
+    }
+    existingCurrency.setName(currency.getName());
+    existingCurrency.setSymbol(currency.getSymbol());
+    existingCurrency.setCode(currency.getCode());
+    int updated = currencyRepository.update(existingCurrency);
+    return updated == 1;
+}
+
+
+
+
+
 }
 
