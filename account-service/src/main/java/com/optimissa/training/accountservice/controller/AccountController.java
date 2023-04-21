@@ -1,19 +1,19 @@
-package com.optimissa.training.accountservice.Controller;
+package com.optimissa.training.accountservice.controller;
 
-import com.optimissa.training.accountservice.Models.Account;
-import com.optimissa.training.accountservice.Service.AccountService;
+import com.optimissa.training.accountservice.models.Account;
+import com.optimissa.training.accountservice.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "accounts")
+@RequestMapping(value = "/accounts")
 public class AccountController {
 
     @Autowired
     private AccountService accountService;
 
-    //@GetMapping("/{id}")
     @GetMapping(value = "/getAccount/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Account getAccount(@PathVariable int id){
         Account account = accountService.getAccount(id);
@@ -22,11 +22,25 @@ public class AccountController {
 
 
     @PostMapping(value = "/newAccount", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public String newAccount(@RequestBody Account account){
-
-        return "OK";
+    @ResponseStatus(HttpStatus.CREATED)
+    public Account newAccount(@RequestBody Account account){
+        Account accountPost = accountService.createAccount(account);
+        return accountPost;
     }
 
+    @PutMapping(value = "update/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.OK)
+    public Account updateAccount(@PathVariable int id, @RequestBody Account account) {
+        Account accountPut = accountService.updateAccount(id,account);
+        return accountPut;
+    }
+
+    @DeleteMapping(value = "/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteAccount(@PathVariable int id) {
+        accountService.deleteAccount(id);
+    }
+    
 //    @PostMapping("/")
 //    public ResponseEntity<User> createUser(@RequestBody User user) {
 //        User newUser = userService.createUser(user);

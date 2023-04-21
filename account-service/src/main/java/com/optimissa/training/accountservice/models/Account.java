@@ -1,4 +1,4 @@
-package com.optimissa.training.accountservice.Models;
+package com.optimissa.training.accountservice.models;
 
 import java.io.Serializable;
 
@@ -28,9 +28,6 @@ public class Account implements Serializable {
 
     public Account() {
     }
-
-    //Getter Setter
-
 
     public int getId() {
         return id;
