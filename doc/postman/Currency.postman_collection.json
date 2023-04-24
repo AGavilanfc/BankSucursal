@@ -1,0 +1,117 @@
+{
+	"info": {
+		"_postman_id": "3541f9e5-bf6f-46da-8a1b-dbb0df7d51fc",
+		"name": "Currency",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26986513"
+	},
+	"item": [
+		{
+			"name": "GetAllCurrencies",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-CURRENCY}}/currencies",
+					"host": [
+						"{{URL-CURRENCY}}"
+					],
+					"path": [
+						"currencies"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetByID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-CURRENCY}}/currencies/3",
+					"host": [
+						"{{URL-CURRENCY}}"
+					],
+					"path": [
+						"currencies",
+						"3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostCurrency",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Dirham\",\r\n    \"symbol\": \"D\",\r\n    \"code\": \"DIR\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL-CURRENCY}}/currencies/",
+					"host": [
+						"{{URL-CURRENCY}}"
+					],
+					"path": [
+						"currencies",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteCurrency",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL-CURRENCY}}/currencies/7",
+					"host": [
+						"{{URL-CURRENCY}}"
+					],
+					"path": [
+						"currencies",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateCurrency",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Dirham\",\r\n    \"symbol\": \"D\",\r\n    \"code\": \"DHR\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL-CURRENCY}}/currencies/8",
+					"host": [
+						"{{URL-CURRENCY}}"
+					],
+					"path": [
+						"currencies",
+						"8"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

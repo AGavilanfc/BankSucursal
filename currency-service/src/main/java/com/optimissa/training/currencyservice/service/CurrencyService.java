@@ -18,7 +18,7 @@ public class CurrencyService {
 
     public List<Currency> getAllCurrencies() {
         try {
-            logger.info("vamos bien");
+            logger.info("Getting all the currencies");
             return currencyRepository.getAll();
         } catch (Exception e) {
             logger.error("An error occurred while getting all currencies: {}", e.getMessage(), e);
@@ -30,7 +30,7 @@ public class CurrencyService {
         try {
             Optional<Currency> currency = Optional.ofNullable(currencyRepository.findById(id));
             if (currency.isPresent()) {
-                logger.info("Accediendo a todas las currencies");
+                logger.info("Searching a currency by ID");
                 return currency.get();
             } else {
                 logger.warn("Currency with id {} not found", id);
