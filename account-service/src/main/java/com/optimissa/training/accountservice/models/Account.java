@@ -6,27 +6,25 @@ import java.io.Serializable;
 public class Account implements Serializable {
     private int id;
     private double balance;
+
+    private boolean active;
+    //Cambiar a long en pruebas
     private int iban_id;
     private int client_id;
     private int currency_id;
-    private boolean active;
-
-    private IbanModel ibanModel;
 
     //Constructor
 
+    public Account() {
+    }
 
-    public Account(int id, double balance, int iban_id, int client_id, int currency_id, boolean active, IbanModel ibanModel) {
+    public Account(int id, double balance, int iban_id, int client_id, int currency_id, boolean active) {
         this.id = id;
         this.balance = balance;
         this.iban_id = iban_id;
         this.client_id = client_id;
         this.currency_id = currency_id;
         this.active = active;
-        this.ibanModel = ibanModel;
-    }
-
-    public Account() {
     }
 
     public int getId() {
@@ -53,9 +51,6 @@ public class Account implements Serializable {
         return active;
     }
 
-    public IbanModel getIbanModel() {
-        return ibanModel;
-    }
 
     public void setId(int id) {
         this.id = id;
@@ -80,11 +75,5 @@ public class Account implements Serializable {
     public void setActive(boolean active) {
         this.active = active;
     }
-
-    public void setIbanModel(IbanModel ibanModel) {
-        this.ibanModel = ibanModel;
-    }
-
-
 
 }

@@ -1,23 +1,35 @@
 package com.optimissa.training.accountservice.service;
-
 import com.optimissa.training.accountservice.models.Account;
 import com.optimissa.training.accountservice.repository.AccountRepository;
+import com.optimissa.training.accountservice.repository.IbanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
+
 
 @Service
 public class AccountService {
 
+
     @Autowired
-    private AccountRepository accountRepository;
+    AccountRepository accountRepository;
+
+    @Autowired
+    IbanRepository ibanRepository;
+
+    //IbanModelRepository autowired
 
     public Account getAccount(int id){
 
         return accountRepository.getAccount(id);
     }
 
-    public Account createAccount(Account account){
+
+    public Account createAccount(Account account, int id ){
+        //if
+        //IbanRepository.save(account);
         return accountRepository.save(account);
+        //ibanRepositorio guardarlo partido
     }
 
     public Account updateAccount(int id,Account account){

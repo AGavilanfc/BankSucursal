@@ -1,16 +1,15 @@
 package com.optimissa.training.accountservice.mapper;
 
-import com.optimissa.training.accountservice.models.Account;
-import com.optimissa.training.accountservice.models.IbanModel;
+import com.optimissa.training.accountservice.models.Iban;
 import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class IbanModelMapper implements RowMapper<IbanModel> {
+public class IbanMapper implements RowMapper<Iban> {
 
 
-    public IbanModel mapRow(ResultSet rs, int rowNum) throws SQLException {
-        IbanModel ibanModel =  new IbanModel();
+    public Iban mapRow(ResultSet rs, int rowNum) throws SQLException {
+        Iban ibanModel =  new Iban();
         ibanModel.setId(rs.getInt("ID"));
         ibanModel.setCountry_id(rs.getInt("COUNTRY_ID"));
         ibanModel.setCountry_control(rs.getInt("COUNTRY_CONTROL"));

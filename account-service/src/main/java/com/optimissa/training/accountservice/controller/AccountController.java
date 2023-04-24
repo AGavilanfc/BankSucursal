@@ -2,6 +2,7 @@ package com.optimissa.training.accountservice.controller;
 
 import com.optimissa.training.accountservice.models.Account;
 import com.optimissa.training.accountservice.service.AccountService;
+import com.optimissa.training.accountservice.service.ValidationIbanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,7 +13,10 @@ import org.springframework.web.bind.annotation.*;
 public class AccountController {
 
     @Autowired
-    private AccountService accountService;
+    ValidationIbanService validationIbanService;
+
+    @Autowired
+    AccountService accountService;
 
     @GetMapping(value = "/getAccount/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Account getAccount(@PathVariable int id){
@@ -23,9 +27,13 @@ public class AccountController {
 
     @PostMapping(value = "/newAccount", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public Account newAccount(@RequestBody Account account){
-        Account accountPost = accountService.createAccount(account);
-        return accountPost;
+    public void newAccount(@RequestBody Account account ){
+
+        if(validationIbanService.validate(account.getIban_id())){
+
+            Account accountPost = accountService.createAccount(account, account.getIban_id());
+        }
+
     }
 
     @PutMapping(value = "update/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)

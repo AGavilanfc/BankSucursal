@@ -2,7 +2,7 @@ package com.optimissa.training.accountservice.models;
 
 import java.io.Serializable;
 
-public class IbanModel implements Serializable {
+public class Iban implements Serializable {
 
 private int id ;
 private int country_id;
@@ -12,10 +12,10 @@ private int branch;
 private int account_control;
 private int account_number;
 
-    public IbanModel() {
+    public Iban() {
     }
 
-    public IbanModel(int id, int country_id, int country_control, int entity_id, int branch, int account_control, int account_number) {
+    public Iban(int id, int country_id, int country_control, int entity_id, int branch, int account_control, int account_number) {
         this.id = id;
         this.country_id = country_id;
         this.country_control = country_control;
