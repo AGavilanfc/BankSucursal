@@ -4,6 +4,7 @@ public class Transactions {
 
     private int id;
     private String date;
+
     private String transaction_Number;
     private double amount;
     private int account_Id;

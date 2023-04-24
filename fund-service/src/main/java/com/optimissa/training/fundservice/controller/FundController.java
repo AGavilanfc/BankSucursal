@@ -19,6 +19,5 @@ public class FundController {
         return fundService.saveFund(fund);
     }
 
-    @GetMapping
-    
+
 }

@@ -21,7 +21,7 @@ public class TransactionsController {
 
         return tranService.getByIdTransaction(id);
     }
-    @GetMapping("/all")
+    @GetMapping("")
     public List<Transactions> getAllTransaction() {
 
         return tranService.getAllTransactions();
