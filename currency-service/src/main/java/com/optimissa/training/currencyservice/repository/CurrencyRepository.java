@@ -15,6 +15,7 @@ private JdbcTemplate jdbcTemplate;
 
     public List<Currency> getAll() {
         String query = "SELECT * FROM CURRENCY";
+
         return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Currency.class));
     }
 
@@ -34,13 +35,6 @@ private JdbcTemplate jdbcTemplate;
     }
 
 
-
-
-
-//    public int updateCurrency(Currency currency) {
-//        String query = "UPDATE CURRENCY SET name = ?, symbol = ?, code = ? WHERE id = ?";
-//        return jdbcTemplate.update(query, currency.getName(), currency.getSymbol(), currency.getCode(), currency.getId());
-//    }
 
     public int update(Currency currency) {
         String query = "UPDATE CURRENCY SET name = ?, symbol = ?, code = ? WHERE id = ?";
