@@ -35,6 +35,21 @@ public class Client {
         this.active = active;
     }
 
+    @Override
+    public String toString() {
+        return "Client{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", lastName1='" + lastName1 + '\'' +
+                ", lastName2='" + lastName2 + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", active=" + active +
+                ", identifier='" + identifier + '\'' +
+                ", userId=" + userId +
+                '}';
+    }
+
     public int getId() {
         return id;
     }
