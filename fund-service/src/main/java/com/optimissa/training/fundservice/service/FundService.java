@@ -25,6 +25,13 @@ public class FundService {
     public List<Fund> getAllFunds(){
         return fundRepository.findAll();
     }
+    public Fund getById(int id) { return fundRepository.findById(id);}
+    public List<Fund> getByName(String name) { return fundRepository.findByName(name);}
+    public Fund getByRefNumber(String refNumber) { return fundRepository.findByRefNumber(refNumber);}
+    public Fund getByCurrencyId(int currencyId) { return fundRepository.findByCurrencyId(currencyId);}
+    public List<Fund> getByActive(boolean active) { return fundRepository.findByActive(active);}
+
+
 
 
 

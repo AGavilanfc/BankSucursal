@@ -10,4 +10,9 @@ import java.util.List;
 public interface FundRepository {
     int save(Fund fund);
     List<Fund> findAll();
+    Fund findById(int id);
+    List<Fund> findByName(String name);
+    Fund findByRefNumber(String refNumber);
+    Fund findByCurrencyId(int currencyId);
+    List<Fund> findByActive(boolean active);
 }
