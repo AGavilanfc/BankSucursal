@@ -53,4 +53,18 @@ public class JdbcRepository implements FundRepository {
     public List<Fund> findByActive(boolean active) {
         return jdbcTemplate.query("select * from FUND where active = ?", new DataClassRowMapper<>(Fund.class), active);
     }
+
+    @Override
+    public int delete(int id) {
+        return jdbcTemplate.update("update FUND set active = 0 where id = ?", id);
+
+
+    }
+
+    @Override
+    public int update(int id) {
+        return jdbcTemplate.update("update FUND set (name, refNumber, currencyId) = (?,?,?) where id = ?");
+
+
+    }
 }

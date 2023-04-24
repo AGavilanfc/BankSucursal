@@ -15,4 +15,7 @@ public interface FundRepository {
     Fund findByRefNumber(String refNumber);
     Fund findByCurrencyId(int currencyId);
     List<Fund> findByActive(boolean active);
+    int delete(int id);
+    int update(int id);
+
 }
