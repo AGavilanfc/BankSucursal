@@ -15,12 +15,8 @@ public class TransactionsService {
 
     public List<Transactions> getAllTransactions(){
 
-
-
-
        return transactionRespository.getAllTransactions();
     }
-
 
     public Transactions getByIdTransaction(int id) {
 
