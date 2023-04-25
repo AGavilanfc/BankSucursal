@@ -20,11 +20,29 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public Product getProductById (int id) {
+    public Product getProductById (int id)                                                                              {
         return productRepository.findById(id);
     }
 
     public List<Product> getAllProducts () {
         return productRepository.findAll();
     }
+
+    public List<Product> getProductByName (String name) {
+        return productRepository.findByName(name);
+    }
+
+    public List<Product> getProductByActive (Boolean active){
+        return productRepository.findByActive(active);
+    }
+
+    public int deleteProduct (int id) {
+        return productRepository.delete(id);
+    }
+
+    public int updateProduct (int id, Product product) {
+        return productRepository.update(id, product);
+    }
+
+
 }

@@ -1,0 +1,182 @@
+{
+	"info": {
+		"_postman_id": "a8f67d13-363a-4933-b3b8-e253843f0aaf",
+		"name": "Product Service",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26118021"
+	},
+	"item": [
+		{
+			"name": "Save Product",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Plan de pensiones2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL-PRODUCT }}/products",
+					"host": [
+						"{{URL-PRODUCT }}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-PRODUCT }}/products",
+					"host": [
+						"{{URL-PRODUCT }}"
+					],
+					"path": [
+						"products"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Product By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-PRODUCT }}/products/id/1",
+					"host": [
+						"{{URL-PRODUCT }}"
+					],
+					"path": [
+						"products",
+						"id",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Product By Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-PRODUCT }}/products/name/Hipoteca3",
+					"host": [
+						"{{URL-PRODUCT }}"
+					],
+					"path": [
+						"products",
+						"name",
+						"Hipoteca3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Product By Active",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-PRODUCT }}/products/active/true",
+					"host": [
+						"{{URL-PRODUCT }}"
+					],
+					"path": [
+						"products",
+						"active",
+						"true"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Product",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL-PRODUCT }}/products/6",
+					"host": [
+						"{{URL-PRODUCT }}"
+					],
+					"path": [
+						"products",
+						"6"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Product",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Hipoteca\",\r\n    \"active\": true\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL-PRODUCT }}/products/1",
+					"host": [
+						"{{URL-PRODUCT }}"
+					],
+					"path": [
+						"products",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL-PRODUCT ",
+			"value": "localhost:8096",
+			"type": "string"
+		}
+	]
+}
