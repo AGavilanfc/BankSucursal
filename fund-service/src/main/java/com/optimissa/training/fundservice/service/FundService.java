@@ -27,10 +27,11 @@ public class FundService {
     public Fund getById(int id) { return fundRepository.findById(id);}
     public List<Fund> getByName(String name) { return fundRepository.findByName(name);}
     public Fund getByRefNumber(String refNumber) { return fundRepository.findByRefNumber(refNumber);}
-    public Fund getByCurrencyId(int currencyId) { return fundRepository.findByCurrencyId(currencyId);}
+    public List<Fund> getByCurrencyId(int currencyId) { return fundRepository.findByCurrencyId(currencyId);}
     public List<Fund> getByActive(boolean active) { return fundRepository.findByActive(active);}
     public void deleteById(int id) {
         fundRepository.delete(id);
     }
-    public int update(int id, Fund fund) { return fundRepository.update(id); }
+    public int update(Fund fund,int id) { return fundRepository.update(fund,id); }
+
 }

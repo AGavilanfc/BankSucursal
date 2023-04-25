@@ -2,6 +2,9 @@ package com.optimissa.training.fundservice.controller;
 
 import com.optimissa.training.fundservice.model.Fund;
 import com.optimissa.training.fundservice.service.FundService;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,7 +45,7 @@ public class FundController {
     }
 
     @GetMapping("/currencyId/{currencyId}")
-    public Fund getByCurrencyId(@PathVariable int currencyId) {
+    public List<Fund> getByCurrencyId(@PathVariable int currencyId) {
         return fundService.getByCurrencyId(currencyId);
     }
 
@@ -58,14 +61,7 @@ public class FundController {
 
     @PatchMapping("/{id}")
     public int update(@PathVariable int id, @RequestBody Fund fund) {
-        return fundService.update(id, fund);
+        return fundService.update(fund, id);
     }
-
-
-
-
-
-
-
 
 }

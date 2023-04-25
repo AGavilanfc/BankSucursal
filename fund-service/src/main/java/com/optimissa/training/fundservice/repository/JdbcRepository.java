@@ -41,12 +41,12 @@ public class JdbcRepository implements FundRepository {
 
     @Override
     public Fund findByRefNumber(String refNumber) {
-        return jdbcTemplate.queryForObject("select * from FUND where refNumber = ?", new DataClassRowMapper<>(Fund.class), refNumber);
+        return jdbcTemplate.queryForObject("select * from FUND where ref_Number = ?", new DataClassRowMapper<>(Fund.class), refNumber);
     }
 
     @Override
-    public Fund findByCurrencyId(int currencyId) {
-        return jdbcTemplate.queryForObject("select * from FUND where currencyId = ?", new DataClassRowMapper<>(Fund.class), currencyId);
+    public List<Fund> findByCurrencyId(int currencyId) {
+        return jdbcTemplate.query("select * from FUND where currency_Id = ?", new DataClassRowMapper<>(Fund.class), currencyId);
     }
 
     @Override
@@ -60,8 +60,8 @@ public class JdbcRepository implements FundRepository {
     }
 
     @Override
-    public int update(int id) {
-        return jdbcTemplate.update("update FUND set (name, refNumber, currencyId) = (?,?,?) where id = ?");
+    public int update(Fund fund, int id) {
+        return jdbcTemplate.update("update FUND set name = ?, ref_Number = ?, currency_Id = ? where id = ?",fund.getName(),fund.getRefNumber(),fund.getCurrencyId(), id);
     }
 
 }
