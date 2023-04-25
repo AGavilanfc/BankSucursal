@@ -36,15 +36,15 @@ public class AccountService {
     }
 
     public Account updateAccount(int id,Account account){
-        Account accountExisting = accountRepository.getAccount(id);
-        accountExisting.setId(account.getId());
-        accountExisting.setBalance(account.getBalance());
-        accountExisting.setIban_id(account.getIban_id());
-        accountExisting.setCurrency_id(account.getCurrency_id());
-        accountExisting.setActive(account.isActive());
+//        Account accountExisting = accountRepository.getAccount(id);
+//        accountExisting.setId(account.getId());
+//        accountExisting.setBalance(account.getBalance());
+//        accountExisting.setIban_id(account.getIban_id());
+//        accountExisting.setCurrency_id(account.getCurrency_id());
+//        accountExisting.setActive(account.isActive());
 
 
-        return accountRepository.save(accountExisting);
+        return accountRepository.update(account ,id);
     }
 
     public StringResponse deleteAccount(int id){
@@ -57,9 +57,7 @@ public class AccountService {
             str = "no se ha desactivado la cuenta "+id+" porque no existe";
         }
 
-        StringResponse stringResponse = new StringResponse(str);
-
-        return stringResponse;
+        return new StringResponse(str);
 
     }
 

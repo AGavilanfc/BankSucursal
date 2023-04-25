@@ -40,10 +40,13 @@ public class AccountRepository implements IAccountRepository{
         //num de datos que se han actualizado
         String sql = "UPDATE ACCOUNT SET active = ?  WHERE id = ?";
         return jdbcTemplate.update(sql, false, id );
-
     }
 
 
-
+    public Account update(Account account, int id) {
+        String sql = "UPDATE ACCOUNT SET id = ? , balance = ? , client_id = ?, currency_id = ? , active = ?   WHERE id = ? ";
+        jdbcTemplate.update(sql ,id, account.getBalance(), account.getClient_id(), account.getCurrency_id(), account.isActive(),id);
+        return account;
+    }
 }
 

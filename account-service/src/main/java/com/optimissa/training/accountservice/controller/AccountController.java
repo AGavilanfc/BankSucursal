@@ -61,11 +61,9 @@ public class AccountController {
 
     @DeleteMapping(value = "/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StringResponse> deleteAccount(@PathVariable int id) {
-
         //objeto responsestring
         return ResponseEntity.ok(accountService.deleteAccount(id));
     }
-
 
 
 //    @PostMapping("/")
