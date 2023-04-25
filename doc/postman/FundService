@@ -1,0 +1,224 @@
+{
+	"info": {
+		"_postman_id": "e999f0ec-da0f-409f-a85e-97acdbd52d7d",
+		"name": "FundService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "27013624"
+	},
+	"item": [
+		{
+			"name": "Save fund",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"Santander\",\r\n    \"refNumber\": \"REF11345\",\r\n    \"currencyId\": 2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL-FUNDS}}/funds",
+					"host": [
+						"{{URL-FUNDS}}"
+					],
+					"path": [
+						"funds"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAll funds",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-FUNDS}}/funds",
+					"host": [
+						"{{URL-FUNDS}}"
+					],
+					"path": [
+						"funds"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetById",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-FUNDS}}/funds/id/1",
+					"host": [
+						"{{URL-FUNDS}}"
+					],
+					"path": [
+						"funds",
+						"id",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetByName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-FUNDS}}/funds/name/Hipoteca3",
+					"host": [
+						"{{URL-FUNDS}}"
+					],
+					"path": [
+						"funds",
+						"name",
+						"Hipoteca3"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetByRefNumber",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-FUNDS}}/funds/refNumber/REF0034",
+					"host": [
+						"{{URL-FUNDS}}"
+					],
+					"path": [
+						"funds",
+						"refNumber",
+						"REF0034"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetByCurrencyId",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-FUNDS}}/funds/currencyId/1",
+					"host": [
+						"{{URL-FUNDS}}"
+					],
+					"path": [
+						"funds",
+						"currencyId",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetByActive",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-FUNDS}}/funds/active/1",
+					"host": [
+						"{{URL-FUNDS}}"
+					],
+					"path": [
+						"funds",
+						"active",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete fund",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL-FUNDS}}/funds/id/1",
+					"host": [
+						"{{URL-FUNDS}}"
+					],
+					"path": [
+						"funds",
+						"id",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update fund",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\":\"Delfin\",\r\n    \"refNumber\":\"REF156785\",\r\n    \"currencyId\":3\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{URL-FUNDS}}/funds/1",
+					"host": [
+						"{{URL-FUNDS}}"
+					],
+					"path": [
+						"funds",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "Local",
+			"value": "localhost:8095"
+		},
+		{
+			"key": "URL-FUNDS",
+			"value": "localhost:8095"
+		}
+	]
+}
