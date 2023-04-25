@@ -1,6 +1,5 @@
 package com.optimissa.training.fundservice.service;
 
-
 import com.optimissa.training.fundservice.model.Fund;
 import com.optimissa.training.fundservice.repository.FundRepository;
 import org.slf4j.Logger;
@@ -25,11 +24,14 @@ public class FundService {
     public List<Fund> getAllFunds(){
         return fundRepository.findAll();
     }
-
-
-
-
-
-
+    public Fund getById(int id) { return fundRepository.findById(id);}
+    public List<Fund> getByName(String name) { return fundRepository.findByName(name);}
+    public Fund getByRefNumber(String refNumber) { return fundRepository.findByRefNumber(refNumber);}
+    public List<Fund> getByCurrencyId(int currencyId) { return fundRepository.findByCurrencyId(currencyId);}
+    public List<Fund> getByActive(boolean active) { return fundRepository.findByActive(active);}
+    public void deleteById(int id) {
+        fundRepository.delete(id);
+    }
+    public int update(Fund fund,int id) { return fundRepository.update(fund,id); }
 
 }
