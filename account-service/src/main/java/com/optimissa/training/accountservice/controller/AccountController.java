@@ -8,8 +8,10 @@ import com.optimissa.training.accountservice.service.ValidationIbanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
@@ -23,6 +25,13 @@ public class AccountController {
 
     @Autowired
     AccountService accountService;
+
+    //get all accounts
+    @GetMapping(value = "/getAccounts", produces = MediaType.APPLICATION_JSON_VALUE)
+    public List<Account> getAllAccount(){
+        return accountService.getAllAccount();
+    }
+
 
     @GetMapping(value = "/getAccount/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Account getAccount(@PathVariable int id){
@@ -53,8 +62,9 @@ public class AccountController {
 
     @DeleteMapping(value = "/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteAccount(@PathVariable int id) {
-        accountService.deleteAccount(id);
+    public ResponseEntity<String> deleteAccount(@PathVariable int id) {
+        //return new ResponseEntity<>();
+        return ResponseEntity.ok(accountService.deleteAccount(id));
     }
 
 

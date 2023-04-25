@@ -5,6 +5,8 @@ import com.optimissa.training.accountservice.repository.IbanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class AccountService {
@@ -19,8 +21,11 @@ public class AccountService {
 
 
     public Account getAccount(int id){
-
         return accountRepository.getAccount(id);
+    }
+
+    public List<Account> getAllAccount(){
+        return accountRepository.getAllAccount();
     }
 
 
@@ -41,8 +46,16 @@ public class AccountService {
         return accountRepository.save(accountExisting);
     }
 
-    public void deleteAccount(int id){
-        accountRepository.delete(id);
+    public String deleteAccount(int id){
+        String message;
+        if(accountRepository.delete(id)== 1 ){
+            message = "se ha desactivado la cuenta "+id;
+        }else{
+            message = "no se ha desactivado la cuenta "+id+" porque no existe";
+        }
+
+        return message;
+
     }
 
 

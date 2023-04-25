@@ -1,22 +1,27 @@
 package com.optimissa.training.accountservice.repository;
-
 import com.optimissa.training.accountservice.models.Account;
 import com.optimissa.training.accountservice.mapper.AccountMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-public abstract class AccountRepository implements IAccountRepository{
+public class AccountRepository implements IAccountRepository{
 
-
-    private JdbcTemplate jdbcTemplate;
+    @Autowired
+   JdbcTemplate jdbcTemplate;
 
     public AccountRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
+    public List<Account> getAllAccount(){
+        return jdbcTemplate.query("SELECT * FROM ACCOUNT",
+                new Object[]{}, new AccountMapper());
+    }
     public Account getAccount(int id){
         Account account = jdbcTemplate.queryForObject("SELECT ID, BALANCE, IBAN_ID, CLIENT_ID, CURRENCY_ID, ACTIVE FROM banksucursal.ACCOUNT where id = ?",
                 new Object[]{id}, new AccountMapper());
@@ -31,10 +36,11 @@ public abstract class AccountRepository implements IAccountRepository{
         return account;
     }
 
-
-    public void delete(int id) {
+    public int delete(int id) {
+        //num de datos que se han actualizado
         String sql = "UPDATE ACCOUNT SET active = ?  WHERE id = ?";
-        jdbcTemplate.update(sql, false, id );
+        return jdbcTemplate.update(sql, false, id );
+
     }
 
 
