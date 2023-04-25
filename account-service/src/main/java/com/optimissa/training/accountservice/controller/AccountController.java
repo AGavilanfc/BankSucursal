@@ -3,6 +3,7 @@ package com.optimissa.training.accountservice.controller;
 import com.optimissa.training.accountservice.api.AccountRequest;
 import com.optimissa.training.accountservice.api.AccountResponse;
 import com.optimissa.training.accountservice.models.Account;
+import com.optimissa.training.accountservice.models.StringResponse;
 import com.optimissa.training.accountservice.service.AccountService;
 import com.optimissa.training.accountservice.service.ValidationIbanService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +52,6 @@ public class AccountController {
 //        }
     }
 
-
-
     @PutMapping(value = "update/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public Account updateAccount(@PathVariable int id, @RequestBody Account account) {
@@ -61,9 +60,9 @@ public class AccountController {
     }
 
     @DeleteMapping(value = "/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<String> deleteAccount(@PathVariable int id) {
-        //return new ResponseEntity<>();
+    public ResponseEntity<StringResponse> deleteAccount(@PathVariable int id) {
+
+        //objeto responsestring
         return ResponseEntity.ok(accountService.deleteAccount(id));
     }
 

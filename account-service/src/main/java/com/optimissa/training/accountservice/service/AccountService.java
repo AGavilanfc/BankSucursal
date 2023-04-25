@@ -1,5 +1,6 @@
 package com.optimissa.training.accountservice.service;
 import com.optimissa.training.accountservice.models.Account;
+import com.optimissa.training.accountservice.models.StringResponse;
 import com.optimissa.training.accountservice.repository.AccountRepository;
 import com.optimissa.training.accountservice.repository.IbanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,15 +47,19 @@ public class AccountService {
         return accountRepository.save(accountExisting);
     }
 
-    public String deleteAccount(int id){
-        String message;
+    public StringResponse deleteAccount(int id){
+        String str ="a";
+
+
         if(accountRepository.delete(id)== 1 ){
-            message = "se ha desactivado la cuenta "+id;
+            str = "se ha desactivado la cuenta "+id;
         }else{
-            message = "no se ha desactivado la cuenta "+id+" porque no existe";
+            str = "no se ha desactivado la cuenta "+id+" porque no existe";
         }
 
-        return message;
+        StringResponse stringResponse = new StringResponse(str);
+
+        return stringResponse;
 
     }
 
