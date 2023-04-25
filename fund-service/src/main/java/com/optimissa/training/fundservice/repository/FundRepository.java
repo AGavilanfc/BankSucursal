@@ -1,7 +1,6 @@
 package com.optimissa.training.fundservice.repository;
 
 import com.optimissa.training.fundservice.model.Fund;
-import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,7 +14,7 @@ public interface FundRepository {
     Fund findByRefNumber(String refNumber);
     Fund findByCurrencyId(int currencyId);
     List<Fund> findByActive(boolean active);
-    int delete(int id);
+    void delete(int id);
     int update(int id);
 
 }

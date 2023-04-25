@@ -55,16 +55,13 @@ public class JdbcRepository implements FundRepository {
     }
 
     @Override
-    public int delete(int id) {
-        return jdbcTemplate.update("update FUND set active = 0 where id = ?", id);
-
-
+    public void delete(int id) {
+        jdbcTemplate.update("update FUND set active = 0 where id = ?", id);
     }
 
     @Override
     public int update(int id) {
         return jdbcTemplate.update("update FUND set (name, refNumber, currencyId) = (?,?,?) where id = ?");
-
-
     }
+
 }
