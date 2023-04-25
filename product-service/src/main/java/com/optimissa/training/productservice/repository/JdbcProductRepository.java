@@ -4,16 +4,24 @@ import com.optimissa.training.productservice.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class JdbcProductRepository implements ProductRepository {
 
+    private final JdbcTemplate jdbcTemplate;
+
     @Autowired
-    private JdbcTemplate jdbcTemplate;
+    private NamedParameterJdbcTemplate namedJdbc;
+
+    public JdbcProductRepository(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
 
     @Override
@@ -23,8 +31,7 @@ public class JdbcProductRepository implements ProductRepository {
 
     @Override
     public List<Product> findAll() {
-        return jdbcTemplate.query("SELECT * FROM PRODUCT", (rs, rowNum) ->
-                new Product(rs.getInt("id"), rs.getString("name"), rs.getBoolean("active")));
+        return jdbcTemplate.query("SELECT * FROM PRODUCT", new DataClassRowMapper<>(Product.class));
     }
 
     @Override
@@ -33,5 +40,29 @@ public class JdbcProductRepository implements ProductRepository {
                 "SELECT * FROM PRODUCT WHERE id = ?", new DataClassRowMapper<>(Product.class),id);
     }
 
+    @Override
+    public List<Product> findByName(String name) {
+        return jdbcTemplate.query("SELECT * FROM PRODUCT WHERE name = ?", new DataClassRowMapper<>(Product.class), name);
+    }
 
+    @Override
+    public List<Product> findByActive(Boolean active) {
+        return jdbcTemplate.query("SELECT * FROM PRODUCT WHERE active = ?", new DataClassRowMapper<>(Product.class), active);
+    }
+
+    @Override
+    public int delete(int id) {
+        return jdbcTemplate.update("UPDATE PRODUCT SET ACTIVE = 0 WHERE id = ?", id);
+    }
+
+    @Override
+    public int update(int id, Product product) {
+        // TODO fix
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("id", id)
+                .addValue("name", product.getName())
+                .addValue("active", product.getActive());
+        String query = "UPDATE PRODUCT SET NAME = :name, " + "ACTIVE = :active " + "WHERE ID = :id";
+        return namedJdbc.update(query, params);
+    }
 }

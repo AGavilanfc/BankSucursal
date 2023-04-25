@@ -3,7 +3,6 @@ package com.optimissa.training.productservice.repository;
 import com.optimissa.training.productservice.model.Product;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface ProductRepository {
 
@@ -11,4 +10,8 @@ public interface ProductRepository {
 
     List<Product> findAll();
     Product findById(int id);
+    List<Product> findByName(String name);
+    List<Product> findByActive(Boolean active);
+    int delete(int id);
+    int update(int id, Product product);
 }
