@@ -25,7 +25,7 @@ public class ClientService {
     }
 
     public int insertClient(Client newClient) throws RuntimeException {
-        if(!ClientUtils.isValidEmail(newClient.getEmail())) throw new RuntimeException("invalid email put it correctly");
+        if(!ClientUtils.isValidEmail(newClient.getEmail())) throw new RuntimeException("Invalid email");
         return repository.insertClient(newClient);
     }
 

@@ -36,40 +36,62 @@ public class ClientController {
     public Client getClientById(@PathVariable int id){
         logger.info("Searching client by id {}", id);
         Long startTime = System.currentTimeMillis();
-        Client client = service.getClientById(id);
-        Long endTime = System.currentTimeMillis();
-        logger.info("Finished in {} ms Response: {}", (endTime - startTime), client.toString());
-        return client;
+        try {
+            Client client = service.getClientById(id);
+            Long endTime = System.currentTimeMillis();
+            logger.info("Finished in {} ms Response: {}", (endTime - startTime), client.toString());
+            return client;
+        } catch(Exception e) {
+            logger.error("Error searching client with id {}: {}", id, e.getMessage());
+        }
+        return null;
     }
 
     @PostMapping("")
     public int insertClient(@RequestBody Client newClient) throws RuntimeException {
         logger.info("Inserting new client {}", newClient);
         Long startTime = System.currentTimeMillis();
-        int response = service.insertClient(newClient);
-        Long endTime = System.currentTimeMillis();
-        logger.info("Finished in {} ms Response: {}", (endTime - startTime), response);
-        return response;
+        try {
+            int response = service.insertClient(newClient);
+            Long endTime = System.currentTimeMillis();
+            logger.info("Finished in {} ms Response: {}", (endTime - startTime), response);
+            return response;
+        } catch(Exception e) {
+            logger.error("Error inserting client: {}", e.getMessage());
+        }
+        return 0;
     }
 
     @DeleteMapping("/{id}")
     public int deleteClient(@PathVariable int id) {
         logger.info("Deleting client with id {}", id);
         Long startTime = System.currentTimeMillis();
-        int response = service.deleteClient(id);
-        Long endTime = System.currentTimeMillis();
-        logger.info("Finished in {} ms Response: {}", (endTime - startTime), response);
-        return response;
+        try {
+            int response = service.deleteClient(id);
+            if (response == 0) throw new Exception("id not found");
+            Long endTime = System.currentTimeMillis();
+            logger.info("Finished in {} ms Response: {}", (endTime - startTime), response);
+            return response;
+        } catch (Exception e) {
+            logger.error("Error deleting client with id {}: {}", id, e.getMessage());
+        }
+        return 0;
     }
 
     @PutMapping("/{id}")
     public int updateClient(@RequestBody Client modifiedClient, @PathVariable int id) {
         logger.info("Updating client with id {}", id);
         Long startTime = System.currentTimeMillis();
-        int response = service.updateClient(modifiedClient, id);
-        Long endTime = System.currentTimeMillis();
-        logger.info("Finished in {} ms Response: {}", (endTime - startTime), response);
-        return response;
+        try {
+            int response = service.updateClient(modifiedClient, id);
+            if (response == 0) throw new Exception("id not found");
+            Long endTime = System.currentTimeMillis();
+            logger.info("Finished in {} ms Response: {}", (endTime - startTime), response);
+            return response;
+        } catch (Exception e) {
+            logger.error("Error updating client with id {}: {}", id, e.getMessage());
+        }
+        return 0;
     }
 
 }
