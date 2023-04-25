@@ -13,8 +13,8 @@ public class AccountService {
     @Autowired
     AccountRepository accountRepository;
 
-    @Autowired
-    IbanRepository ibanRepository;
+//    @Autowired
+//    IbanRepository ibanRepository;
 
 
 
@@ -42,9 +42,7 @@ public class AccountService {
     }
 
     public void deleteAccount(int id){
-        Account accountExisting = accountRepository.getAccount(id);
-        accountRepository.delete(accountExisting,id);
-
+        accountRepository.delete(id);
     }
 
 

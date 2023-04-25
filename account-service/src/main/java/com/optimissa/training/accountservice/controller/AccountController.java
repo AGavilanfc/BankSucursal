@@ -31,23 +31,17 @@ public class AccountController {
     }
 
 
-//    @PostMapping(value = "/newAccount", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public void newAccount(@RequestBody Account account ){
-//
+    @PostMapping(value = "/newAccount", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public void newAccount(@RequestBody Account account ){
+
 //        if(validationIbanService.validate(account.getIban_id())){
 //            Account accountPost = accountService.createAccount(account);
 //        }else{
 //            LOGGER.severe("El iban no es válido");
 //        }
-//    }
-
-    @PostMapping(value = "/newAccount", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.CREATED)
-    public void newAccount(@RequestBody Account account ){
-        Account accountexist = accountService.createAccount(account);
-
     }
+
 
 
     @PutMapping(value = "update/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
@@ -62,7 +56,9 @@ public class AccountController {
     public void deleteAccount(@PathVariable int id) {
         accountService.deleteAccount(id);
     }
-    
+
+
+
 //    @PostMapping("/")
 //    public ResponseEntity<User> createUser(@RequestBody User user) {
 //        User newUser = userService.createUser(user);
