@@ -35,22 +35,41 @@ public class ClientController {
     @GetMapping("/{id}")
     public Client getClientById(@PathVariable int id){
         logger.info("Call to getClientById()");
-        return service.getClientById(id);
+        Long startTime = System.currentTimeMillis();
+        Client client = service.getClientById(id);
+        Long endTime = System.currentTimeMillis();
+        logger.info("Completed getClientById() in {} ms Response: {}", (endTime - startTime), client.toString());
+        return client;
     }
 
     @PostMapping("")
     public int insertClient(@RequestBody Client newClient) throws RuntimeException {
-        return service.insertClient(newClient);
+        logger.info("Call to insertClient()");
+        Long startTime = System.currentTimeMillis();
+        int response = service.insertClient(newClient);
+        Long endTime = System.currentTimeMillis();
+        logger.info("Completed insertClient() in {} ms Response: {}", (endTime - startTime), response);
+        return response;
     }
 
     @DeleteMapping("/{id}")
     public int deleteClient(@PathVariable int id) {
-        return service.deleteClient(id);
+        logger.info("Call to deleteClient()");
+        Long startTime = System.currentTimeMillis();
+        int response = service.deleteClient(id);
+        Long endTime = System.currentTimeMillis();
+        logger.info("Completed deleteClient() in {} ms Response: {}", (endTime - startTime), response);
+        return response;
     }
 
     @PutMapping("/{id}")
     public int updateClient(@RequestBody Client modifiedClient, @PathVariable int id) {
-        return service.updateClient(modifiedClient, id);
+        logger.info("Call to updateClient()");
+        Long startTime = System.currentTimeMillis();
+        int response = service.updateClient(modifiedClient, id);
+        Long endTime = System.currentTimeMillis();
+        logger.info("Completed updateClient() in {} ms Response: {}", (endTime - startTime), response);
+        return response;
     }
 
 }
