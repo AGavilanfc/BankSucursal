@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "a8f67d13-363a-4933-b3b8-e253843f0aaf",
+		"_postman_id": "77118705-2c84-488e-aa29-95deed07d4d9",
 		"name": "Product Service",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "26118021"
+		"_exporter_id": "26584841",
+		"_collection_link": "https://becariosteam.postman.co/workspace/BankSucursal~cb19bea7-f510-4a1c-84a6-1c24b78a6897/collection/26584073-77118705-2c84-488e-aa29-95deed07d4d9?action=share&creator=26584841&source=collection_link"
 	},
 	"item": [
 		{
@@ -21,9 +22,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL-PRODUCT }}/products",
+					"raw": "{{URL-PRODUCT}}/products",
 					"host": [
-						"{{URL-PRODUCT }}"
+						"{{URL-PRODUCT}}"
 					],
 					"path": [
 						"products"
@@ -38,9 +39,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL-PRODUCT }}/products",
+					"raw": "{{URL-PRODUCT}}/products",
 					"host": [
-						"{{URL-PRODUCT }}"
+						"{{URL-PRODUCT}}"
 					],
 					"path": [
 						"products"
@@ -55,9 +56,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL-PRODUCT }}/products/id/1",
+					"raw": "{{URL-PRODUCT}}/products/id/1",
 					"host": [
-						"{{URL-PRODUCT }}"
+						"{{URL-PRODUCT}}"
 					],
 					"path": [
 						"products",
@@ -74,9 +75,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL-PRODUCT }}/products/name/Hipoteca3",
+					"raw": "{{URL-PRODUCT}}/products/name/Hipoteca3",
 					"host": [
-						"{{URL-PRODUCT }}"
+						"{{URL-PRODUCT}}"
 					],
 					"path": [
 						"products",
@@ -93,9 +94,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL-PRODUCT }}/products/active/true",
+					"raw": "{{URL-PRODUCT}}/products/active/true",
 					"host": [
-						"{{URL-PRODUCT }}"
+						"{{URL-PRODUCT}}"
 					],
 					"path": [
 						"products",
@@ -112,9 +113,9 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{URL-PRODUCT }}/products/6",
+					"raw": "{{URL-PRODUCT}}/products/6",
 					"host": [
-						"{{URL-PRODUCT }}"
+						"{{URL-PRODUCT}}"
 					],
 					"path": [
 						"products",
@@ -139,9 +140,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL-PRODUCT }}/products/1",
+					"raw": "{{URL-PRODUCT}}/products/1",
 					"host": [
-						"{{URL-PRODUCT }}"
+						"{{URL-PRODUCT}}"
 					],
 					"path": [
 						"products",
@@ -170,13 +171,6 @@
 					""
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"key": "URL-PRODUCT ",
-			"value": "localhost:8096",
-			"type": "string"
 		}
 	]
 }

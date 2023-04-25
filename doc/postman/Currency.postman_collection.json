@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "3541f9e5-bf6f-46da-8a1b-dbb0df7d51fc",
+		"_postman_id": "ac13f74f-17c1-4256-8136-8f11a68206a8",
 		"name": "Currency",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "26986513"
+		"_exporter_id": "26584841",
+		"_collection_link": "https://becariosteam.postman.co/workspace/BankSucursal~cb19bea7-f510-4a1c-84a6-1c24b78a6897/collection/26584073-ac13f74f-17c1-4256-8136-8f11a68206a8?action=share&creator=26584841&source=collection_link"
 	},
 	"item": [
 		{
