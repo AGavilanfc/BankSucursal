@@ -14,7 +14,6 @@ public class AccountRepository implements IAccountRepository{
     private static final String SQL_SELECT_ALL= "SELECT * FROM ACCOUNT";
 
     public AccountRepository(JdbcTemplate jdbcTemplate) {
-
         this.jdbcTemplate = jdbcTemplate;
     }
 

@@ -5,11 +5,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class ValidationIbanService {
 
-    public boolean validate(int ibanId) {
+    public boolean validate(int iban_Id) {
 
-        String ibanid= String.valueOf(ibanId);
+        String iban_id= String.valueOf(iban_Id);
 
-        //logica
+
+
+
 
         return true;
     }

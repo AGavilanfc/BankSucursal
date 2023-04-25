@@ -1,5 +1,7 @@
 package com.optimissa.training.accountservice.controller;
 
+import com.optimissa.training.accountservice.api.AccountRequest;
+import com.optimissa.training.accountservice.api.AccountResponse;
 import com.optimissa.training.accountservice.models.Account;
 import com.optimissa.training.accountservice.service.AccountService;
 import com.optimissa.training.accountservice.service.ValidationIbanService;
@@ -8,9 +10,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.logging.Logger;
+
 @RestController
 @RequestMapping(value = "/accounts")
 public class AccountController {
+
+    Logger LOGGER = Logger.getLogger(AccountController.class.getName());
 
     @Autowired
     ValidationIbanService validationIbanService;
@@ -25,16 +31,24 @@ public class AccountController {
     }
 
 
+//    @PostMapping(value = "/newAccount", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public void newAccount(@RequestBody Account account ){
+//
+//        if(validationIbanService.validate(account.getIban_id())){
+//            Account accountPost = accountService.createAccount(account);
+//        }else{
+//            LOGGER.severe("El iban no es válido");
+//        }
+//    }
+
     @PostMapping(value = "/newAccount", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public void newAccount(@RequestBody Account account ){
-
-        if(validationIbanService.validate(account.getIban_id())){
-
-            Account accountPost = accountService.createAccount(account, account.getIban_id());
-        }
+        Account accountexist = accountService.createAccount(account);
 
     }
+
 
     @PutMapping(value = "update/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)

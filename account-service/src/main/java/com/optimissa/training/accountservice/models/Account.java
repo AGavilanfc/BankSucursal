@@ -1,14 +1,20 @@
 package com.optimissa.training.accountservice.models;
 
+import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
+import org.springframework.data.relational.core.mapping.Table;
+
+import javax.annotation.Generated;
 import java.io.Serializable;
 
-//pojo
+ @Table(name= "account")
 public class Account implements Serializable {
+
+
     private int id;
     private double balance;
-
     private boolean active;
-    //Cambiar a long en pruebas
     private int iban_id;
     private int client_id;
     private int currency_id;
