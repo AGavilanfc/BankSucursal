@@ -3,7 +3,8 @@
 		"_postman_id": "5b3cb0a3-0e58-413b-a38c-a2eb78f2c1de",
 		"name": "TransactionModule",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "26584073"
+		"_exporter_id": "26584841",
+		"_collection_link": "https://becariosteam.postman.co/workspace/BankSucursal~cb19bea7-f510-4a1c-84a6-1c24b78a6897/collection/26584073-5b3cb0a3-0e58-413b-a38c-a2eb78f2c1de?action=share&creator=26584841&source=collection_link"
 	},
 	"item": [
 		{
@@ -12,13 +13,12 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL-TRANS}}/transactions/all",
+					"raw": "{{URL-TRANS}}/transactions",
 					"host": [
 						"{{URL-TRANS}}"
 					],
 					"path": [
-						"transactions",
-						"all"
+						"transactions"
 					]
 				}
 			},
@@ -30,13 +30,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL-TRANS}}/transactions/3",
+					"raw": "{{URL-TRANS}}/transactions/13",
 					"host": [
 						"{{URL-TRANS}}"
 					],
 					"path": [
 						"transactions",
-						"3"
+						"13"
 					]
 				}
 			},
@@ -75,6 +75,25 @@
 							"value": "80839645.89",
 							"disabled": true
 						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteTransaction",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{URL-TRANS}}/transactions/delete/5",
+					"host": [
+						"{{URL-TRANS}}"
+					],
+					"path": [
+						"transactions",
+						"delete",
+						"5"
 					]
 				}
 			},

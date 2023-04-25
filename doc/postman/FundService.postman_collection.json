@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "e999f0ec-da0f-409f-a85e-97acdbd52d7d",
+		"_postman_id": "8f115875-7274-46df-984c-f11260c96ff9",
 		"name": "FundService",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "27013624"
+		"_exporter_id": "26584841",
+		"_collection_link": "https://becariosteam.postman.co/workspace/BankSucursal~cb19bea7-f510-4a1c-84a6-1c24b78a6897/collection/26584073-8f115875-7274-46df-984c-f11260c96ff9?action=share&creator=26584841&source=collection_link"
 	},
 	"item": [
 		{
@@ -209,16 +210,6 @@
 					""
 				]
 			}
-		}
-	],
-	"variable": [
-		{
-			"key": "Local",
-			"value": "localhost:8095"
-		},
-		{
-			"key": "URL-FUNDS",
-			"value": "localhost:8095"
 		}
 	]
 }

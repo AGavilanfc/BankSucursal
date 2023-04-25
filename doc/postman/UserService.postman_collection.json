@@ -1,9 +1,10 @@
 {
 	"info": {
-		"_postman_id": "ff9266b0-62df-406d-af6d-7fc632eebaaa",
+		"_postman_id": "0e765d54-8031-4262-baae-ef95c027194f",
 		"name": "UserService",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "23456074"
+		"_exporter_id": "26584841",
+		"_collection_link": "https://becariosteam.postman.co/workspace/BankSucursal~cb19bea7-f510-4a1c-84a6-1c24b78a6897/collection/23456074-0e765d54-8031-4262-baae-ef95c027194f?action=share&creator=26584841&source=collection_link"
 	},
 	"item": [
 		{
@@ -95,20 +96,10 @@
 			"response": []
 		},
 		{
-			"name": "Delete User",
+			"name": "New Request",
 			"request": {
-				"method": "DELETE",
-				"header": [],
-				"url": {
-					"raw": "{{URL-USER}}/user/1",
-					"host": [
-						"{{URL-USER}}"
-					],
-					"path": [
-						"user",
-						"1"
-					]
-				}
+				"method": "GET",
+				"header": []
 			},
 			"response": []
 		}
