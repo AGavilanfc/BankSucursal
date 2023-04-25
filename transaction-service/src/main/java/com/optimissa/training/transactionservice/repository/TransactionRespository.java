@@ -40,10 +40,10 @@ public class TransactionRespository implements ITransactionRepository {
 
     }
 
-    public int insertNewTransaction(Transactions transactions) {
-        String sql = "INSERT INTO TRANSACTION (DATE, TRANSACTION_NUMBER, AMOUNT, ACCOUNT_ID, FUND_ID) VALUES (NOW(), ?, ?, 1, 1);";
+    public int insertNewTransaction(Transactions transactions, String transaction_number) {
+        String sql = "INSERT INTO TRANSACTION (DATE, TRANSACTION_NUMBER, AMOUNT, ACCOUNT_ID, FUND_ID) VALUES (NOW(), ?, ?, ?, ?);";
 
-        return jdbcTemplate.update(sql, transactions.getTransaction_Number(), transactions.getAmount());
+        return jdbcTemplate.update(sql, transaction_number, transactions.getAmount(),transactions.getAccount_Id(), transactions.getFund_Id());
 
     }
 }

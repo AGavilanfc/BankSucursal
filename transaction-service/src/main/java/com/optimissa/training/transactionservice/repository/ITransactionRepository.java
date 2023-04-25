@@ -13,5 +13,5 @@ public interface ITransactionRepository {
 
 
 
-    public int insertNewTransaction(Transactions transactions);
+    public int insertNewTransaction(Transactions transactions, String transaction_number);
 }
