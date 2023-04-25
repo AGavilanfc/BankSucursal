@@ -35,6 +35,11 @@ public class ClientRepository implements IClientRepository{
         return jdbc.queryForObject(query, new BeanPropertyRowMapper<>(Client.class), id);
     }
 
+    public List<Client> getClientByUserId(int id) {
+        String query = "SELECT * FROM CLIENT WHERE USER_ID = ?";
+        return jdbc.query(query, new BeanPropertyRowMapper<>(Client.class), id);
+    }
+
     public int insertClient(Client newClient) {
         String query = "INSERT INTO CLIENT (NAME, LAST_NAME1, LAST_NAME2, EMAIL, PHONE, IDENTIFIER, USER_ID) " +
                 "VALUES (?, ?, ?, ?, ?, ?, 1)";

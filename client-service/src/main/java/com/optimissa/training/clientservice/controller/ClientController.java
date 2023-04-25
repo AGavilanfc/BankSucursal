@@ -47,6 +47,12 @@ public class ClientController {
         return null;
     }
 
+    @GetMapping("byUserId/{id}")
+    public List<Client> getClientByUserId(@PathVariable int id){
+        return service.getClientByUserId(id);
+    }
+
+
     @PostMapping("")
     public int insertClient(@RequestBody Client newClient) throws RuntimeException {
         logger.info("Inserting new client {}", newClient);

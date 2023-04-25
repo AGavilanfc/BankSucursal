@@ -10,6 +10,8 @@ public interface IClientRepository {
 
     public Client getClientById(int id);
 
+    public List<Client> getClientByUserId(int id);
+
     public int insertClient(Client newClient);
 
     public int deleteClient(int id);
