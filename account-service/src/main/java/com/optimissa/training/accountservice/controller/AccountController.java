@@ -1,7 +1,4 @@
 package com.optimissa.training.accountservice.controller;
-
-import com.optimissa.training.accountservice.api.AccountRequest;
-import com.optimissa.training.accountservice.api.AccountResponse;
 import com.optimissa.training.accountservice.models.Account;
 import com.optimissa.training.accountservice.models.StringResponse;
 import com.optimissa.training.accountservice.service.AccountService;
@@ -43,8 +40,8 @@ public class AccountController {
 
     @PostMapping(value = "/newAccount", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void newAccount(@RequestBody Account account ){
-
+    public int newAccount(@RequestBody Account account ){
+        return accountService.createAccount(account);
 //        if(validationIbanService.validate(account.getIban_id())){
 //            Account accountPost = accountService.createAccount(account);
 //        }else{
@@ -52,11 +49,10 @@ public class AccountController {
 //        }
     }
 
-    @PutMapping(value = "update/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/update/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
-    public Account updateAccount(@PathVariable int id, @RequestBody Account account) {
-        Account accountPut = accountService.updateAccount(id,account);
-        return accountPut;
+    public int updateAccount(@PathVariable int id, @RequestBody Account account) {
+       return  accountService.updateAccount(id,account);
     }
 
     @DeleteMapping(value = "/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)

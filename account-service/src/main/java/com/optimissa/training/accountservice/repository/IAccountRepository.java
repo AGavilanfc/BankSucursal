@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface IAccountRepository {
     public Account getAccount(int id);
-    public Account save(Account account);
+    public int save(Account account);
     public int delete(int id);
     public List<Account> getAllAccount();
-    public Account update(Account account , int id);
+    public int update(Account account , int id);
 
 }

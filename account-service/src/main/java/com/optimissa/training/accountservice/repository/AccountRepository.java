@@ -30,10 +30,9 @@ public class AccountRepository implements IAccountRepository{
 
     //update
 
-    public Account save(Account account) {
-        String sql = "INSERT INTO ACCOUNT (id, balance, client_id,currency_id,active) VALUES (?,?,?,?,?)";
-        jdbcTemplate.update(sql, account.getId(), account.getBalance(), account.getClient_id(), account.getCurrency_id(), account.isActive());
-        return account;
+    public int save(Account account) {
+        String sql = "INSERT INTO ACCOUNT ( balance,iban_id ,client_id,currency_id,active) VALUES (?,?,?,?,?)";
+        return jdbcTemplate.update(sql, account.getBalance(),account.getIban_id(), account.getClient_id(), account.getCurrency_id(), account.isActive());
     }
 
     public int delete(int id) {
@@ -43,10 +42,9 @@ public class AccountRepository implements IAccountRepository{
     }
 
 
-    public Account update(Account account, int id) {
-        String sql = "UPDATE ACCOUNT SET id = ? , balance = ? , client_id = ?, currency_id = ? , active = ?   WHERE id = ? ";
-        jdbcTemplate.update(sql ,id, account.getBalance(), account.getClient_id(), account.getCurrency_id(), account.isActive(),id);
-        return account;
+    public int update(Account account, int id) {
+        String sql = "UPDATE ACCOUNT SET  balance = ? , client_id = ?, currency_id = ? , active = ?   WHERE id = ? ";
+        return jdbcTemplate.update(sql , account.getBalance(), account.getClient_id(), account.getCurrency_id(), account.isActive(),id);
     }
 }
 

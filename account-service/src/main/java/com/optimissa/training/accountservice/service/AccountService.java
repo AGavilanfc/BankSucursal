@@ -30,12 +30,12 @@ public class AccountService {
     }
 
 
-    public Account createAccount(Account account ){
+    public int createAccount(Account account ){
 
         return accountRepository.save(account);
     }
 
-    public Account updateAccount(int id,Account account){
+    public int updateAccount(int id,Account account){
 //        Account accountExisting = accountRepository.getAccount(id);
 //        accountExisting.setId(account.getId());
 //        accountExisting.setBalance(account.getBalance());
