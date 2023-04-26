@@ -22,7 +22,7 @@ public class ClientController {
         this.service = service;
     }
 
-    @GetMapping("")
+    @GetMapping("/get-all")
     public List<Client> getClients() {
         logger.info("Searching clients");
         Long startTime = System.currentTimeMillis();
@@ -32,7 +32,7 @@ public class ClientController {
         return clients;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("get-by-id/{id}")
     public Client getClientById(@PathVariable int id){
         logger.info("Searching client by id {}", id);
         Long startTime = System.currentTimeMillis();
@@ -47,13 +47,13 @@ public class ClientController {
         return null;
     }
 
-    @GetMapping("byUserId/{id}")
+    @GetMapping("get-by-UserId/{id}")
     public List<Client> getClientByUserId(@PathVariable int id){
         return service.getClientByUserId(id);
     }
 
 
-    @PostMapping("")
+    @PostMapping("/create")
     public int insertClient(@RequestBody Client newClient) throws RuntimeException {
         logger.info("Inserting new client {}", newClient);
         Long startTime = System.currentTimeMillis();
@@ -68,7 +68,7 @@ public class ClientController {
         return 0;
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("delete/{id}")
     public int deleteClient(@PathVariable int id) {
         logger.info("Deleting client with id {}", id);
         Long startTime = System.currentTimeMillis();
@@ -84,7 +84,7 @@ public class ClientController {
         return 0;
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("update/{id}")
     public int updateClient(@RequestBody Client modifiedClient, @PathVariable int id) {
         logger.info("Updating client with id {}", id);
         Long startTime = System.currentTimeMillis();
