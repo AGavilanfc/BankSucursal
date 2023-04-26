@@ -1,17 +1,17 @@
 package com.optimissa.training.transactionservice.repository;
 
-import com.optimissa.training.transactionservice.dtos.Transactions;
+import com.optimissa.training.transactionservice.dtos.Transaction;
 
 import java.util.List;
 
 public interface ITransactionRepository {
-    public List<Transactions> getAllTransactions();
+    public List<Transaction> getAllTransactions();
 
 
 
-    public Transactions getByIdTransaction(int id);
+    public Transaction getByIdTransaction(int id);
 
 
 
-    public int insertNewTransaction(Transactions transactions, String transaction_number);
+    public int insertNewTransaction(Transaction transaction, String transaction_number);
 }

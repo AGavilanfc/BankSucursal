@@ -1,6 +1,6 @@
 package com.optimissa.training.transactionservice.dtos;
 
-public class Transactions {
+public class Transaction {
 
     private int id;
     private String date;
@@ -10,10 +10,10 @@ public class Transactions {
     private int account_Id;
     private int fund_Id;
 
-    public Transactions() {
+    public Transaction() {
     }
 
-    public Transactions(int id, String date, String transaction_Number, double amount, int account_Id, int fund_Id) {
+    public Transaction(int id, String date, String transaction_Number, double amount, int account_Id, int fund_Id) {
         this.id = id;
         this.date = date;
         this.transaction_Number = transaction_Number;
