@@ -60,19 +60,20 @@ public String createCurrency(Currency currency) {
 }
 
 
-public int deleteById(int id) {
+public String deleteById(int id) {
     try {
         Currency currency = currencyRepository.findById(id);
         if (currency == null) {
             logger.warn("Currency with id {} not found", id);
-            return 0;
+            return "Currency with id " + id + " not found";
         } else {
-            logger.info("Currency deleted");
-            return currencyRepository.delete(id);
+            currencyRepository.delete(id);
+            logger.info("Currency with id {} deleted", id);
+            return "Currency with id " + id + " deleted";
         }
     } catch (Exception e) {
         logger.error("An error occurred while deleting currency with id {}: {}", id, e.getMessage(), e);
-        return 0;
+        return "An error occurred while deleting currency with id " + id;
     }
 
 }
