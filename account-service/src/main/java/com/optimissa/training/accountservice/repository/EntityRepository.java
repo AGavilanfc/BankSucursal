@@ -2,9 +2,11 @@ package com.optimissa.training.accountservice.repository;
 
 import com.optimissa.training.accountservice.models.Entity;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class EntityRepository implements IentityRepository{
 
     private final JdbcTemplate jdbcTemplate;

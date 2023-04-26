@@ -6,7 +6,7 @@ public interface IibanRepository {
 
     Iban getIban(int id);
 
-    Iban save(Iban iban);
+    int save(int country , int entity);
 
     void delete(Iban iban, int id);
 

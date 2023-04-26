@@ -21,4 +21,5 @@ public class CountryRepository implements ICountryRepository {
 
         return jdbcTemplate.queryForList("SELECT * FROM COUNTRY", Country.class);
     }
+
 }

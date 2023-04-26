@@ -5,12 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.Random;
+
 @Repository
 public class IbanRepository implements IibanRepository {
 
     private final String GET_IBAN_BY_ID = "SELECT ID, COUNTRY_ID, COUNTRY_CONTROL, ENTITY_ID, BRANCH, ACCOUNT_CONTROL , ACCOUNT_NUMBER FROM banksucursal.IBAN where id = ?";
-
-    private final String ADD_NEW_IBAN = "INSERT INTO IBAN (id,country_id, country_control ,entity_id ,branch ,account_control,account_number) VALUES (?,?,?,?,?)";
+    private final String ADD_NEW_IBAN = "INSERT INTO IBAN (country_id, country_control ,entity_id ,branch ,account_control,account_number) VALUES (?,?,?,?,?)";
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -24,11 +25,19 @@ public class IbanRepository implements IibanRepository {
 
     }
 
-    public int save(Iban iban) {
-        return
-                jdbcTemplate
-                        .update(ADD_NEW_IBAN, iban.getId(), iban.getCountry_id(), iban.getCountry_control(),
-                                iban.getEntity_id(), iban.getBranch(), iban.getAccount_control(), iban.getAccount_number());
+    public int save(int country , int entity) {
+
+        int max = 999999999;
+        int min = 100000000;
+        Random random = new Random();
+        int countryControl = random.nextInt(100);
+        int branch = random.nextInt(9000) + 1000;
+        int accountControl = random.nextInt(100);
+        int accountNumber = random.nextInt((max - min) + 1) + min;
+
+        return jdbcTemplate
+                        .update(ADD_NEW_IBAN, country, countryControl,
+                                entity, branch, accountControl, accountNumber);
     }
 
 

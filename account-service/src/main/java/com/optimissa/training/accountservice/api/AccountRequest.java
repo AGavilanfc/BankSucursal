@@ -4,8 +4,6 @@ public class AccountRequest {
 
     private int ibanCountry;
 
-    private int ibanCountryControl;
-
     private int ibanEntity;
 
     private int clientId;
@@ -22,13 +20,6 @@ public class AccountRequest {
         this.ibanCountry = ibanCountry;
     }
 
-    public int getIbanCountryControl() {
-        return ibanCountryControl;
-    }
-
-    public void setIbanCountryControl(int ibanCountryControl) {
-        this.ibanCountryControl = ibanCountryControl;
-    }
 
     public int getIbanEntity() {
         return ibanEntity;
@@ -58,7 +49,6 @@ public class AccountRequest {
     public String toString() {
         return "AccountRequest{" +
                 "ibanCountry=" + ibanCountry +
-                ", ibanCountryControl=" + ibanCountryControl +
                 ", ibanEntity=" + ibanEntity +
                 ", clientId=" + clientId +
                 ", currencyId=" + currencyId +

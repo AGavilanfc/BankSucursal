@@ -1,11 +1,11 @@
 package com.optimissa.training.accountservice.service;
 
 import com.optimissa.training.accountservice.api.AccountRequest;
+import com.optimissa.training.accountservice.mapper.AccountMapper;
 import com.optimissa.training.accountservice.mapper.AccountRequestMapper;
-import com.optimissa.training.accountservice.models.Account;
-import com.optimissa.training.accountservice.models.Iban;
-import com.optimissa.training.accountservice.models.StringResponse;
+import com.optimissa.training.accountservice.models.*;
 import com.optimissa.training.accountservice.repository.AccountRepository;
+import com.optimissa.training.accountservice.repository.EntityRepository;
 import com.optimissa.training.accountservice.repository.IbanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,10 +20,16 @@ public class AccountService {
     AccountRepository accountRepository;
 
     @Autowired
+    IbanRepository ibanRepository;
+
+    @Autowired
     AccountRequestMapper accountRequestMapper;
 
     @Autowired
     ValidationIbanService validationIbanService;
+
+    @Autowired
+    AccountMapper accountMapper;
 
 
     public Account getAccount(int id) {
@@ -40,14 +46,22 @@ public class AccountService {
         //mapper AccountRequest -> AccoutnDTO
         Account account = accountRequestMapper.maptoAccount(accountRequest);
 
+        if(validationIbanService.validate(accountRequest.getIbanCountry(),accountRequest.getIbanEntity())){
+            //se genera el iban dentro del ibanRepository
+            ibanRepository.save(accountRequest.getIbanCountry(),accountRequest.getIbanEntity());
+            accountRepository.save(account);
+
+        };
+
         //validar IBAN
-        if(validationIbanService.validate(account.getIban_id());
-        // crear iban
+//        if(validationIbanService.validate(account.getIban_id())){
+//        };
+//        String iban_id= String.valueOf(iban_Id);
 
-
-        //crear un nuevo iban, 3 datos de la request
-
-
+        //generarIban
+        //Iban iban = ibanRepository.getIban();
+        //guardarIban
+        //generarCuenta
         return accountRepository.save(account);
     }
 

@@ -1,24 +1,37 @@
 package com.optimissa.training.accountservice.service;
 
+import com.optimissa.training.accountservice.models.Country;
+import com.optimissa.training.accountservice.models.Entity;
+import com.optimissa.training.accountservice.models.Iban;
+import com.optimissa.training.accountservice.repository.CountryRepository;
+import com.optimissa.training.accountservice.repository.EntityRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class ValidationIbanService {
 
-    public boolean validate(int iban_Id) {
+    @Autowired
+    CountryRepository countryRepository;
 
-        //ir a base de datos del IBAN
-        //COUNTRY
-        //ENTITY
+    @Autowired
+    EntityRepository entityRepository;
 
-        String iban_id= String.valueOf(iban_Id);
+    public boolean validate(int ibanCountry, int ibanEntity) {
 
+        boolean resultCountry = countryRepository.getAll()
+                .stream()
+                .map(Country::getId)
+                .anyMatch(integer -> integer == ibanCountry);
 
+        boolean resultEntity = entityRepository.getAll()
+                .stream()
+                .map(Entity::getId)
+                .anyMatch(integer -> integer == ibanEntity);
 
-
-
-        return true;
+        return resultCountry && resultEntity;
     }
+
 
 
 }
