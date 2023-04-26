@@ -2,6 +2,8 @@ package com.optimissa.training.productservice.controller;
 
 import com.optimissa.training.productservice.model.Product;
 import com.optimissa.training.productservice.service.ProductService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -18,43 +20,50 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductController {
 
+    Logger logger = LoggerFactory.getLogger(ProductController.class);
     private final ProductService productService;
 
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
 
-    @PostMapping
+    @PostMapping("/create")
     public int saveProduct (@RequestBody Product product) {
+        logger.info("Calling saveProduct()");
         return productService.saveProduct(product);
     }
 
-    @GetMapping("/id/{id}")
-    public Product getProductById (@PathVariable int id) {
-        return productService.getProductById(id);
-    }
-
-    @GetMapping
+    @GetMapping("/get-all")
     public List<Product> getAllProducts() {
+        logger.info("Calling getAllProducts()");
         return productService.getAllProducts();
     }
 
-    @GetMapping("/name/{name}")
+    @GetMapping("/get-by-id/{id}")
+    public Product getProductById (@PathVariable int id) {
+        logger.info("Calling getProductById for {} id ", id);
+        return productService.getProductById(id);
+    }
+
+    @GetMapping("/get-by-name/{name}")
     public List<Product> getProductByName (@PathVariable String name) {
+        logger.info("Calling getProductByName for {} ", name);
         return productService.getProductByName(name);
     }
 
-    @GetMapping("/active/{active}")
-    public List<Product> getProductByActive (@PathVariable Boolean active) {
+    @GetMapping("/get-by-active/{active}")
+    public List<Product> getActives (@PathVariable Boolean active) {
+        logger.info("Calling getActives");
         return productService.getProductByActive(active);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public int deleteProduct (@PathVariable int id) {
+        
         return productService.deleteProduct(id);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/update/{id}")
     public int updateProduct(@PathVariable("id") int id, @RequestBody Product product) {
         return productService.updateProduct(id, product);
     }
