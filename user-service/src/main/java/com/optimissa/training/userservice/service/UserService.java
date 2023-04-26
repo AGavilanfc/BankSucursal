@@ -1,42 +1,104 @@
 package com.optimissa.training.userservice.service;
 
+import com.optimissa.training.userservice.api.UserBasicResponse;
+import com.optimissa.training.userservice.controller.UserController;
 import com.optimissa.training.userservice.model.User;
 import com.optimissa.training.userservice.repository.UserRepositoryJDBC;
-import com.optimissa.training.userservice.util.UserUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class UserService {
 
-    private final UserUtil userUtil = new UserUtil();
+    private final Logger logger = LoggerFactory.getLogger(UserController.class);
+
     @Autowired
     UserRepositoryJDBC userRepository;
 
     public List<User> getUsers() {
-        return userRepository.selectAll();
+        List<User> users;
+        logger.info("Started userService.getUsers()");
+        long startTime = System.currentTimeMillis();
+        users = userRepository.selectAll();
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.getUsers(). Execution took: {}ms. Response: {}", endTime-startTime, users.toString() );
+        return users;
     }
 
-    public User getUser(int id) {
-        return userRepository.selectById(id);
+    public List<UserBasicResponse> getActiveUsers() {
+        logger.info("Started userService.getActiveUsers()");
+        long startTime = System.currentTimeMillis();
+        List<User> users = userRepository.selectAllActive();
+        List<UserBasicResponse> usersBasicResponse = new ArrayList<>();
+        users.forEach(user -> usersBasicResponse.add(new UserBasicResponse(user.getName() + " " + user.getLastName1(), user.getEmail())));
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.getActiveUsers(). Execution took: {}ms. Response: {}", endTime-startTime, usersBasicResponse );
+        return usersBasicResponse;
+    }
+
+    public List<User> getInactiveUsers() {
+        List<User> users;
+        logger.info("Started userService.getInactiveUsers()");
+        long startTime = System.currentTimeMillis();
+        users = userRepository.selectAllInactive();
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.getInactiveUsers(). Execution took: {}ms. Response: {}", endTime-startTime, users.toString() );
+        return users;
+    }
+
+    public User getUserById(int id) {
+        User user;
+        logger.info("Started userService.getUserById()");
+        long startTime = System.currentTimeMillis();
+        user = userRepository.selectById(id);
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime-startTime, user.toString() );
+        return user;
+    }
+
+    public User getUserByEmail(String email) {
+        User user;
+        logger.info("Started userService.getUserById()");
+        long startTime = System.currentTimeMillis();
+        user = userRepository.selectByEmail(email);
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime-startTime, user.toString() );
+        return user;
     }
 
     public int addUser(User user) {
-        return userUtil.checkEmail(user.getEmail())
-                ? userRepository.insert(user)
-                : 0;
+        int affectedRows;
+        logger.info("Started userService.addUser()");
+        long startTime = System.currentTimeMillis();
+        affectedRows = userRepository.insert(user);
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.addUser(). Execution took: {}ms. Response: affectedRows = {}", endTime-startTime, affectedRows );
+        return affectedRows;
     }
 
     public int modifyUser(User user, int id) {
-        return userUtil.checkEmail(user.getEmail())
-                ? userRepository.update(user,id)
-                : 0;
+        int affectedRows;
+        logger.info("Started userService.modifyUser()");
+        long startTime = System.currentTimeMillis();
+        affectedRows = userRepository.update(user, id);
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.modifyUser(). Execution took: {}ms. Response: affectedRows = {}", endTime-startTime, affectedRows );
+        return affectedRows;
     }
 
     public int removeUser(int id) {
-        return userRepository.delete(id);
+        int affectedRows;
+        logger.info("Started userService.removeUser()");
+        long startTime = System.currentTimeMillis();
+        affectedRows = userRepository.delete(id);
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.removeUser(). Execution took: {}ms. Response: affectedRows = {}", endTime-startTime, affectedRows );
+        return affectedRows;
     }
 
 }
