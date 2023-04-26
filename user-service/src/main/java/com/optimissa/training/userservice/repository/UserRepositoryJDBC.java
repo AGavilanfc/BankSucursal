@@ -11,8 +11,11 @@ import java.util.List;
 @Repository
 public class UserRepositoryJDBC implements UserRepository {
 
-    private static final String SQL_SELECT_ALL = "SELECT * FROM USER WHERE active = 1";
+    private static final String SQL_SELECT_ALL = "SELECT * FROM USER";
+    private static final String SQL_SELECT_ALL_ACTIVE = "SELECT * FROM USER WHERE active = 1";
+    private static final String SQL_SELECT_ALL_INACTIVE = "SELECT * FROM USER WHERE active = 0";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM USER WHERE id = ?";
+    private static final String SQL_SELECT_BY_EMAIL = "SELECT * FROM USER WHERE email = ?";
     private static final String SQL_INSERT = "INSERT INTO USER (name, last_name1, last_name2, email, phone) " +
             "VALUES (?, ?, ?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE USER SET name = ?, last_name1 = ?, last_name2 = ?, email = ?, phone = ? " +
@@ -32,11 +35,36 @@ public class UserRepositoryJDBC implements UserRepository {
     }
 
     @Override
+    public List<User> selectAllActive() {
+        return jdbcTemplate.query(
+                SQL_SELECT_ALL_ACTIVE,
+                new BeanPropertyRowMapper<>(User.class)
+        );
+    }
+
+    @Override
+    public List<User> selectAllInactive() {
+        return jdbcTemplate.query(
+                SQL_SELECT_ALL_INACTIVE,
+                new BeanPropertyRowMapper<>(User.class)
+        );
+    }
+
+    @Override
     public User selectById(int id) {
         return jdbcTemplate.queryForObject(
                 SQL_SELECT_BY_ID,
                 new BeanPropertyRowMapper<>(User.class),
                 id
+        );
+    }
+
+    @Override
+    public User selectByEmail(String email) {
+        return jdbcTemplate.queryForObject(
+                SQL_SELECT_BY_EMAIL,
+                new BeanPropertyRowMapper<>(User.class),
+                email
         );
     }
 

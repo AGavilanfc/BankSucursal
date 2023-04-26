@@ -8,7 +8,13 @@ public interface UserRepository {
 
     List<User> selectAll();
 
+    List<User> selectAllActive();
+
+    List<User> selectAllInactive();
+
     User selectById(int id);
+
+    User selectByEmail(String email);
 
     int insert(User user);
 
