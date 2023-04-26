@@ -6,7 +6,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -41,30 +40,37 @@ public class ProductController {
 
     @GetMapping("/get-by-id/{id}")
     public Product getProductById (@PathVariable int id) {
-        logger.info("Calling getProductById for {} id ", id);
+        logger.info("Calling getProductById for id {}", id);
         return productService.getProductById(id);
     }
 
     @GetMapping("/get-by-name/{name}")
     public List<Product> getProductByName (@PathVariable String name) {
-        logger.info("Calling getProductByName for {} ", name);
+        logger.info("Calling getProductByName for {}", name);
         return productService.getProductByName(name);
     }
 
-    @GetMapping("/get-by-active/{active}")
-    public List<Product> getActives (@PathVariable Boolean active) {
+    @GetMapping("/get-all/active")
+    public List<Product> getActives () {
         logger.info("Calling getActives");
-        return productService.getProductByActive(active);
+        return productService.getProductByActive();
+    }
+
+    @GetMapping("/get-all/inactive")
+    public List<Product> getInactives () {
+        logger.info("Calling getInactives");
+        return productService.getProductByInactive();
     }
 
     @DeleteMapping("/delete/{id}")
     public int deleteProduct (@PathVariable int id) {
-        
+        logger.info("Calling deleteProduct for id {}", id);
         return productService.deleteProduct(id);
     }
 
     @PutMapping("/update/{id}")
     public int updateProduct(@PathVariable("id") int id, @RequestBody Product product) {
+        logger.info("Calling updateProduct for id {}", id);
         return productService.updateProduct(id, product);
     }
 }

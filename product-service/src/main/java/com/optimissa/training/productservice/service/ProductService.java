@@ -32,8 +32,12 @@ public class ProductService {
         return productRepository.findByName(name);
     }
 
-    public List<Product> getProductByActive (Boolean active){
-        return productRepository.findByActive(active);
+    public List<Product> getProductByActive (){
+        return productRepository.findByActive();
+    }
+
+    public List<Product> getProductByInactive (){
+        return productRepository.findByInactive();
     }
 
     public int deleteProduct (int id) {

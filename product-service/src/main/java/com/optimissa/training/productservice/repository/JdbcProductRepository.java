@@ -46,8 +46,13 @@ public class JdbcProductRepository implements ProductRepository {
     }
 
     @Override
-    public List<Product> findByActive(Boolean active) {
-        return jdbcTemplate.query("SELECT * FROM PRODUCT WHERE active = ?", new DataClassRowMapper<>(Product.class), active);
+    public List<Product> findByActive() {
+        return jdbcTemplate.query("SELECT * FROM PRODUCT WHERE active = true", new DataClassRowMapper<>(Product.class));
+    }
+
+    @Override
+    public List<Product> findByInactive() {
+        return jdbcTemplate.query("SELECT * FROM PRODUCT WHERE active = false", new DataClassRowMapper<>(Product.class));
     }
 
     @Override

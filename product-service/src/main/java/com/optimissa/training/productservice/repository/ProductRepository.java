@@ -11,7 +11,8 @@ public interface ProductRepository {
     List<Product> findAll();
     Product findById(int id);
     List<Product> findByName(String name);
-    List<Product> findByActive(Boolean active);
+    List<Product> findByActive();
+    List<Product> findByInactive();
     int delete(int id);
     int update(int id, Product product);
 }
