@@ -41,5 +41,11 @@ private JdbcTemplate jdbcTemplate;
         return jdbcTemplate.update(query, currency.getName(), currency.getSymbol(), currency.getCode(), currency.getId());
     }
 
+    public Currency findByName(String name) {
+        String query = "SELECT * FROM CURRENCY WHERE name = ?";
+        return jdbcTemplate.queryForObject(query, new BeanPropertyRowMapper<>(Currency.class), name);
+    }
+
+
 
 }

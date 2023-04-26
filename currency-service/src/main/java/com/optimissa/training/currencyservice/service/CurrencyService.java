@@ -99,6 +99,23 @@ public boolean updateCurrency(int id, Currency currency) {
     }
 }
 
+    public Currency getCurrencyByName(String name) {
+        try {
+            Optional<Currency> currency = Optional.ofNullable(currencyRepository.findByName(name));
+            if (currency.isPresent()) {
+                logger.info("Searching a currency by name");
+                return currency.get();
+            } else {
+                logger.warn("Currency with name {} not found", name);
+                return null;
+            }
+        } catch (Exception e) {
+            logger.error("An error occurred while getting currency with name {}: {}", name, e.getMessage(), e);
+            return null;
+        }
+    }
+
+
 
 
 
