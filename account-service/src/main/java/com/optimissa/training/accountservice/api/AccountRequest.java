@@ -1,44 +1,67 @@
 package com.optimissa.training.accountservice.api;
 
-
 public class AccountRequest {
 
+    private int ibanCountry;
 
+    private int ibanCountryControl;
 
-    private int iban_id;
-    private int client_id;
-    private int currency_id;
+    private int ibanEntity;
+
+    private int clientId;
+    private int currencyId;
 
     public AccountRequest() {
     }
 
-    public AccountRequest(int iban_id, int client_id, int currency_id) {
-        this.iban_id = iban_id;
-        this.client_id = client_id;
-        this.currency_id = currency_id;
+    public int getIbanCountry() {
+        return ibanCountry;
     }
 
-    public int getIban_id() {
-        return iban_id;
+    public void setIbanCountry(int ibanCountry) {
+        this.ibanCountry = ibanCountry;
     }
 
-    public int getClient_id() {
-        return client_id;
+    public int getIbanCountryControl() {
+        return ibanCountryControl;
     }
 
-    public int getCurrency_id() {
-        return currency_id;
+    public void setIbanCountryControl(int ibanCountryControl) {
+        this.ibanCountryControl = ibanCountryControl;
     }
 
-    public void setIban_id(int iban_id) {
-        this.iban_id = iban_id;
+    public int getIbanEntity() {
+        return ibanEntity;
     }
 
-    public void setClient_id(int client_id) {
-        this.client_id = client_id;
+    public void setIbanEntity(int ibanEntity) {
+        this.ibanEntity = ibanEntity;
     }
 
-    public void setCurrency_id(int currency_id) {
-        this.currency_id = currency_id;
+    public int getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(int clientId) {
+        this.clientId = clientId;
+    }
+
+    public  int getCurrencyId() {
+        return currencyId;
+    }
+
+    public void setCurrencyId(int currencyId) {
+        this.currencyId = currencyId;
+    }
+
+    @Override
+    public String toString() {
+        return "AccountRequest{" +
+                "ibanCountry=" + ibanCountry +
+                ", ibanCountryControl=" + ibanCountryControl +
+                ", ibanEntity=" + ibanEntity +
+                ", clientId=" + clientId +
+                ", currencyId=" + currencyId +
+                '}';
     }
 }

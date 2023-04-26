@@ -2,11 +2,12 @@ package com.optimissa.training.accountservice.mapper;
 
 import com.optimissa.training.accountservice.models.Account;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-
+@Component
 public class AccountMapper implements RowMapper<Account> {
     //clase para asignar los valores de las columnas del registro a un objeto cuenta
     @Override

@@ -1,4 +1,6 @@
 package com.optimissa.training.accountservice.controller;
+import com.optimissa.training.accountservice.api.AccountRequest;
+import com.optimissa.training.accountservice.mapper.AccountRequestMapper;
 import com.optimissa.training.accountservice.models.Account;
 import com.optimissa.training.accountservice.models.StringResponse;
 import com.optimissa.training.accountservice.service.AccountService;
@@ -22,6 +24,9 @@ public class AccountController {
     ValidationIbanService validationIbanService;
 
     @Autowired
+    AccountRequestMapper accountRequestMapper;
+
+    @Autowired
     AccountService accountService;
 
     //get all accounts
@@ -40,14 +45,25 @@ public class AccountController {
 
     @PostMapping(value = "/newAccount", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public int newAccount(@RequestBody Account account ){
-        return accountService.createAccount(account);
-//        if(validationIbanService.validate(account.getIban_id())){
-//            Account accountPost = accountService.createAccount(account);
-//        }else{
-//            LOGGER.severe("El iban no es válido");
-//        }
+    public int newAccount(@RequestBody AccountRequest accountRequest ){
+//        Account account =  accountRequestMapper.maptoAccount(accountRequest);
+        //no hacer aqui , llamar al mapeo en en servicio
+        return accountService.createAccount(accountRequest);
     }
+
+
+//    @PostMapping(value = "/newAccount", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
+//    @ResponseStatus(HttpStatus.CREATED)
+//    public int newAccount(@RequestBody AccountRequest accountRequest ){
+//
+//        //con la clase accountRequest recibo
+//        Account account = new Account();
+//
+//        account.setClient_id(accountRequest.getClientId());
+//        account.setCurrency_id(accountRequest.getCurrencyId());
+//        return accountService.createAccount(account);
+//    }
+
 
     @PutMapping(value = "/update/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
