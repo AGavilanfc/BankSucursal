@@ -1,6 +1,6 @@
 package com.optimissa.training.transactionservice.repository;
 
-import com.optimissa.training.transactionservice.dtos.Transactions;
+import com.optimissa.training.transactionservice.dtos.Transaction;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -22,28 +22,28 @@ public class TransactionRespository implements ITransactionRepository {
     }
 
 
-    public List<Transactions> getAllTransactions() {
+    public List<Transaction> getAllTransactions() {
         String sql = "SELECT * FROM TRANSACTION";
 
         return jdbcTemplate.query(
-                sql, new BeanPropertyRowMapper<>(Transactions.class)
+                sql, new BeanPropertyRowMapper<>(Transaction.class)
         );
     }
 
-    public Transactions getByIdTransaction(int id) {
+    public Transaction getByIdTransaction(int id) {
         String sql = "SELECT * FROM TRANSACTION WHERE id = ?";
 
         return jdbcTemplate.queryForObject(
-                sql, new BeanPropertyRowMapper<>(Transactions.class), id
+                sql, new BeanPropertyRowMapper<>(Transaction.class), id
         );
 
 
     }
 
-    public int insertNewTransaction(Transactions transactions, String transaction_number) {
+    public int insertNewTransaction(Transaction transaction, String transaction_number) {
         String sql = "INSERT INTO TRANSACTION (DATE, TRANSACTION_NUMBER, AMOUNT, ACCOUNT_ID, FUND_ID) VALUES (NOW(), ?, ?, ?, ?);";
 
-        return jdbcTemplate.update(sql, transaction_number, transactions.getAmount(),transactions.getAccount_Id(), transactions.getFund_Id());
+        return jdbcTemplate.update(sql, transaction_number, transaction.getAmount(), transaction.getAccount_Id(), transaction.getFund_Id());
 
     }
 }

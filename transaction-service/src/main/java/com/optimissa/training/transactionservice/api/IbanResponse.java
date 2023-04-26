@@ -1,2 +1,5 @@
-package com.optimissa.training.transactionservice.api;public class IbanResponse {
+package com.optimissa.training.transactionservice.api;
+
+public class IbanResponse {
+
 }

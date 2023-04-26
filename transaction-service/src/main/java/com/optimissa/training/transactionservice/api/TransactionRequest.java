@@ -1,2 +1,4 @@
-package com.optimissa.training.transactionservice.api;public class TransactionRequest {
+package com.optimissa.training.transactionservice.api;
+
+public class TransactionRequest {
 }
