@@ -21,6 +21,7 @@ import java.util.List;
 @RequestMapping("/users")
 public class UserController {
 
+
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final UserUtil userUtil = new UserUtil();
 
@@ -58,23 +59,23 @@ public class UserController {
     }
 
     @GetMapping("/get-by-id/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable int id) {
-        User user = null;
-        user = userService.getUserById(id);
-        return new ResponseEntity<>(user, HttpStatus.OK);
+    public ResponseEntity<Object> getUserById(@PathVariable int id) {
+        try {
+            return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error(e.getCause().getMessage());
+            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @GetMapping("/get-by-email/{email}")
-    public ResponseEntity<User> getUserByEmail(@PathVariable String email) {
-        User user = null;
-        user = userService.getUserByEmail(email);
-        return new ResponseEntity<>(user, HttpStatus.OK);
-    }
-
-    @GetMapping("/clients")
-    public List getUserClients() {
-        RestTemplate restTemplate = new RestTemplate();
-        return restTemplate.getForObject("http://localhost:8091/clients", List.class);
+    public ResponseEntity<Object> getUserByEmail(@PathVariable String email) {
+        try {
+            return new ResponseEntity<>(userService.getUserByEmail(email), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error(e.getCause().getMessage());
+            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @PostMapping("/create")
