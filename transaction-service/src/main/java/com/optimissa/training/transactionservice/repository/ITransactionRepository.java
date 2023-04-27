@@ -5,7 +5,7 @@ import com.optimissa.training.transactionservice.dtos.Transaction;
 import java.util.List;
 
 public interface ITransactionRepository {
-    public List<Transaction> getAllTransactions();
+    public List<Transaction> getAllTransactions(int limit, int page);
 
 
 

@@ -22,11 +22,12 @@ public class TransactionRespository implements ITransactionRepository {
     }
 
 
-    public List<Transaction> getAllTransactions() {
-        String sql = "SELECT * FROM TRANSACTION";
+    public List<Transaction> getAllTransactions(int limit, int page) {
+        int offset = (page-1)*limit;
+        String sql = "SELECT * FROM TRANSACTION LIMIT ? OFFSET ?";
 
         return jdbcTemplate.query(
-                sql, new BeanPropertyRowMapper<>(Transaction.class)
+                sql, new BeanPropertyRowMapper<>(Transaction.class), limit, offset
         );
     }
 
@@ -45,5 +46,13 @@ public class TransactionRespository implements ITransactionRepository {
 
         return jdbcTemplate.update(sql, transaction_number, transaction.getAmount(), transaction.getAccount_Id(), transaction.getFund_Id());
 
+    }
+
+    public List<Transaction> getAllTransactionsByAmount(int min, int max) {
+        String sql = "SELECT * FROM TRANSACTION WHERE amount BETWEEN ? AND ? ORDER BY amount";
+
+        return jdbcTemplate.query(
+                sql, new BeanPropertyRowMapper<>(Transaction.class), min, max
+        );
     }
 }

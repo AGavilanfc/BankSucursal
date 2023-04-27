@@ -30,9 +30,14 @@ public class TransactionsService {
     @Autowired
     private TransactionRespository transactionRespository;
 
-    public List<Transaction> getAllTransactions() {
-        return transactionRespository.getAllTransactions();
+    public List<Transaction> getAllTransactions(int limit, int page) {
+        return transactionRespository.getAllTransactions(limit, page);
     }
+
+    public List<Transaction> getAllTransactionsByAmount(int min, int max) {
+        return transactionRespository.getAllTransactionsByAmount(min,max);
+    }
+
 
     public TransactionResponse getByIdTransaction(int id) {
 

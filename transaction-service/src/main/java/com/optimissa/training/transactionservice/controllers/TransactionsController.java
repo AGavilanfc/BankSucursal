@@ -45,10 +45,26 @@ public class TransactionsController{
     }
 
     @GetMapping("/get-all")
-    public List<Transaction> getAllTransaction() {
+    public List<Transaction> getAllTransaction(@RequestParam int limit, @RequestParam int page) {
         log.info("obtain all transactions");
         try {
-            return tranService.getAllTransactions();
+            return tranService.getAllTransactions(limit, page);
+        } catch (Exception e) {
+            log.error("Bad request: Error: {}", e.getMessage());
+
+        }
+
+        return null;
+    }
+
+
+    @GetMapping("/get-all/filter" )
+
+    public List<Transaction> getAllTransactionsByAmount(@RequestParam int min, @RequestParam int max) {
+        log.info("obtain all transactions");
+        if(min > max) throw new IllegalArgumentException("min must be less than max");
+        try {
+            return tranService.getAllTransactionsByAmount(min, max);
         } catch (Exception e) {
             log.error("Bad request: Error: {}", e.getMessage());
 
@@ -73,7 +89,7 @@ public class TransactionsController{
             return new ResponseEntity<>("Not created. " + e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
-        return ResponseEntity.ok().body("Client created");
+        return ResponseEntity.ok().body("Transaction created");
     }
 
 
