@@ -1,55 +1,67 @@
 {
 	"info": {
-		"_postman_id": "5b3cb0a3-0e58-413b-a38c-a2eb78f2c1de",
+		"_postman_id": "6bc43dde-0529-4d83-8ccb-6fdda7d0c750",
 		"name": "TransactionModule",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "26584841",
-		"_collection_link": "https://becariosteam.postman.co/workspace/BankSucursal~cb19bea7-f510-4a1c-84a6-1c24b78a6897/collection/26584073-5b3cb0a3-0e58-413b-a38c-a2eb78f2c1de?action=share&creator=26584841&source=collection_link"
+		"_exporter_id": "26584073",
+		"_collection_link": "https://becariosteam.postman.co/workspace/BankSucursal~cb19bea7-f510-4a1c-84a6-1c24b78a6897/collection/26584073-6bc43dde-0529-4d83-8ccb-6fdda7d0c750?action=share&creator=26584073&source=collection_link"
 	},
 	"item": [
 		{
-			"name": "getAllTransactions",
+			"name": "Get All lTransactions",
 			"request": {
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL-TRANS}}/transactions",
-					"host": [
-						"{{URL-TRANS}}"
-					],
-					"path": [
-						"transactions"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "getTransactionById",
-			"request": {
-				"method": "GET",
-				"header": [],
-				"url": {
-					"raw": "{{URL-TRANS}}/transactions/13",
+					"raw": "{{URL-TRANS}}/transactions/get-all?limit=2&page=3",
 					"host": [
 						"{{URL-TRANS}}"
 					],
 					"path": [
 						"transactions",
-						"13"
+						"get-all"
+					],
+					"query": [
+						{
+							"key": "limit",
+							"value": "2"
+						},
+						{
+							"key": "page",
+							"value": "3"
+						}
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "insertNewTransaction",
+			"name": "Get Transaction By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-TRANS}}/transactions/get-by-id/1",
+					"host": [
+						"{{URL-TRANS}}"
+					],
+					"path": [
+						"transactions",
+						"get-by-id",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Insert New Transaction",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"transaction_Number\": \"NUM00047\",\r\n    \"amount\": \"856778898.89\"\r\n}",
+					"raw": "{\r\n    \"amount\": \"80\",\r\n    \"account_Id\": 1,\r\n    \"fund_Id\": 1\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -81,19 +93,48 @@
 			"response": []
 		},
 		{
-			"name": "deleteTransaction",
+			"name": "GetFundID",
 			"request": {
-				"method": "DELETE",
+				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL-TRANS}}/transactions/delete/5",
+					"raw": "{{URL-TRANS}}/transactions/fund/1",
 					"host": [
 						"{{URL-TRANS}}"
 					],
 					"path": [
 						"transactions",
-						"delete",
-						"5"
+						"fund",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get all transactions by amount",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-TRANS}}/transactions/get-all/filter?min=1&max=100",
+					"host": [
+						"{{URL-TRANS}}"
+					],
+					"path": [
+						"transactions",
+						"get-all",
+						"filter"
+					],
+					"query": [
+						{
+							"key": "min",
+							"value": "1"
+						},
+						{
+							"key": "max",
+							"value": "100"
+						}
 					]
 				}
 			},
