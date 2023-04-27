@@ -1,6 +1,7 @@
 package com.optimissa.training.clientservice.controller;
 
 import com.optimissa.training.clientservice.api.AccountRequest;
+import com.optimissa.training.clientservice.api.ClientRequest;
 import com.optimissa.training.clientservice.api.ClientResponse;
 import com.optimissa.training.clientservice.model.Client;
 import com.optimissa.training.clientservice.services.ClientService;
@@ -44,7 +45,7 @@ public class ClientController {
             logger.info("Finished in {} ms Response: {}", (endTime - startTime), client.toString());
             return ResponseEntity.ok(client);
         } catch(Exception e) {
-            logger.error("Error searching client with id {}: {}", id, e.getMessage());
+            logger.error("Error searching client with id {}: not found", id);
             return new ResponseEntity<>("Client not found. ", HttpStatus.NOT_FOUND);
         }
     }
@@ -81,17 +82,20 @@ public class ClientController {
     }
 
     @PutMapping("update/{id}")
-    public ResponseEntity<Object> updateClient(@RequestBody Client modifiedClient, @PathVariable int id) {
+    public ResponseEntity<Object> updateClient(@RequestBody ClientRequest modifiedClient, @PathVariable int id) {
         logger.info("Updating client with id {}", id);
         Long startTime = System.currentTimeMillis();
         try {
             int response = service.updateClient(modifiedClient, id);
-            if (response == 0) throw new Exception("id not found");
+            if (response == 0) {
+                logger.error("Error updating client with id {}: not found", id);
+                return new ResponseEntity<>("Client not found. ", HttpStatus.NOT_FOUND);
+            }
             Long endTime = System.currentTimeMillis();
             logger.info("Finished in {} ms Response: {}", (endTime - startTime), response);
         } catch (Exception e) {
             logger.error("Error updating client with id {}: {}", id, e.getMessage());
-            return new ResponseEntity<>("Client not found. ", HttpStatus.NOT_FOUND);
+            return ResponseEntity.unprocessableEntity().body("Incorrect data: " + e.getMessage());
         }
         return ResponseEntity.ok().body("Client updated");
     }

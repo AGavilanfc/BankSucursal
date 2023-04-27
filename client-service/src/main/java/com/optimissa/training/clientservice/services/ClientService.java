@@ -1,8 +1,10 @@
 package com.optimissa.training.clientservice.services;
 
 import com.optimissa.training.clientservice.api.AccountRequest;
+import com.optimissa.training.clientservice.api.ClientRequest;
 import com.optimissa.training.clientservice.api.ClientResponse;
 import com.optimissa.training.clientservice.controller.ClientController;
+import com.optimissa.training.clientservice.mappers.ClientRequestMapper;
 import com.optimissa.training.clientservice.mappers.ClientResponseMapper;
 import com.optimissa.training.clientservice.model.Client;
 import com.optimissa.training.clientservice.repository.IClientRepository;
@@ -54,7 +56,13 @@ public class ClientService {
         return repository.deleteClient(id);
     }
 
-    public int updateClient(Client modifiedClient, int id) {
+    public int updateClient(ClientRequest clientToModify, int id) {
+        Client modifiedClient = ClientRequestMapper.mapToClient(clientToModify);
+        if(!ClientUtils.isValidEmail(modifiedClient.getEmail())) {
+            String msg = "Invalid email";
+            logger.error("Error inserting client: {}", msg);
+            throw new RuntimeException(msg);
+        }
         return repository.updateClient(modifiedClient, id);
     }
 
