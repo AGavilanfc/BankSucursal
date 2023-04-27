@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ProductRepository {
 
-    int save(Product product);
+    int save(Product product, String formattedDate);
 
     List<Product> findAll();
     Product findById(int id);
