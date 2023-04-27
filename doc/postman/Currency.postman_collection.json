@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "ac13f74f-17c1-4256-8136-8f11a68206a8",
+		"_postman_id": "3541f9e5-bf6f-46da-8a1b-dbb0df7d51fc",
 		"name": "Currency",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "26584841",
-		"_collection_link": "https://becariosteam.postman.co/workspace/BankSucursal~cb19bea7-f510-4a1c-84a6-1c24b78a6897/collection/26584073-ac13f74f-17c1-4256-8136-8f11a68206a8?action=share&creator=26584841&source=collection_link"
+		"_exporter_id": "26986513"
 	},
 	"item": [
 		{
@@ -13,12 +12,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL-CURRENCY}}/currencies",
+					"raw": "{{URL-CURRENCY}}/currencies/get-all",
 					"host": [
 						"{{URL-CURRENCY}}"
 					],
 					"path": [
-						"currencies"
+						"currencies",
+						"get-all"
 					]
 				}
 			},
@@ -30,13 +30,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL-CURRENCY}}/currencies/3",
+					"raw": "{{URL-CURRENCY}}/currencies/get-by-id/1",
 					"host": [
 						"{{URL-CURRENCY}}"
 					],
 					"path": [
 						"currencies",
-						"3"
+						"get-by-id",
+						"1"
 					]
 				}
 			},
@@ -49,7 +50,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Dirham\",\r\n    \"symbol\": \"D\",\r\n    \"code\": \"DIR\"\r\n}",
+					"raw": "{\r\n    \"name\": \"dolardeplata\",\r\n    \"symbol\": \"$\",\r\n    \"code\": \"DDP\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -57,13 +58,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL-CURRENCY}}/currencies/",
+					"raw": "{{URL-CURRENCY}}/currencies/get-all",
 					"host": [
 						"{{URL-CURRENCY}}"
 					],
 					"path": [
 						"currencies",
-						""
+						"get-all"
 					]
 				}
 			},
@@ -75,13 +76,14 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{URL-CURRENCY}}/currencies/7",
+					"raw": "{{URL-CURRENCY}}/currencies/get-by-id/21",
 					"host": [
 						"{{URL-CURRENCY}}"
 					],
 					"path": [
 						"currencies",
-						"7"
+						"get-by-id",
+						"21"
 					]
 				}
 			},
@@ -94,7 +96,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Dirham\",\r\n    \"symbol\": \"D\",\r\n    \"code\": \"DHR\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Peseta\",\r\n    \"symbol\": \"$\",\r\n    \"code\": \"PTS\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -102,13 +104,109 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL-CURRENCY}}/currencies/8",
+					"raw": "{{URL-CURRENCY}}/currencies/get-by-id/11",
 					"host": [
 						"{{URL-CURRENCY}}"
 					],
 					"path": [
 						"currencies",
-						"8"
+						"get-by-id",
+						"11"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "clientes",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "getByName",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-CURRENCY}}/currencies/get-by-name/Yen",
+					"host": [
+						"{{URL-CURRENCY}}"
+					],
+					"path": [
+						"currencies",
+						"get-by-name",
+						"Yen"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Coversion",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"url": {
+					"raw": "{{URL-CURRENCY}}/currencies/convert?amount=34&to=1&from=2",
+					"host": [
+						"{{URL-CURRENCY}}"
+					],
+					"path": [
+						"currencies",
+						"convert"
+					],
+					"query": [
+						{
+							"key": "amount",
+							"value": "10",
+							"disabled": true
+						},
+						{
+							"key": "amount",
+							"value": "34"
+						},
+						{
+							"key": "to",
+							"value": "1"
+						},
+						{
+							"key": "from",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getByCode",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-CURRENCY}}/currencies/get-by-code/EUR",
+					"host": [
+						"{{URL-CURRENCY}}"
+					],
+					"path": [
+						"currencies",
+						"get-by-code",
+						"EUR"
 					]
 				}
 			},

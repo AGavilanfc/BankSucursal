@@ -61,9 +61,7 @@ public class CurrencyController {
     public Currency getCurrencyById(@PathVariable int id) {
         logger.info("estamos entrando en get-by-id {}",id);
         Currency currency = currencyService.getCurrencyById(id);
-        if (currency == null) {
-            throw new RuntimeException("No se encontró la moneda con el ID: " + id);
-        }
+
         return currency;
     }
 
