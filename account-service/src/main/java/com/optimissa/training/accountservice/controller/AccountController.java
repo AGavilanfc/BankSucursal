@@ -57,12 +57,20 @@ public class AccountController {
         return account;
     }
 
+    @GetMapping(value = "/get-by-client/{client}")
+    public List<Account> getAccountByClient(@PathVariable int clientId){
+        return accountService.getAccountByClient(clientId);
+    }
+
 
     @PostMapping(value = "/newAccount", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public void newAccount(@RequestBody AccountRequest accountRequest) {
+    public ResponseEntity newAccount(@RequestBody AccountRequest accountRequest) {
         //accountrequest para recoger los datos recibidos por la request
-        accountService.createAccount(accountRequest);
+        if(accountService.createAccount(accountRequest)){
+            return new ResponseEntity<>(HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>("can't create an account", HttpStatus.BAD_REQUEST);
     }
 
 

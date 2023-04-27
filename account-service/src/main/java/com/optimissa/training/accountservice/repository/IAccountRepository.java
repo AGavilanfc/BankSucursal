@@ -11,4 +11,5 @@ public interface IAccountRepository {
     public List<Account> getAllAccount();
     public int update(Account account , int id);
 
+    List<Account> getAccountByClient(int clientId);
 }

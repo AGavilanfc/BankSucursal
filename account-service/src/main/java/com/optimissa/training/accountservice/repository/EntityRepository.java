@@ -1,6 +1,7 @@
 package com.optimissa.training.accountservice.repository;
 
 import com.optimissa.training.accountservice.models.Entity;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -19,6 +20,6 @@ public class EntityRepository implements IentityRepository{
 
     @Override
     public List<Entity> getAll() {
-        return jdbcTemplate.queryForList("SELECT * FROM ENTITY", Entity.class);
+        return jdbcTemplate.query("SELECT * FROM ENTITY", new BeanPropertyRowMapper<>(Entity.class));
     }
 }

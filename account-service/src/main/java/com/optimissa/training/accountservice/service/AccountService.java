@@ -41,16 +41,21 @@ public class AccountService {
     }
 
 
-    public void createAccount(AccountRequest accountRequest) {
+    public List<Account> getAccountByClient(int clientId) {
+        return accountRepository.getAccountByClient(clientId);
+    }
+
+    public boolean createAccount(AccountRequest accountRequest) {
 
         //mapper AccountRequest -> AccoutnDTO
         Account account = accountRequestMapper.maptoAccount(accountRequest);
-
+        int lineaAccount = 0;
         if(validationIbanService.validate(accountRequest.getIbanCountry(),accountRequest.getIbanEntity())){
-            ibanRepository.save(accountRequest.getIbanCountry(),accountRequest.getIbanEntity());
-            accountRepository.save(account);
-        };
-
+            int iban = ibanRepository.save(accountRequest.getIbanCountry(),accountRequest.getIbanEntity());
+            account.setIban_id(iban);
+            lineaAccount = accountRepository.save(account);
+        }
+        return lineaAccount > 0;
     }
 
     public int updateAccount(int id, Account account) {

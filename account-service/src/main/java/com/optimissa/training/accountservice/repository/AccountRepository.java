@@ -28,9 +28,16 @@ public class AccountRepository implements IAccountRepository {
         return account;
     }
 
+    public List<Account> getAccountByClient(int clientid) {
+        return jdbcTemplate.queryForObject("SELECT ID, BALANCE, IBAN_ID, CLIENT_ID, CURRENCY_ID, ACTIVE FROM banksucursal.ACCOUNT where id = ?",
+                new Object[]{id}, new AccountMapper());
+    }
+
+
     public int save(Account account) {
         String sql = "INSERT INTO ACCOUNT ( balance,iban_id ,client_id,currency_id,active) VALUES (?,?,?,?,?)";
         return jdbcTemplate.update(sql, account.getBalance(), account.getIban_id(), account.getClient_id(), account.getCurrency_id(), true);
+
     }
 
     public int delete(int id) {

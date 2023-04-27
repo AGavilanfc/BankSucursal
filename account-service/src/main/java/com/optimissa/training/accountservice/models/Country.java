@@ -2,13 +2,13 @@ package com.optimissa.training.accountservice.models;
 
 public class Country {
     private int id;
-    private int code;
+    private String code;
     private String name;
 
     public Country() {
     }
 
-    public Country(int id, int code, String name) {
+    public Country(int id, String code, String name) {
         this.id = id;
         this.code = code;
         this.name = name;
@@ -18,7 +18,7 @@ public class Country {
         this.id = id;
     }
 
-    public void setCode(int code) {
+    public void setCode(String code) {
         this.code = code;
     }
 
@@ -30,7 +30,7 @@ public class Country {
         return id;
     }
 
-    public int getCode() {
+    public String getCode() {
         return code;
     }
 

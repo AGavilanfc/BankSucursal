@@ -12,7 +12,7 @@ public class CountryMapper implements RowMapper<Country> {
     public Country mapRow(ResultSet rs, int rowNum) throws SQLException {
         Country country = new Country();
         country.setId(rs.getInt("ID"));
-        country.setCode(rs.getInt("CODE"));
+        country.setCode(rs.getString("CODE"));
         country.setName(rs.getString("NAME"));
 
         return country;

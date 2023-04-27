@@ -2,6 +2,7 @@ package com.optimissa.training.accountservice.repository;
 
 import com.optimissa.training.accountservice.models.Iban;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -11,7 +12,10 @@ import java.util.Random;
 public class IbanRepository implements IibanRepository {
 
     private final String GET_IBAN_BY_ID = "SELECT ID, COUNTRY_ID, COUNTRY_CONTROL, ENTITY_ID, BRANCH, ACCOUNT_CONTROL , ACCOUNT_NUMBER FROM banksucursal.IBAN where id = ?";
-    private final String ADD_NEW_IBAN = "INSERT INTO IBAN (country_id, country_control ,entity_id ,branch ,account_control,account_number) VALUES (?,?,?,?,?)";
+    private final String ADD_NEW_IBAN = "INSERT INTO IBAN (country_id, country_control ,entity_id ,branch ,account_control,account_number) VALUES (?,?,?,?,?,?)";
+
+    private final String GET_LAST_ID= "SELECT ID FROM IBAN ORDER BY ID DESC LIMIT 1";
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -35,9 +39,9 @@ public class IbanRepository implements IibanRepository {
         int accountControl = random.nextInt(100);
         int accountNumber = random.nextInt((max - min) + 1) + min;
 
-        return jdbcTemplate
-                        .update(ADD_NEW_IBAN, countryId, countryControl,
+        jdbcTemplate.update(ADD_NEW_IBAN, countryId, countryControl,
                                 entityId, branch, accountControl, accountNumber);
+        return jdbcTemplate.queryForObject(GET_LAST_ID, Integer.class);
     }
 
 

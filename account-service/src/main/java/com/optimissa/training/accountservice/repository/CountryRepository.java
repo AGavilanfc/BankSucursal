@@ -1,6 +1,7 @@
 package com.optimissa.training.accountservice.repository;
 
 import com.optimissa.training.accountservice.models.Country;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -18,7 +19,7 @@ public class CountryRepository implements ICountryRepository {
 
     @Override
     public List<Country> getAll() {
-        return jdbcTemplate.queryForList("SELECT * FROM COUNTRY", Country.class);
+        return jdbcTemplate.query("SELECT * FROM COUNTRY", new BeanPropertyRowMapper<>(Country.class));
     }
 
 
