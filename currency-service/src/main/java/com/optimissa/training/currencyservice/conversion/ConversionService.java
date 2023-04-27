@@ -1,28 +1,25 @@
 package com.optimissa.training.currencyservice.conversion;
 
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import com.optimissa.training.currencyservice.dto.ConversionResponse;
+import org.springframework.stereotype.Service;
 
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
-@RestController
-@RequestMapping("/convert")
+@Service
 public class ConversionService {
 
     private RestTemplate restTemplate;
-
-    @GetMapping
-    public String convertCurrency(
-            @RequestParam("from") String from,
-            @RequestParam("to") String to,
-            @RequestParam("amount") Double amount
+    public ConversionResponse convertCurrency(
+            String from,
+            String to,
+            Double amount
     ) {
         String url = "https://api.exchangerate.host/convert?from=" + from + "&to=" + to + "&amount=" + amount;
         restTemplate = new RestTemplate();
-        return restTemplate.getForObject(url, String.class, from, to, amount);
+        String conversion =  restTemplate.getForObject(url, String.class, from, to, amount);
+        ConversionResponse conversionResponse = restTemplate.getForObject(url, ConversionResponse.class, from, to, amount);
+        return conversionResponse;
     }
 
 }

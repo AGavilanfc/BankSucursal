@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.optimissa.training.currencyservice.model.Currency;
 import com.optimissa.training.currencyservice.repository.CurrencyRepository;
-import com.optimissa.training.currencyservice.exception.Exception;
+import com.optimissa.training.currencyservice.exception.MyException;
 @Service
 public class CurrencyService {
 
@@ -31,6 +31,7 @@ public class CurrencyService {
             Optional<Currency> currency = Optional.ofNullable(currencyRepository.findById(id));
             if (currency.isPresent()) {
                 logger.info("Searching a currency by ID");
+
                 return currency.get();
             } else {
                 logger.warn("Currency with id {} not found", id);
@@ -95,7 +96,7 @@ public boolean updateCurrency(int id, Currency currency) {
         return updated == 1;
     } catch (Exception e) {
         logger.error("An error occurred while updating currency with id {}: {}", id, e.getMessage(), e);
-        throw new Exception("Currency with this " + id + " not found");
+        throw new MyException("Currency with this " + id + " not found");
     }
 }
 
@@ -108,7 +109,7 @@ public boolean updateCurrency(int id, Currency currency) {
             return currency;
         } catch (Exception e) {
             logger.error("An error occurred while getting currency by name {}: {}", name, e.getMessage(), e);
-            throw new Exception("Currency with " + name + " not found");
+            throw new MyException("Currency with " + name + " not found");
         }
     }
 
@@ -119,7 +120,7 @@ public boolean updateCurrency(int id, Currency currency) {
             return currency.get();
         } else {
             logger.warn("Currency with code {} not found", code);
-            throw new Exception("Currency with code " + code + " not found");
+            throw new MyException("Currency with code " + code + " not found");
         }
     }
 

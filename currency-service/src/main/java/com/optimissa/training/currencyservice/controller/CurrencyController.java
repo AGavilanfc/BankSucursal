@@ -1,5 +1,8 @@
 package com.optimissa.training.currencyservice.controller;
 import java.util.*;
+
+import com.optimissa.training.currencyservice.conversion.ConversionService;
+import com.optimissa.training.currencyservice.dto.ConversionResponse;
 import com.optimissa.training.currencyservice.model.Currency;
 import com.optimissa.training.currencyservice.service.CurrencyService;
 import org.slf4j.Logger;
@@ -8,19 +11,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
-import com.optimissa.training.currencyservice.exception.Exception;
+import com.optimissa.training.currencyservice.exception.MyException;
+import org.springframework.web.client.RestTemplate;
+
 @RestController
 @RequestMapping("/currencies")
 public class CurrencyController {
+    @Autowired
+    private ConversionService conversionService;
+    Logger logger = LoggerFactory.getLogger(CurrencyController.class);
+    @Autowired
+    private CurrencyService currencyService;
+    @GetMapping("/convert")
+    public Object convertCurrency(
+            @RequestParam("from") int from,
+            @RequestParam("to") int to,
+            @RequestParam("amount") Double amount
+    ) {
+        Currency currencyFrom, currencyTo;
+       try {
+           currencyFrom = currencyService.getCurrencyById(from);
+       } catch(Exception e) {
+           return "Id FROM incorrecto";
+       }
+        try {
+            currencyTo = currencyService.getCurrencyById(to);
+        } catch(Exception e) {
+            return "Id TO incorrecto";
+        }
+
+        return conversionService.convertCurrency(currencyFrom.getCode(), currencyTo.getCode(), amount);
+
+    }
 
 
     //convert (currencyIDorigenFROM, currencyIDestinoTO, cantidad>0)
     // 1. validar las currency que nos han pasado (BBDD)
     // 2. ejecutar la conversion contra el API externo
 
-    Logger logger = LoggerFactory.getLogger(CurrencyController.class);
-    @Autowired
-    private CurrencyService currencyService;
+
 
     @GetMapping("/get-all")
     public List<Currency> getAllCurrencies() {
