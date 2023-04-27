@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,6 +36,12 @@ public class ClientRepository implements IClientRepository{
         return jdbc.queryForObject(query, new BeanPropertyRowMapper<>(Client.class), id);
     }
 
+    @GetMapping("/get-by-userId")
+    public List<Client> getClientByUserId(int id) {
+        String query = "SELECT * FROM CLIENT WHERE USER_ID = ?";
+        return jdbc.query(query, new BeanPropertyRowMapper<>(Client.class), id);
+    }
+
     public int insertClient(Client newClient) {
         String query = "INSERT INTO CLIENT (NAME, LAST_NAME1, LAST_NAME2, EMAIL, PHONE, IDENTIFIER, USER_ID) " +
                 "VALUES (?, ?, ?, ?, ?, ?, 1)";
@@ -59,8 +66,6 @@ public class ClientRepository implements IClientRepository{
                 .addValue("lastName2", modifiedClient.getLastName2())
                 .addValue("email", modifiedClient.getEmail())
                 .addValue("phone", modifiedClient.getPhone())
-                .addValue("active", modifiedClient.isActive())
-                .addValue("identifier", modifiedClient.getIdentifier())
                 .addValue("userId", modifiedClient.getUserId())
                 .addValue("id", id)
                 ;
@@ -69,8 +74,6 @@ public class ClientRepository implements IClientRepository{
                 "LAST_NAME2 = :lastName2, " +
                 "EMAIL = :email, " +
                 "PHONE = :phone, " +
-                "ACTIVE = :active, " +
-                "IDENTIFIER = :identifier, " +
                 "USER_ID = :userId " +
                 "WHERE ID = :id";
         return namedJdbc.update(query, params);
