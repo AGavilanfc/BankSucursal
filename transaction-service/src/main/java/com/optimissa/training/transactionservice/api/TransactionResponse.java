@@ -7,17 +7,17 @@ import java.util.Date;
 public class TransactionResponse {
     private String date;
     private double amount;
-    private AccountResponse accountResponse;
-    private FundResponse fundResponse;
+    private AccountResponse account;
+    private FundResponse fund;
 
     public TransactionResponse() {
     }
 
-    public TransactionResponse(String date, double amount, AccountResponse accountResponse, FundResponse fundResponse) {
+    public TransactionResponse(String date, double amount, AccountResponse account, FundResponse fund) {
         this.date = date;
         this.amount = amount;
-        this.accountResponse = accountResponse;
-        this.fundResponse = fundResponse;
+        this.account = account;
+        this.fund = fund;
     }
 
     public String getDate() {
@@ -37,18 +37,18 @@ public class TransactionResponse {
     }
 
     public AccountResponse getAccountResponse() {
-        return accountResponse;
+        return account;
     }
 
-    public void setAccountResponse(AccountResponse accountResponse) {
-        this.accountResponse = accountResponse;
+    public void setAccountResponse(AccountResponse account) {
+        this.account = account;
     }
 
     public FundResponse getFundResponse() {
-        return fundResponse;
+        return fund;
     }
 
-    public void setFundResponse(FundResponse fundResponse) {
-        this.fundResponse = fundResponse;
+    public void setFundResponse(FundResponse fund) {
+        this.fund = fund;
     }
 }

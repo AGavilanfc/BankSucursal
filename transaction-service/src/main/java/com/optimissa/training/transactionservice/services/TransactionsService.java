@@ -2,6 +2,7 @@ package com.optimissa.training.transactionservice.services;
 
 import com.optimissa.training.transactionservice.api.AccountResponse;
 import com.optimissa.training.transactionservice.api.FundResponse;
+import com.optimissa.training.transactionservice.api.TransactionRequest;
 import com.optimissa.training.transactionservice.api.TransactionResponse;
 import com.optimissa.training.transactionservice.controllers.TransactionsController;
 import com.optimissa.training.transactionservice.dtos.Transaction;
@@ -41,10 +42,7 @@ public class TransactionsService {
 
     public TransactionResponse getByIdTransaction(int id) {
 
-        
-        
         Transaction transaction = transactionRespository.getByIdTransaction(id);
-
         return new TransactionResponse(
                 transaction.getDate(),
                 transaction.getAmount(),
@@ -65,6 +63,16 @@ public class TransactionsService {
     public int insertNewTransaction(Transaction transaction) {
         String transaction_numbrer = "TRX" + new Date().getTime() + (int) (Math.random() * 1000);
         return transactionRespository.insertNewTransaction(transaction, transaction_numbrer);
+    }
+
+    public int updateAccount(int id_transaction,int id_account, int balance) {
+        //{{USER-ACCOUNT}}/accounts/update/to-account/15/add-balance/220.0
+        //{{USER-ACCOUNT}}/accounts/update/to-account/15/substract-balance/220.0
+
+    return 0;
+
+
+
     }
 
 
