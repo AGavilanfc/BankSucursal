@@ -1,5 +1,7 @@
 package com.optimissa.training.productservice.service;
 
+import com.optimissa.training.productservice.api.ProductRequest;
+import com.optimissa.training.productservice.mapper.ProductRequestMapper;
 import com.optimissa.training.productservice.model.Product;
 import com.optimissa.training.productservice.repository.ProductRepository;
 import org.slf4j.Logger;
@@ -9,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 
 @Service
@@ -53,8 +54,9 @@ public class ProductService {
         return productRepository.delete(id);
     }
 
-    public int updateProduct (int id, Product product) {
-        return productRepository.update(id, product);
+    public int updateProduct (int id, ProductRequest product) {
+        Product modifiedProduct = ProductRequestMapper.mapToProduct(product);
+        return productRepository.update(id, modifiedProduct);
     }
 
 

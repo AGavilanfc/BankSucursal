@@ -1,5 +1,6 @@
 package com.optimissa.training.productservice.controller;
 
+import com.optimissa.training.productservice.api.ProductRequest;
 import com.optimissa.training.productservice.model.Product;
 import com.optimissa.training.productservice.service.ProductService;
 import org.slf4j.Logger;
@@ -45,6 +46,7 @@ public class ProductController {
         logger.info("Calling getAllProducts()");
         List<Product> products = productService.getAllProducts();
         if (products.isEmpty()) {
+            logger.warn("List of Products is Empty");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<>(products, HttpStatus.OK);
@@ -109,9 +111,9 @@ public class ProductController {
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateProduct(@PathVariable("id") int id, @RequestBody Product product) {
+    public ResponseEntity<String> updateProduct(@PathVariable("id") int id, @RequestBody ProductRequest productRequest) {
         logger.info("Calling updateProduct for id {}", id);
-        int result = productService.updateProduct(id, product);
+        int result = productService.updateProduct(id, productRequest);
         if (result > 0) {
             return new ResponseEntity<>("Product with id " + id + " has been successfully updated", HttpStatus.OK);
         } else {
