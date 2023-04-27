@@ -20,6 +20,6 @@ public interface FundRepository {
     List<Fund> findByActive();
     List<Fund> findByInactive();
 
-    int delete(int id);
+    void delete(int id);
     int update(int id, Fund fund);
 }

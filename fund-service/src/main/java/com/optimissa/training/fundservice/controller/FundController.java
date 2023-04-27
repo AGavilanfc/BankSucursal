@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.client.RestTemplate;
 
 
 import java.util.List;
@@ -17,6 +17,9 @@ import java.util.List;
 public class FundController {
 
     Logger logger = LoggerFactory.getLogger(FundController.class);
+
+    RestTemplate restTemplate = new RestTemplate();
+    String urlProduct = "http://localhost:8096/products";
     private final FundService fundService;
 
 
@@ -80,9 +83,6 @@ public class FundController {
             return new ResponseEntity<>("Fund with id " + id + " was not found", HttpStatus.NOT_FOUND);
         }
     }
-
-
-
 
 
 

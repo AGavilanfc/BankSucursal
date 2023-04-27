@@ -2,12 +2,9 @@ package com.optimissa.training.fundservice.repository;
 
 import com.optimissa.training.fundservice.model.Fund;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -159,24 +156,14 @@ public class JdbcRepository implements FundRepository {
     }
 
     @Override
-    public int delete(int id) {
-        return jdbcTemplate.update("update FUND set ACTIVE = 0, INACTIVE_DATE = CURRENT_DATE() where id = ?", id);
+    public void delete(int id) {
+        jdbcTemplate.update("update FUND set ACTIVE = 0, INACTIVE_DATE = CURRENT_DATE() where id = ?", id);
     }
 
     @Override
     public int update(int id, Fund fund) {
-        SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("id", id)
-                .addValue("name", fund.getName())
-                .addValue("refNumber",fund.getRefNumber())
-                .addValue("currencyId", fund.getCurrencyId())
-                .addValue("active", fund.isActive());
-        String query = "UPDATE FUND SET NAME = :name, " +
-                "REF_NUMBER = :refNumber, " +
-                "CURRENCY_ID = :currencyId, " +
-                "ACTIVE = :active " +
-                "WHERE ID = :id";
-        return namedJdbc.update(query, params);
+        String query = "update FUND set NAME = ?, REF_NUMBER = ?, CURRENCY_ID = ? where id = ?";
+        return jdbcTemplate.update(query, fund.getName(), fund.getRefNumber(), fund.getCurrencyId(), id);
     }
 
 }
