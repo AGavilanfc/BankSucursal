@@ -31,13 +31,13 @@ public class ProductController {
     @PostMapping("/create")
     public ResponseEntity<String> saveProduct (@RequestBody Product product) {
         logger.info("Calling saveProduct()");
-                int result = productService.saveProduct(product);
-                if (result > 0) {
-                    return ResponseEntity.ok("Product created successfully");
-                } else {
-                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                            .body("Failed to create new product");
-                }
+        int result = productService.saveProduct(product);
+        if (result > 0) {
+            return ResponseEntity.ok("Product created successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to create new product");
+        }
         }
 
     @GetMapping("/get-all")

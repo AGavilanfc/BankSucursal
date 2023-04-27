@@ -2,6 +2,8 @@ package com.optimissa.training.productservice.service;
 
 import com.optimissa.training.productservice.model.Product;
 import com.optimissa.training.productservice.repository.ProductRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +12,7 @@ import java.util.List;
 @Service
 public class ProductService {
 
+    Logger logger = LoggerFactory.getLogger(ProductService.class);
     private final ProductRepository productRepository;
     @Autowired
     private ProductService(ProductRepository productRepository) {
@@ -17,7 +20,7 @@ public class ProductService {
     }
 
     public int saveProduct (Product product) {
-        return productRepository.save(product);
+            return productRepository.save(product);
     }
 
     public Product getProductById (int id)                                                                              {

@@ -57,12 +57,11 @@ public class JdbcProductRepository implements ProductRepository {
 
     @Override
     public int delete(int id) {
-        return jdbcTemplate.update("UPDATE PRODUCT SET ACTIVE = 0 WHERE id = ?", id);
+        return jdbcTemplate.update("UPDATE PRODUCT SET ACTIVE = 0, INACTIVE_DATE = CURRENT_DATE() WHERE id = ?", id);
     }
 
     @Override
     public int update(int id, Product product) {
-        // TODO fix
         SqlParameterSource params = new MapSqlParameterSource()
                 .addValue("id", id)
                 .addValue("name", product.getName())
