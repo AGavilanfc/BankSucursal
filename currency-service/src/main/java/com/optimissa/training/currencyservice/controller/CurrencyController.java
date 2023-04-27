@@ -13,6 +13,11 @@ import com.optimissa.training.currencyservice.exception.Exception;
 @RequestMapping("/currencies")
 public class CurrencyController {
 
+
+    //convert (currencyIDorigenFROM, currencyIDestinoTO, cantidad>0)
+    // 1. validar las currency que nos han pasado (BBDD)
+    // 2. ejecutar la conversion contra el API externo
+
     Logger logger = LoggerFactory.getLogger(CurrencyController.class);
     @Autowired
     private CurrencyService currencyService;
