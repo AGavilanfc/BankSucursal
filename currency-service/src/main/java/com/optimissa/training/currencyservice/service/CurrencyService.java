@@ -37,9 +37,9 @@ public class CurrencyService {
                 logger.warn("Currency with id {} not found", id);
                 return null;
             }
-        } catch (Exception e) {
+        } catch (MyException e) {
             logger.error("An error occurred while getting currency with id {}: {}", id, e.getMessage(), e);
-            return null;
+            throw new MyException("que te jodan" + id + "not Found");
         }
 
         }

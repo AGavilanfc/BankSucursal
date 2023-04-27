@@ -60,8 +60,11 @@ public class CurrencyController {
     @GetMapping(value = "/get-by-id/{id}")
     public Currency getCurrencyById(@PathVariable int id) {
         logger.info("estamos entrando en get-by-id {}",id);
-       return currencyService.getCurrencyById(id);
+        Currency currency = currencyService.getCurrencyById(id);
+
+        return currency;
     }
+
 
     @PostMapping(value = "/get-all")
     @ResponseStatus(HttpStatus.CREATED)
