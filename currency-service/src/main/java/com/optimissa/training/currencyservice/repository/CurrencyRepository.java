@@ -41,5 +41,20 @@ private JdbcTemplate jdbcTemplate;
         return jdbcTemplate.update(query, currency.getName(), currency.getSymbol(), currency.getCode(), currency.getId());
     }
 
+    public Currency getByName(String name) {
+        String query = "SELECT * FROM CURRENCY WHERE NAME = ?";
+        try {
+            return jdbcTemplate.queryForObject(query, new Object[]{name}, new BeanPropertyRowMapper<>(Currency.class));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+    public Currency findByCode(String code) {
+        String query = "SELECT * FROM CURRENCY WHERE CODE = ?";
+        List<Currency> currencies = jdbcTemplate.query(query, new Object[]{code}, new BeanPropertyRowMapper<>(Currency.class));
+        return currencies.isEmpty() ? null : currencies.get(0);
+    }
+
+
 
 }

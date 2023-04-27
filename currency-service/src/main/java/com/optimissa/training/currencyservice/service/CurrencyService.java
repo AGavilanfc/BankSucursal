@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.optimissa.training.currencyservice.model.Currency;
 import com.optimissa.training.currencyservice.repository.CurrencyRepository;
-
+import com.optimissa.training.currencyservice.exception.MyException;
 @Service
 public class CurrencyService {
 
@@ -31,6 +31,7 @@ public class CurrencyService {
             Optional<Currency> currency = Optional.ofNullable(currencyRepository.findById(id));
             if (currency.isPresent()) {
                 logger.info("Searching a currency by ID");
+
                 return currency.get();
             } else {
                 logger.warn("Currency with id {} not found", id);
@@ -60,19 +61,20 @@ public String createCurrency(Currency currency) {
 }
 
 
-public int deleteById(int id) {
+public String deleteById(int id) {
     try {
         Currency currency = currencyRepository.findById(id);
         if (currency == null) {
             logger.warn("Currency with id {} not found", id);
-            return 0;
+            return "Currency with id " + id + " not found";
         } else {
-            logger.info("Currency deleted");
-            return currencyRepository.delete(id);
+            currencyRepository.delete(id);
+            logger.info("Currency with id {} deleted", id);
+            return "Currency with id " + id + " deleted";
         }
     } catch (Exception e) {
         logger.error("An error occurred while deleting currency with id {}: {}", id, e.getMessage(), e);
-        return 0;
+        return "An error occurred while deleting currency with id " + id;
     }
 
 }
@@ -94,9 +96,33 @@ public boolean updateCurrency(int id, Currency currency) {
         return updated == 1;
     } catch (Exception e) {
         logger.error("An error occurred while updating currency with id {}: {}", id, e.getMessage(), e);
-        return false;
+        throw new MyException("Currency with this " + id + " not found");
     }
 }
+
+    public Currency getByName(String name) {
+        try {
+            Currency currency = currencyRepository.getByName(name);
+            if (currency == null) {
+                logger.warn("Currency with name {} not found", name);
+            }
+            return currency;
+        } catch (Exception e) {
+            logger.error("An error occurred while getting currency by name {}: {}", name, e.getMessage(), e);
+            throw new MyException("Currency with " + name + " not found");
+        }
+    }
+
+    public Currency getByCode(String code) {
+        Optional<Currency> currency = Optional.ofNullable(currencyRepository.findByCode(code));
+        if (currency.isPresent()) {
+            logger.info("Searching a currency by code");
+            return currency.get();
+        } else {
+            logger.warn("Currency with code {} not found", code);
+            throw new MyException("Currency with code " + code + " not found");
+        }
+    }
 
 
 
