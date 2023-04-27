@@ -8,6 +8,7 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -35,6 +36,7 @@ public class ClientRepository implements IClientRepository{
         return jdbc.queryForObject(query, new BeanPropertyRowMapper<>(Client.class), id);
     }
 
+    @GetMapping("/get-by-userId")
     public List<Client> getClientByUserId(int id) {
         String query = "SELECT * FROM CLIENT WHERE USER_ID = ?";
         return jdbc.query(query, new BeanPropertyRowMapper<>(Client.class), id);
