@@ -5,9 +5,10 @@ import com.optimissa.training.currencyservice.service.CurrencyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
-
+import com.optimissa.training.currencyservice.exception.Exception;
 @RestController
 @RequestMapping("/currencies")
 public class CurrencyController {
@@ -28,7 +29,7 @@ public class CurrencyController {
        return currencyService.getCurrencyById(id);
     }
 
-    @PostMapping(value = "/")
+    @PostMapping(value = "/get-all")
     @ResponseStatus(HttpStatus.CREATED)
     public String createCurrency(@RequestBody Currency currency) {
         logger.info("estamos creando una moneda");
@@ -37,7 +38,7 @@ public class CurrencyController {
 
 
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/get-by-id/{id}")
     public String deleteCurrency(@PathVariable int id) {
         logger.info("estamos borrando una moneda");
         return currencyService.deleteById(id);
@@ -45,7 +46,7 @@ public class CurrencyController {
     }
 
 
-    @PatchMapping("/{id}")
+    @PatchMapping("/get-by-id/{id}")
     public String updateCurrency(@PathVariable int id, @RequestBody Currency currency) {
         logger.info("estamos editando una moneda");
         boolean updated = currencyService.updateCurrency(id, currency);
@@ -59,9 +60,25 @@ public class CurrencyController {
 
 
     @GetMapping(value = "/get-by-name/{name}")
-    public Currency getCurrencyByName(@PathVariable String name) {
-        logger.info("estamos entrando en get-by-name {}",name);
-        return currencyService.getCurrencyByName(name);
+    public ResponseEntity<?> getCurrencyByName(@PathVariable String name) {
+        logger.info("estamos entrando en get-by-name {}", name);
+        Currency currency = currencyService.getByName(name);
+        if (currency != null) {
+            return ResponseEntity.ok(currency);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Currency name not found");
+        }
+    }
+
+    @GetMapping(value = "/get-by-code/{code}")
+    public ResponseEntity<?> getCurrencyByCode(@PathVariable String code) {
+        logger.info("estamos entrando en get-by-code {}", code);
+        try {
+            Currency currency = currencyService.getByCode(code);
+            return ResponseEntity.ok(currency);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Currency not found");
+        }
     }
 
 

@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.optimissa.training.currencyservice.model.Currency;
 import com.optimissa.training.currencyservice.repository.CurrencyRepository;
-
+import com.optimissa.training.currencyservice.exception.Exception;
 @Service
 public class CurrencyService {
 
@@ -95,26 +95,33 @@ public boolean updateCurrency(int id, Currency currency) {
         return updated == 1;
     } catch (Exception e) {
         logger.error("An error occurred while updating currency with id {}: {}", id, e.getMessage(), e);
-        return false;
+        throw new Exception("Currency with this " + id + " not found");
     }
 }
 
-    public Currency getCurrencyByName(String name) {
+    public Currency getByName(String name) {
         try {
-            Optional<Currency> currency = Optional.ofNullable(currencyRepository.findByName(name));
-            if (currency.isPresent()) {
-                logger.info("Searching a currency by name");
-                return currency.get();
-            } else {
+            Currency currency = currencyRepository.getByName(name);
+            if (currency == null) {
                 logger.warn("Currency with name {} not found", name);
-                return null;
             }
+            return currency;
         } catch (Exception e) {
-            logger.error("An error occurred while getting currency with name {}: {}", name, e.getMessage(), e);
-            return null;
+            logger.error("An error occurred while getting currency by name {}: {}", name, e.getMessage(), e);
+            throw new Exception("Currency with " + name + " not found");
         }
     }
 
+    public Currency getByCode(String code) {
+        Optional<Currency> currency = Optional.ofNullable(currencyRepository.findByCode(code));
+        if (currency.isPresent()) {
+            logger.info("Searching a currency by code");
+            return currency.get();
+        } else {
+            logger.warn("Currency with code {} not found", code);
+            throw new Exception("Currency with code " + code + " not found");
+        }
+    }
 
 
 
