@@ -12,7 +12,9 @@ import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 @Repository
 public class JdbcProductRepository implements ProductRepository {
@@ -121,11 +123,30 @@ public class JdbcProductRepository implements ProductRepository {
 
     @Override
     public int update(int id, Product product) {
-        SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("id", id)
-                .addValue("name", product.getName())
-                .addValue("active", product.getActive());
-        String query = "UPDATE PRODUCT SET NAME = :name, " + "ACTIVE = :active " + "WHERE ID = :id";
-        return namedJdbc.update(query, params);
+        boolean isActiveChanged = !Objects.equals(product.getActive(), findById(id).getActive());
+        Date currentDate = new Date();
+
+        if (isActiveChanged) {
+            String dateColumn = product.getActive() ? "ACTIVE_DATE" : "INACTIVE_DATE";
+            SqlParameterSource params = new MapSqlParameterSource()
+                    .addValue("id", id)
+                    .addValue("name", product.getName())
+                    .addValue("active", product.getActive())
+                    .addValue("dateColumn", currentDate);
+
+            String query = "UPDATE PRODUCT SET NAME = :name, ACTIVE = :active, " + dateColumn + " = :dateColumn WHERE ID = :id";
+
+            return namedJdbc.update(query, params);
+        } else {
+            SqlParameterSource params = new MapSqlParameterSource()
+                    .addValue("id", id)
+                    .addValue("name", product.getName())
+                    .addValue("active", product.getActive());
+
+            String query = "UPDATE PRODUCT SET NAME = :name, ACTIVE = :active WHERE ID = :id";
+
+            return namedJdbc.update(query, params);
+        }
     }
 }
+
