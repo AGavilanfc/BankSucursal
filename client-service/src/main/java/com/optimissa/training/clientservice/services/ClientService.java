@@ -80,7 +80,6 @@ public class ClientService {
         return CurrencyRequestMapper.mapToCurrencyResponse(currencyRequest);
     }
 
-
     public AccountRequest getAccount(String url) {
         return restTemplate.getForObject(url, AccountRequest.class);
     }

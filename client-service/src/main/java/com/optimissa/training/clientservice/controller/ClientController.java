@@ -110,10 +110,10 @@ public class ClientController {
     }
 
 
-    @GetMapping("/get-accounts/{id}")
-    public AccountRequest getAccounts(@PathVariable int id) {
-        String url = "https://119f818c-c2d2-4cec-b4a5-8163025854e0.mock.pstmn.io/get-by-clientId/" + id;
-        return service.getAccount(url);
-    }
+//    @GetMapping("/get-accounts/{id}")
+//    public AccountRequest getAccounts(@PathVariable int id) {
+//        String url = "https://119f818c-c2d2-4cec-b4a5-8163025854e0.mock.pstmn.io/get-by-clientId/" + id;
+//        return service.getAccount(url);
+//    }
 
 }
