@@ -50,7 +50,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n        \"balance\": 1.0,\r\n        \"active\": true,\r\n        \"iban_id\": 2,\r\n        \"client_id\": 2,\r\n        \"currency_id\": 2\r\n    }",
+					"raw": "{\r\n    \"balance\": 1.0,\r\n    \"iban_id\": 1,\r\n    \"client_id\": 2,\r\n    \"currency_id\": 2,\r\n    \"active\": true\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -89,7 +89,7 @@
 			"response": []
 		},
 		{
-			"name": "Update Account",
+			"name": "Update Account Add Balance",
 			"request": {
 				"method": "PUT",
 				"header": [],
@@ -113,6 +113,22 @@
 						"1"
 					]
 				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get All Accounts By Client",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
 			},
 			"response": []
 		}

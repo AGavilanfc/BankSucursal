@@ -33,7 +33,9 @@ public class AccountService {
 
 
     public Account getAccount(int id) {
-        return accountRepository.getAccount(id);
+        Account acc = accountRepository.getAccount(id);
+
+        return  new Account();
     }
 
     public List<Account> getAllAccount() {
@@ -58,10 +60,13 @@ public class AccountService {
         return lineaAccount > 0;
     }
 
-    public int updateAccount(int id, Account account) {
-
-        return accountRepository.update(account, id);
+    public int updateBalance(int id, double balance) {
+        return accountRepository.updateAddBalance(id,balance);
     }
+
+//    public boolean updateBalanceDeduct(int id, double balance) {
+//        return accountRepository.updateBalance(id,balance);
+//    }
 
     public StringResponse deleteAccount(int id) {
         String str = "a";
@@ -75,12 +80,6 @@ public class AccountService {
         }
 
         return new StringResponse(str);
-
-    }
-
-    public Iban generateNewIban(AccountRequest accountRequest) {
-
-        return new Iban();
     }
 
 }

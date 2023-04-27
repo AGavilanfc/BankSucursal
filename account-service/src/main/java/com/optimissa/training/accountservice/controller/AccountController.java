@@ -29,13 +29,8 @@ public class AccountController {
     @Autowired
     AccountService accountService;
 
-//get accounts by client
 
-//poner el dinero en la cuenta (ID, DINERO>0):
-    // 1. comrobar si existe la cuenta y si esta activa
-    //2. Mirar cuanto dinero hay en la cuena
-    //3. sumar lo que nos pasan con el dinero existente
-    // 4. guardar el la bbdd el nuevo valor
+
 //quitar el dinero de la cuenta (ID, DINERO>0):
     // 1. comrobar si existe la cuenta y si esta activa
     //2. Mirar cuanto dinero hay en la cuena
@@ -50,18 +45,16 @@ public class AccountController {
         return accountService.getAllAccount();
     }
 
-
     @GetMapping(value = "/getAccount/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Account getAccount(@PathVariable int id) {
         Account account = accountService.getAccount(id);
         return account;
     }
 
-    @GetMapping(value = "/get-by-client/{client}")
+    @GetMapping(value = "/get-by-client/{clientId}")
     public List<Account> getAccountByClient(@PathVariable int clientId){
         return accountService.getAccountByClient(clientId);
     }
-
 
     @PostMapping(value = "/newAccount", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
@@ -73,12 +66,23 @@ public class AccountController {
         return new ResponseEntity<>("can't create an account", HttpStatus.BAD_REQUEST);
     }
 
+    @PutMapping(value = "/update/to-account/{id}/add-balance/{balance}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity addBalance(@PathVariable int id , @PathVariable double balance){
 
-    @PutMapping(value = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseStatus(HttpStatus.OK)
-    public int updateAccount(@PathVariable int id, @RequestBody Account account) {
-        return accountService.updateAccount(id, account);
+        if(accountService.updateBalance(id,balance)>0){
+            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+        }
+        return new ResponseEntity<>("can't change the balance",HttpStatus.BAD_REQUEST);
     }
+
+//    @PutMapping(value = "/update/to-account/{id}/add-balance/{balance}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity substractBalance(@PathVariable int id , @PathVariable double balance){
+//
+//        if(accountService.updateBalanceDeduct(id,balance)>0){
+//            return new ResponseEntity<>(HttpStatus.ACCEPTED);
+//        }
+//        return new ResponseEntity<>("can't change the balance",HttpStatus.BAD_REQUEST);
+//    }
 
     @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StringResponse> deleteAccount(@PathVariable int id) {
@@ -86,10 +90,6 @@ public class AccountController {
         return ResponseEntity.ok(accountService.deleteAccount(id));
     }
 
-//    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-//    public ResponseEntity<StringResponse> deleteAccount(@PathVariable int id) {
-//        //objeto responsestring
-//        return ResponseEntity.ok(accountService.deleteAccount(id));
-//    }
+
 }
 

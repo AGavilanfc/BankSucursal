@@ -19,6 +19,7 @@ public class AccountMapper implements RowMapper<Account> {
         account.setClient_id(rs.getInt("CLIENT_ID"));
         account.setCurrency_id(rs.getInt("CURRENCY_ID"));
         account.setActive(rs.getBoolean("ACTIVE"));
+        //account.setIban(rs.getString("IBAN"));
 
         return account;
     }
