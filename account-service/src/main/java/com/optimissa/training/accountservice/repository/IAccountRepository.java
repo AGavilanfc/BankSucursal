@@ -9,6 +9,7 @@ public interface IAccountRepository {
     public int save(Account account);
     public int delete(int id);
     public List<Account> getAllAccount();
-    public int update(Account account , int id);
+    List<Account> getAccountByClient(int clientId);
+    int updateAddBalance(int id, double balance);
 
 }
