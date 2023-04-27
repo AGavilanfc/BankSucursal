@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -39,9 +40,6 @@ public class ClientService {
         return clientResponse;
     }
 
-    public List<Client> getClientByUserId(int id) {
-        return repository.getClientByUserId(id);
-    }
 
     public int insertClient(Client newClient) throws RuntimeException {
         if(!ClientUtils.isValidEmail(newClient.getEmail())) {
@@ -65,6 +63,18 @@ public class ClientService {
         }
         return repository.updateClient(modifiedClient, id);
     }
+
+    //Communication with other services
+
+    public List<ClientResponse> getClientByUserId(int id) {
+        List<Client> clients = repository.getClientByUserId(id);
+        List<ClientResponse> clientResponses = new ArrayList<>();
+        for(Client client : clients) {
+            clientResponses.add(ClientResponseMapper.mapToClientResponse(client));
+        }
+        return clientResponses;
+    }
+
 
     public AccountRequest getAccount(String url) {
         return restTemplate.getForObject(url, AccountRequest.class);

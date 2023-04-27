@@ -104,8 +104,8 @@ public class ClientController {
     //Communication with other modules
 
     @GetMapping("get-by-userId/{id}")
-    public List<Client> getClientByUserId(@PathVariable int id){
-        return service.getClientByUserId(id);
+    public ResponseEntity<List<ClientResponse>> getClientByUserId(@PathVariable int id){
+        return ResponseEntity.ok(service.getClientByUserId(id));
     }
 
 
