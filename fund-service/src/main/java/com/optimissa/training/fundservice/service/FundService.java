@@ -14,16 +14,16 @@ public class FundService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(FundService.class);
 
+
+    private final FundRepository fundRepository;
     @Autowired
-    private FundRepository fundRepository;
-
-    public int saveFund(Fund fund) {
-        return fundRepository.save(fund);
+    private FundService(FundRepository fundRepository) {
+        this.fundRepository = fundRepository;
     }
 
-    public List<Fund> getAllFunds(){
-        return fundRepository.findAll();
-    }
+
+    public int saveFund(Fund fund) { return fundRepository.save(fund);}
+    public List<Fund> getAllFunds(){ return fundRepository.findAll();}
     public Fund getById(int id) { return fundRepository.findById(id);}
     public List<Fund> getByName(String name) { return fundRepository.findByName(name);}
     public Fund getByRefNumber(String refNumber) { return fundRepository.findByRefNumber(refNumber);}
@@ -32,6 +32,7 @@ public class FundService {
     public void deleteById(int id) {
         fundRepository.delete(id);
     }
-    public int update(Fund fund,int id) { return fundRepository.update(fund,id); }
+    public int update(int id, Fund fund) { return fundRepository.update(fund,id); }
+
 
 }
