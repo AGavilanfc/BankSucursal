@@ -5,12 +5,12 @@ public class AccountResponse {
 
     private int id;
     private Boolean active;
-    private String currency_id;
+    private int currency_id;
 
     public AccountResponse() {
     }
 
-    public AccountResponse(int id, Boolean active, String currency_id) {
+    public AccountResponse(int id, Boolean active, int currency_id) {
         this.id = id;
         this.active = active;
         this.currency_id = currency_id;
@@ -32,11 +32,11 @@ public class AccountResponse {
         this.active = active;
     }
 
-    public String getcurrency_id() {
+    public int getcurrency_id() {
         return currency_id;
     }
 
-    public void setcurrency_id(String currency_id) {
+    public void setcurrency_id(int currency_id) {
         this.currency_id = currency_id;
     }
 }

@@ -3,8 +3,11 @@ package com.optimissa.training.transactionservice.services;
 import com.optimissa.training.transactionservice.api.AccountResponse;
 import com.optimissa.training.transactionservice.api.FundResponse;
 import com.optimissa.training.transactionservice.api.TransactionResponse;
+import com.optimissa.training.transactionservice.controllers.TransactionsController;
 import com.optimissa.training.transactionservice.dtos.Transaction;
 import com.optimissa.training.transactionservice.repository.TransactionRespository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -14,10 +17,14 @@ import java.util.List;
 
 @Service
 public class TransactionsService {
+    private static final Logger log = LoggerFactory.getLogger(TransactionsController.class);
+
     RestTemplate restTemplate = new RestTemplate();
     String urlFund = "http://localhost:8095/funds";
     String urlAccount = "http://localhost:8092/accounts/getAccount";
     String urlCurrency = "http://localhost:8093/currencies";
+
+
 
 
     @Autowired
@@ -29,6 +36,8 @@ public class TransactionsService {
 
     public TransactionResponse getByIdTransaction(int id) {
 
+        
+        
         Transaction transaction = transactionRespository.getByIdTransaction(id);
 
         return new TransactionResponse(
@@ -40,8 +49,6 @@ public class TransactionsService {
     }
 
     public AccountResponse getByIdAccount(int id) {
-
-
         return restTemplate.getForObject(urlAccount + "/" + id, AccountResponse.class);
     }
 

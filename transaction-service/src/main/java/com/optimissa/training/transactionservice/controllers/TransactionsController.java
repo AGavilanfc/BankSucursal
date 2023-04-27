@@ -32,16 +32,14 @@ public class TransactionsController{
     public ResponseEntity<Object> getTransaction(@PathVariable int id) {
 
         try {
-            if(ResponseEntity.ok(tranService.getByIdTransaction(id)) != null){
                 log.info("obtain one transaction: {}", id);
-                return ResponseEntity.ok(tranService.getByIdTransaction(id));
-            }
+                 return ResponseEntity.ok(tranService.getByIdTransaction(id));
+
         } catch (Exception e) {
             log.error("Error: {}", ResponseEntity.status(HttpStatus.NOT_FOUND).build());
             return new ResponseEntity<>("Id doesnt exist. " + e.getMessage(), HttpStatus.NOT_FOUND);
 
         }
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
 
     }
@@ -60,23 +58,22 @@ public class TransactionsController{
     }
 
     @PostMapping
-    public ResponseEntity<Integer> createTransaction(@RequestBody Transaction transaction) {
+    public ResponseEntity<Object> createTransaction(@RequestBody Transaction transaction) {
         Long start = System.currentTimeMillis();
+
         try {
-            if(ResponseEntity.ok(tranService.insertNewTransaction(transaction)) != null
-                    && ResponseEntity.ok(tranService.insertNewTransaction(transaction)) != null){
-                log.info("create transaction: {}", transaction);
-                return ResponseEntity.ok(tranService.insertNewTransaction(transaction));
-            }
+
             ResponseEntity.ok(tranService.insertNewTransaction(transaction));
+            Long end = System.currentTimeMillis();
+
+            log.info("Time: {}", (end - start));
+
         } catch (Exception e) {
             log.error("Error: {}", ResponseEntity.internalServerError().build(), e.getMessage());
-
+            return new ResponseEntity<>("Not created. " + e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
-        Long end = System.currentTimeMillis();
-        log.info("Time: {}", (end - start));
 
-        return ResponseEntity.internalServerError().build();
+        return ResponseEntity.ok().body("Client created");
     }
 
 
