@@ -2,16 +2,26 @@ package com.optimissa.training.clientservice.api;
 
 public class AccountRequest {
 
-    private String iban;
+    private int id;
 
     private int balance;
 
-    private String currency;
+    private boolean active;
 
-    public AccountRequest(String iban, int balance, String currency) {
+    private int ibanId;
+
+    private int clientId;
+
+    private int currencyId;
+
+    private String iban;
+
+
+
+    public AccountRequest(String iban, int balance, int currencyId) {
         this.iban = iban;
         this.balance = balance;
-        this.currency = currency;
+        this.currencyId = currencyId;
     }
 
     public String getIban() {
@@ -30,11 +40,11 @@ public class AccountRequest {
         this.balance = balance;
     }
 
-    public String getCurrency() {
-        return currency;
+    public int getCurrencyId() {
+        return currencyId;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setCurrencyId(int currencyId) {
+        this.currencyId = currencyId;
     }
 }

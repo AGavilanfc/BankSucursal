@@ -3,6 +3,7 @@ package com.optimissa.training.clientservice.controller;
 import com.optimissa.training.clientservice.api.AccountRequest;
 import com.optimissa.training.clientservice.api.ClientRequest;
 import com.optimissa.training.clientservice.api.ClientResponse;
+import com.optimissa.training.clientservice.api.CurrencyResponse;
 import com.optimissa.training.clientservice.model.Client;
 import com.optimissa.training.clientservice.services.ClientService;
 import org.slf4j.Logger;

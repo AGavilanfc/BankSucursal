@@ -1,11 +1,10 @@
 package com.optimissa.training.clientservice.services;
 
-import com.optimissa.training.clientservice.api.AccountRequest;
-import com.optimissa.training.clientservice.api.ClientRequest;
-import com.optimissa.training.clientservice.api.ClientResponse;
+import com.optimissa.training.clientservice.api.*;
 import com.optimissa.training.clientservice.controller.ClientController;
 import com.optimissa.training.clientservice.mappers.ClientRequestMapper;
 import com.optimissa.training.clientservice.mappers.ClientResponseMapper;
+import com.optimissa.training.clientservice.mappers.CurrencyRequestMapper;
 import com.optimissa.training.clientservice.model.Client;
 import com.optimissa.training.clientservice.repository.IClientRepository;
 import com.optimissa.training.clientservice.utils.ClientUtils;
@@ -73,6 +72,12 @@ public class ClientService {
             clientResponses.add(ClientResponseMapper.mapToClientResponse(client));
         }
         return clientResponses;
+    }
+
+    public CurrencyResponse getCurrencyResponse(int currencyId) {
+        String url = "http://localhost:8093/currencies/get-by-id/";
+        CurrencyRequest currencyRequest = restTemplate.getForObject(url + currencyId, CurrencyRequest.class);
+        return CurrencyRequestMapper.mapToCurrencyResponse(currencyRequest);
     }
 
 
