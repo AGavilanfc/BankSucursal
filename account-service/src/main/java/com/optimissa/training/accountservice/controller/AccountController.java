@@ -29,15 +29,30 @@ public class AccountController {
     @Autowired
     AccountService accountService;
 
-    //get all accounts
+//get accounts by client
+
+//poner el dinero en la cuenta (ID, DINERO>0):
+    // 1. comrobar si existe la cuenta y si esta activa
+    //2. Mirar cuanto dinero hay en la cuena
+    //3. sumar lo que nos pasan con el dinero existente
+    // 4. guardar el la bbdd el nuevo valor
+//quitar el dinero de la cuenta (ID, DINERO>0):
+    // 1. comrobar si existe la cuenta y si esta activa
+    //2. Mirar cuanto dinero hay en la cuena
+       // mirar si hay suficiente dinero para restar
+    //3. restar de la cuenta el dinero que nos pasan
+    // 4. guardar el la bbdd el nuevo valor
+
+
+
     @GetMapping(value = "/getAccounts", produces = MediaType.APPLICATION_JSON_VALUE)
-    public List<Account> getAllAccount(){
+    public List<Account> getAllAccount() {
         return accountService.getAllAccount();
     }
 
 
     @GetMapping(value = "/getAccount/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Account getAccount(@PathVariable int id){
+    public Account getAccount(@PathVariable int id) {
         Account account = accountService.getAccount(id);
         return account;
     }
@@ -45,50 +60,28 @@ public class AccountController {
 
     @PostMapping(value = "/newAccount", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public int newAccount(@RequestBody AccountRequest accountRequest ){
-//        Account account =  accountRequestMapper.maptoAccount(accountRequest);
-        //no hacer aqui , llamar al mapeo en en servicio
-        return accountService.createAccount(accountRequest);
+    public void newAccount(@RequestBody AccountRequest accountRequest) {
+        //accountrequest para recoger los datos recibidos por la request
+        accountService.createAccount(accountRequest);
     }
 
 
-//    @PostMapping(value = "/newAccount", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
-//    @ResponseStatus(HttpStatus.CREATED)
-//    public int newAccount(@RequestBody AccountRequest accountRequest ){
-//
-//        //con la clase accountRequest recibo
-//        Account account = new Account();
-//
-//        account.setClient_id(accountRequest.getClientId());
-//        account.setCurrency_id(accountRequest.getCurrencyId());
-//        return accountService.createAccount(account);
-//    }
-
-
-    @PutMapping(value = "/update/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/update/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.OK)
     public int updateAccount(@PathVariable int id, @RequestBody Account account) {
-       return  accountService.updateAccount(id,account);
+        return accountService.updateAccount(id, account);
     }
 
-    @DeleteMapping(value = "/{id}" , produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StringResponse> deleteAccount(@PathVariable int id) {
-        //objeto responsestring
+
         return ResponseEntity.ok(accountService.deleteAccount(id));
     }
 
-
-//    @PostMapping("/")
-//    public ResponseEntity<User> createUser(@RequestBody User user) {
-//        User newUser = userService.createUser(user);
-//        return new ResponseEntity<>(newUser, HttpStatus.CREATED);
+//    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+//    public ResponseEntity<StringResponse> deleteAccount(@PathVariable int id) {
+//        //objeto responsestring
+//        return ResponseEntity.ok(accountService.deleteAccount(id));
 //    }
-
 }
-
-//    @GetMapping(value = "/getAccount/{id}", produces = "application/json")
-//    public Account getAccount(@PathVariable int id){
-//
-//        return new Account(1000, 1234);
-//    }
 

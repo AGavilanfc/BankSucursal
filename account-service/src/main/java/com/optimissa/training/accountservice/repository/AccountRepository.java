@@ -28,11 +28,9 @@ public class AccountRepository implements IAccountRepository {
         return account;
     }
 
-    //update
-
     public int save(Account account) {
         String sql = "INSERT INTO ACCOUNT ( balance,iban_id ,client_id,currency_id,active) VALUES (?,?,?,?,?)";
-        return jdbcTemplate.update(sql, account.getBalance(), account.getIban_id(), account.getClient_id(), account.getCurrency_id(), account.isActive());
+        return jdbcTemplate.update(sql, account.getBalance(), account.getIban_id(), account.getClient_id(), account.getCurrency_id(), true);
     }
 
     public int delete(int id) {
@@ -43,8 +41,9 @@ public class AccountRepository implements IAccountRepository {
 
 
     public int update(Account account, int id) {
-        String sql = "UPDATE ACCOUNT SET  balance = ? , client_id = ?, currency_id = ? , active = ?   WHERE id = ? ";
-        return jdbcTemplate.update(sql, account.getBalance(), account.getClient_id(), account.getCurrency_id(), account.isActive(), id);
+        //se puede cambiar el balance
+        String sql = "UPDATE ACCOUNT SET  balance = ?  WHERE id = ? ";
+        return jdbcTemplate.update(sql, account.getBalance(), id);
     }
 }
 

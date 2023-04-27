@@ -18,8 +18,8 @@ public class CountryRepository implements ICountryRepository {
 
     @Override
     public List<Country> getAll() {
-
         return jdbcTemplate.queryForList("SELECT * FROM COUNTRY", Country.class);
     }
+
 
 }

@@ -12,6 +12,5 @@ public class AccountRequestMapper {
         account.setClient_id(accountRequest.getClientId());
         account.setCurrency_id(accountRequest.getCurrencyId());
         return account;
-        //ya le doy los datos
     }
 }

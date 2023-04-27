@@ -41,38 +41,19 @@ public class AccountService {
     }
 
 
-    public int createAccount(AccountRequest accountRequest) {
+    public void createAccount(AccountRequest accountRequest) {
 
         //mapper AccountRequest -> AccoutnDTO
         Account account = accountRequestMapper.maptoAccount(accountRequest);
 
         if(validationIbanService.validate(accountRequest.getIbanCountry(),accountRequest.getIbanEntity())){
-            //se genera el iban dentro del ibanRepository
             ibanRepository.save(accountRequest.getIbanCountry(),accountRequest.getIbanEntity());
             accountRepository.save(account);
-
         };
 
-        //validar IBAN
-//        if(validationIbanService.validate(account.getIban_id())){
-//        };
-//        String iban_id= String.valueOf(iban_Id);
-
-        //generarIban
-        //Iban iban = ibanRepository.getIban();
-        //guardarIban
-        //generarCuenta
-        return accountRepository.save(account);
     }
 
     public int updateAccount(int id, Account account) {
-//        Account accountExisting = accountRepository.getAccount(id);
-//        accountExisting.setId(account.getId());
-//        accountExisting.setBalance(account.getBalance());
-//        accountExisting.setIban_id(account.getIban_id());
-//        accountExisting.setCurrency_id(account.getCurrency_id());
-//        accountExisting.setActive(account.isActive());
-
 
         return accountRepository.update(account, id);
     }
@@ -83,6 +64,7 @@ public class AccountService {
 
         if (accountRepository.delete(id) == 1) {
             str = "se ha desactivado la cuenta " + id;
+
         } else {
             str = "no se ha desactivado la cuenta " + id + " porque no existe";
         }
