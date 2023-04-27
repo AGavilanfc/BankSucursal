@@ -2,6 +2,10 @@ package com.optimissa.training.fundservice.controller;
 
 import com.optimissa.training.fundservice.model.Fund;
 import com.optimissa.training.fundservice.service.FundService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -12,6 +16,7 @@ import java.util.List;
 @RequestMapping("/funds")
 public class FundController {
 
+    Logger logger = LoggerFactory.getLogger(FundController.class);
     private final FundService fundService;
 
 
@@ -19,42 +24,62 @@ public class FundController {
         this.fundService = fundService;
     }
 
-    @PostMapping
-    public int saveFund(@RequestBody Fund fund) { return fundService.saveFund(fund); }
+    @PostMapping("/create")
+    public ResponseEntity<String> saveFund(@RequestBody Fund fund) {
+        logger.info("Calling saveFund");
+        int result = fundService.saveFund(fund);
+        if (result >0) {
+            return ResponseEntity.ok("Fund created successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Failed to create new Fund");
+        }
+    }
 
-    @GetMapping
+    @GetMapping("/get-all")
     public List<Fund> getAllFunds() { return fundService.getAllFunds(); }
 
-    @GetMapping("/id/{id}")
+    @GetMapping("/get-by-id/{id}")
     public Fund getById(@PathVariable int id) {
         return fundService.getById(id);
     }
 
-    @GetMapping("/name/{name}")
+    @GetMapping("/get-by-name/{name}")
     public List<Fund> getByName(@PathVariable String name) {
         return fundService.getByName(name);
     }
 
-    @GetMapping("/refNumber/{refNumber}")
+    @GetMapping("/get-by-refNumber/{refNumber}")
     public Fund getByRefNumber(@PathVariable String refNumber) {
         return fundService.getByRefNumber(refNumber);
     }
 
-    @GetMapping("/currencyId/{currencyId}")
+    @GetMapping("/get-by-currencyId/{currencyId}")
     public List<Fund> getByCurrencyId(@PathVariable int currencyId) {
         return fundService.getByCurrencyId(currencyId);
     }
 
-    @GetMapping("/active/{active}")
-    public List<Fund> getByActive(@PathVariable boolean active) { return fundService.getByActive(active); }
+    @GetMapping("/get-all/active")
+    public List<Fund> getByActive() { return fundService.getByActive(); }
 
-    @DeleteMapping("/id/{id}")
+    @GetMapping("/get-all/inactive")
+    public List<Fund> getByInactive() { return fundService.getByInactive(); }
+
+    @DeleteMapping("/delete/{id}")
     public void deleteById(@PathVariable int id) {
         fundService.deleteById(id);
     }
 
-    @PatchMapping("/{id}")
-    public int update(@PathVariable int id, @RequestBody Fund fund) { return fundService.update(id, fund); }
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateFund(@PathVariable("id") int id, @RequestBody Fund fund) {
+        logger.info("Calling updateFund for id {}", id);
+        int result = fundService.update(id, fund);
+        if (result > 0) {
+            return new ResponseEntity<>("Fund with id " + id + " has been successfully updated", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Fund with id " + id + " was not found", HttpStatus.NOT_FOUND);
+        }
+    }
 
 
 

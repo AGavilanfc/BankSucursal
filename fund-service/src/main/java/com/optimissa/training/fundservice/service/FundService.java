@@ -28,11 +28,12 @@ public class FundService {
     public List<Fund> getByName(String name) { return fundRepository.findByName(name);}
     public Fund getByRefNumber(String refNumber) { return fundRepository.findByRefNumber(refNumber);}
     public List<Fund> getByCurrencyId(int currencyId) { return fundRepository.findByCurrencyId(currencyId);}
-    public List<Fund> getByActive(boolean active) { return fundRepository.findByActive(active);}
+    public List<Fund> getByActive() { return fundRepository.findByActive();}
+    public List<Fund> getByInactive() { return fundRepository.findByInactive();}
     public void deleteById(int id) {
         fundRepository.delete(id);
     }
-    public int update(int id, Fund fund) { return fundRepository.update(fund,id); }
+    public int update(int id, Fund fund) { return fundRepository.update(id, fund); }
 
 
 }

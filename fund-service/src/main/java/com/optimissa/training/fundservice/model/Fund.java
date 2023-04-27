@@ -16,7 +16,10 @@ public class Fund {
     private Date activeDate;
     private Date inactiveDate;
 
-    public Fund(int id, String name, String refNumber, int currencyId, boolean active, Date activeDate, Date inactiveDate, Date activeDate1, Date inactiveDate1) {
+    public Fund() {
+    }
+
+    public Fund(int id, String name, String refNumber, int currencyId, boolean active, Date activeDate, Date inactiveDate) {
         this.id = id;
         this.name = name;
         this.refNumber = refNumber;
@@ -75,20 +78,16 @@ public class Fund {
     public void setInactiveDate(Date inactiveDate) { this.inactiveDate = inactiveDate; }
 
 
-
-
-
-
     @Override
     public String toString() {
-        return "FundService{" +
+        return "Fund{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", refNumber='" + refNumber + '\'' +
                 ", currencyId=" + currencyId +
                 ", active=" + active +
+                ", activeDate=" + activeDate +
+                ", inactiveDate=" + inactiveDate +
                 '}';
     }
-
-
 }
