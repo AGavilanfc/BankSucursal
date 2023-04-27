@@ -2,6 +2,9 @@ package com.optimissa.training.fundservice.model;
 
 import org.springframework.data.relational.core.mapping.Table;
 
+import java.util.Date;
+
+
 @Table("FUND")
 public class Fund {
 
@@ -10,16 +13,20 @@ public class Fund {
     private String refNumber;
     private int currencyId;
     private boolean active;
+    private Date activeDate;
+    private Date inactiveDate;
 
     public Fund() {
     }
 
-    public Fund(int id, String name, String refNumber, int currencyId, boolean active) {
+    public Fund(int id, String name, String refNumber, int currencyId, boolean active, Date activeDate, Date inactiveDate) {
         this.id = id;
         this.name = name;
         this.refNumber = refNumber;
         this.currencyId = currencyId;
         this.active = active;
+        this.activeDate = activeDate;
+        this.inactiveDate = inactiveDate;
     }
 
     public int getId() {
@@ -62,14 +69,25 @@ public class Fund {
         this.active = active;
     }
 
+    public Date getActiveDate() { return activeDate; }
+
+    public void setActiveDate(Date activeDate) { this.activeDate = activeDate; }
+
+    public Date getInactiveDate() { return inactiveDate; }
+
+    public void setInactiveDate(Date inactiveDate) { this.inactiveDate = inactiveDate; }
+
+
     @Override
     public String toString() {
-        return "FundService{" +
+        return "Fund{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", refNumber='" + refNumber + '\'' +
                 ", currencyId=" + currencyId +
                 ", active=" + active +
+                ", activeDate=" + activeDate +
+                ", inactiveDate=" + inactiveDate +
                 '}';
     }
 }
