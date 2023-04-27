@@ -123,30 +123,8 @@ public class JdbcProductRepository implements ProductRepository {
 
     @Override
     public int update(int id, Product product) {
-        boolean isActiveChanged = !Objects.equals(product.getActive(), findById(id).getActive());
-        Date currentDate = new Date();
-
-        if (isActiveChanged) {
-            String dateColumn = product.getActive() ? "ACTIVE_DATE" : "INACTIVE_DATE";
-            SqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("id", id)
-                    .addValue("name", product.getName())
-                    .addValue("active", product.getActive())
-                    .addValue("dateColumn", currentDate);
-
-            String query = "UPDATE PRODUCT SET NAME = :name, ACTIVE = :active, " + dateColumn + " = :dateColumn WHERE ID = :id";
-
-            return namedJdbc.update(query, params);
-        } else {
-            SqlParameterSource params = new MapSqlParameterSource()
-                    .addValue("id", id)
-                    .addValue("name", product.getName())
-                    .addValue("active", product.getActive());
-
-            String query = "UPDATE PRODUCT SET NAME = :name, ACTIVE = :active WHERE ID = :id";
-
-            return namedJdbc.update(query, params);
-        }
+            String query = "UPDATE PRODUCT SET NAME = ? WHERE ID = ?";
+            return jdbcTemplate.update(query, product.getName(), id);
     }
 }
 
