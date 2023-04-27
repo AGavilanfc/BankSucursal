@@ -1,5 +1,7 @@
 package com.optimissa.training.fundservice.service;
 
+import com.optimissa.training.fundservice.api.FundRequest;
+import com.optimissa.training.fundservice.mapper.FundRequestMapper;
 import com.optimissa.training.fundservice.model.Fund;
 import com.optimissa.training.fundservice.repository.FundRepository;
 import org.slf4j.Logger;
@@ -34,10 +36,8 @@ public class FundService {
     public List<Fund> getByCurrencyId(int currencyId) { return fundRepository.findByCurrencyId(currencyId);}
     public List<Fund> getByActive() { return fundRepository.findByActive();}
     public List<Fund> getByInactive() { return fundRepository.findByInactive();}
-    public void deleteById(int id) {
-        fundRepository.delete(id);
-    }
-    public int update(int id, Fund fund) { return fundRepository.update(id, fund); }
-
-
+    public int deleteById(int id) { return fundRepository.delete(id); }
+    public int update(int id, FundRequest fund) {
+        Fund modifiedFund = FundRequestMapper.mapToFund(fund);
+        return fundRepository.update(id, modifiedFund); }
 }

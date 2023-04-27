@@ -156,8 +156,8 @@ public class JdbcRepository implements FundRepository {
     }
 
     @Override
-    public void delete(int id) {
-        jdbcTemplate.update("update FUND set ACTIVE = 0, INACTIVE_DATE = CURRENT_DATE() where id = ?", id);
+    public int delete(int id) {
+        return jdbcTemplate.update("update FUND set ACTIVE = 0, INACTIVE_DATE = CURRENT_DATE() where id = ?", id);
     }
 
     @Override

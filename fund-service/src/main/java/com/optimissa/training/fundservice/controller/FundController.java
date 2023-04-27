@@ -1,5 +1,6 @@
 package com.optimissa.training.fundservice.controller;
 
+import com.optimissa.training.fundservice.api.FundRequest;
 import com.optimissa.training.fundservice.model.Fund;
 import com.optimissa.training.fundservice.service.FundService;
 import org.slf4j.Logger;
@@ -40,43 +41,94 @@ public class FundController {
     }
 
     @GetMapping("/get-all")
-    public List<Fund> getAllFunds() { return fundService.getAllFunds(); }
+    public ResponseEntity<List<Fund>> getAllFunds() {
+        logger.info("Calling getAllFunds()");
+        List<Fund> funds = fundService.getAllFunds();
+        return new ResponseEntity<>(funds, HttpStatus.OK);
+    }
 
     @GetMapping("/get-by-id/{id}")
-    public Fund getById(@PathVariable int id) {
-        return fundService.getById(id);
+    public ResponseEntity<Fund> getById(@PathVariable int id) {
+        logger.info("Calling getProductById for id {}", id);
+        Fund fund = fundService.getById(id);
+        if (fund != null) {
+            return new ResponseEntity<>(fund, HttpStatus.OK);
+        } else {
+            logger.error("Fund with id {} not found", id);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/get-by-name/{name}")
-    public List<Fund> getByName(@PathVariable String name) {
-        return fundService.getByName(name);
+    public ResponseEntity<List<Fund>> getByName(@PathVariable String name) {
+        logger.info("Calling getFundByName for {}", name);
+        List<Fund> funds = fundService.getByName(name);
+        if (!funds.isEmpty()) {
+            return new ResponseEntity<>(funds, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/get-by-refNumber/{refNumber}")
-    public Fund getByRefNumber(@PathVariable String refNumber) {
-        return fundService.getByRefNumber(refNumber);
+    public ResponseEntity<Fund> getByRefNumber(@PathVariable String refNumber) {
+        logger.info("Calling getFundByRefNumber for {}", refNumber);
+        Fund fund = fundService.getByRefNumber(refNumber);
+        if (fund != null) {
+            return new ResponseEntity<>(fund, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/get-by-currencyId/{currencyId}")
-    public List<Fund> getByCurrencyId(@PathVariable int currencyId) {
-        return fundService.getByCurrencyId(currencyId);
+    public ResponseEntity<List<Fund>> getByCurrencyId(@PathVariable int currencyId) {
+        logger.info("Calling getFundByCurrencyId for {}", currencyId);
+        List<Fund> funds = fundService.getByCurrencyId(currencyId);
+        if (!funds.isEmpty()) {
+            return new ResponseEntity<>(funds, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/get-all/active")
-    public List<Fund> getByActive() { return fundService.getByActive(); }
+    public ResponseEntity<List<Fund>> getByActive() {
+        logger.info("Calling getActives");
+        List<Fund> funds = fundService.getByActive();
+        if (!funds.isEmpty()) {
+            return new ResponseEntity<>(funds, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     @GetMapping("/get-all/inactive")
-    public List<Fund> getByInactive() { return fundService.getByInactive(); }
+    public ResponseEntity<List<Fund>> getByInactive() {
+        logger.info("Calling getInactive");
+        List<Fund> funds = fundService.getByInactive();
+        if (!funds.isEmpty()) {
+            return new ResponseEntity<>(funds, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
 
     @DeleteMapping("/delete/{id}")
-    public void deleteById(@PathVariable int id) {
-        fundService.deleteById(id);
+    public ResponseEntity<String> deleteById(@PathVariable int id) {
+        logger.info("Calling deleteFund for id {}", id);
+        int result = fundService.deleteById(id);
+        if (result > 0) {
+            return new ResponseEntity<>("Fund with id " + id + " has been successfully deleted", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("Fund with id " + id + " was not found", HttpStatus.NOT_FOUND);
+        }
     }
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateFund(@PathVariable("id") int id, @RequestBody Fund fund) {
+    public ResponseEntity<String> updateFund(@PathVariable("id") int id, @RequestBody FundRequest fundRequest) {
         logger.info("Calling updateFund for id {}", id);
-        int result = fundService.update(id, fund);
+        int result = fundService.update(id, fundRequest);
         if (result > 0) {
             return new ResponseEntity<>("Fund with id " + id + " has been successfully updated", HttpStatus.OK);
         } else {
