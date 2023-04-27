@@ -1,13 +1,15 @@
 package com.optimissa.training.userservice.api;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class UserResponse {
 
     private String name;
     private String email;
     private String phone;
-    private Object[] clients;
+    private List<Object> clients;
 
     public UserResponse() {
     }
@@ -16,10 +18,10 @@ public class UserResponse {
         this.name = name;
         this.email = email;
         this.phone = phone;
-        this.clients = new Object[]{};
+        this.clients = new ArrayList<>();
     }
 
-    public UserResponse(String name, String email, String phone, Object[] clients) {
+    public UserResponse(String name, String email, String phone, List<Object> clients) {
         this.name = name;
         this.email = email;
         this.phone = phone;
@@ -50,11 +52,11 @@ public class UserResponse {
         this.phone = phone;
     }
 
-    public Object[] getClients() {
+    public List<Object> getClients() {
         return clients;
     }
 
-    public void setClients(Object[] clients) {
+    public void setClients(List<Object> clients) {
         this.clients = clients;
     }
 
@@ -64,7 +66,7 @@ public class UserResponse {
                 "name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
-                ", clients=" + Arrays.toString(clients) +
+                ", clients=" + clients +
                 '}';
     }
 }

@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private static final String URL_USER_CLIENTS = "http://localhost:8091/clients/get-by-user/";
+    private static final String URL_USER_CLIENTS = "http://localhost:8091/clients/get-by-userId/";
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
@@ -58,7 +58,9 @@ public class UserService {
         User user = userRepository.selectById(id);
         UserResponse userResponse = new UserResponse(user.getName(), user.getEmail(), user.getPhone());
         RestTemplate restTemplate = new RestTemplate();
-        Object[] userClients =  restTemplate.getForObject(URL_USER_CLIENTS + user.getId(), Object[].class);
+        System.out.println("vamos");
+        List<Object> userClients =  restTemplate.getForObject(URL_USER_CLIENTS + user.getId(), List.class);
+        System.out.println("vamos2");
         if (userClients != null) userResponse.setClients(userClients);
         long endTime = System.currentTimeMillis();
         logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime-startTime, userResponse );
