@@ -40,7 +40,6 @@ public class AccountRepository implements IAccountRepository {
     }
 
 
-
     public int save(Account account) {
         String sql = "INSERT INTO ACCOUNT ( balance,iban_id ,client_id,currency_id,active,iban) VALUES (?,?,?,?,?,?)";
         return jdbcTemplate.update(sql, account.getBalance(), account.getIban_id(), account.getClient_id(), account.getCurrency_id(), true,account.getIban());
@@ -52,12 +51,6 @@ public class AccountRepository implements IAccountRepository {
         String sql = "UPDATE ACCOUNT SET active = ?  WHERE id = ?";
         return jdbcTemplate.update(sql, false, id);
     }
-
-
-//    public int update(Account account, int id) {
-//        String sql = "UPDATE ACCOUNT SET  balance = ?  WHERE id = ? ";
-//        return jdbcTemplate.update(sql, account.getBalance(), id);
-//    }
 
     public int updateAddBalance(int id, double balance){
 
@@ -71,10 +64,24 @@ public class AccountRepository implements IAccountRepository {
             balanceFinal = balanceActual + balance;
         }
 
+        String sql = "UPDATE ACCOUNT SET balance = ? WHERE id = ?";
+        return jdbcTemplate.update(sql, balanceFinal, id);
+    }
+
+    @Override
+    public int updateBalanceSubstract(int id, double balance) {
+
+        double balanceActual= jdbcTemplate.queryForObject(GET_BALANCE , new Object[]{id}, Double.class);
+        boolean isActive = jdbcTemplate.queryForObject(VALUE_ACTIVE,new Object[]{id}, Boolean.class);
+
+        double balanceFinal = 0;
+
+        if(balance>0 && isActive && balance<=balanceActual){
+            balanceFinal = balanceActual - balance;
+        }
 
         String sql = "UPDATE ACCOUNT SET balance = ? WHERE id = ?";
         return jdbcTemplate.update(sql, balanceFinal, id);
-
     }
 
     @Override
@@ -87,12 +94,6 @@ public class AccountRepository implements IAccountRepository {
         return jdbcTemplate.queryForObject(GET_IBAN_COUNTRY, new Object[]{ibanCountryId}, String.class);
     }
 
-
-    //poner el dinero en la cuenta (ID, DINERO>0):
-    // 1. comrobar si existe la cuenta y si esta activa
-    //2. Mirar cuanto dinero hay en la cuenTa
-    //3. sumar lo que nos pasan con el dinero existente
-    // 4. guardar el la bbdd el nuevo valor
 
 }
 

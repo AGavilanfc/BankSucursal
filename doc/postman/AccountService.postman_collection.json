@@ -50,7 +50,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"ibanCountry\": 1,\r\n    \"ibanEntity\": 3,\r\n    \"clientId\": 2,\r\n    \"currencyId\": 2\r\n}",
+					"raw": "{\r\n    \"ibanCountry\": 1,\r\n    \"ibanEntity\": 3,\r\n    \"clientId\": 2,\r\n    \"currencyId\": 3\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -131,10 +131,24 @@
 			"response": []
 		},
 		{
-			"name": "New Request",
+			"name": "Update Account Substract Balance",
 			"request": {
-				"method": "GET",
-				"header": []
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{USER-ACCOUNT}}/accounts/update/to-account/15/substract-balance/220.0",
+					"host": [
+						"{{USER-ACCOUNT}}"
+					],
+					"path": [
+						"accounts",
+						"update",
+						"to-account",
+						"15",
+						"substract-balance",
+						"220.0"
+					]
+				}
 			},
 			"response": []
 		}

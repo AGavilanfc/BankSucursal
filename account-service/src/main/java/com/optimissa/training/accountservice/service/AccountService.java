@@ -90,9 +90,9 @@ public class AccountService {
         return accountRepository.updateAddBalance(id,balance);
     }
 
-//    public boolean updateBalanceDeduct(int id, double balance) {
-//        return accountRepository.updateBalance(id,balance);
-//    }
+    public int updateBalanceDeduct(int id, double balance) {
+        return accountRepository.updateBalanceSubstract(id,balance);
+    }
 
     public StringResponse deleteAccount(int id) {
         String str = "a";

@@ -12,7 +12,7 @@ public interface IAccountRepository {
     public List<Account> getAllAccount();
     List<Account> getAccountByClient(int clientId);
     int updateAddBalance(int id, double balance);
-
+    int updateBalanceSubstract(int id, double balance);
     int detIBANEntity(int ibanEntityId);
 
     String getibanCountry(int ibanCountryId);
