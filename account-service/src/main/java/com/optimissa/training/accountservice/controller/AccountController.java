@@ -84,7 +84,6 @@ public class AccountController {
 
         return ResponseEntity.ok(accountService.deleteAccount(id));
     }
-
-
+    
 }
 
