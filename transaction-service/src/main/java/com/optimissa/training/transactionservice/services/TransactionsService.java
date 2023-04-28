@@ -18,8 +18,8 @@ public class TransactionsService {
     private static final Logger log = LoggerFactory.getLogger(TransactionsController.class);
 
     RestTemplate restTemplate = new RestTemplate();
-    String urlFund = "http://localhost:8095/funds";
-    String urlAccount = "http://localhost:8092/accounts/getAccount";
+    String urlFund = "http://localhost:8095/funds/get-by-id";
+    String urlAccount = "http://localhost:8092/accounts/get-by-id";
     String urlAccount2 = "http://localhost:8092/accounts";
 
     String urlCurrency = "http://localhost:8093/currencies";
@@ -55,7 +55,7 @@ public class TransactionsService {
     }
 
     public FundResponse getByIdFund(int id) {
-        return restTemplate.getForObject(urlFund + "/id/" + id, FundResponse.class);
+        return restTemplate.getForObject(urlFund + "/" + id, FundResponse.class);
     }
 
 
