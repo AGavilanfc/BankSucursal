@@ -58,9 +58,7 @@ public class UserService {
         User user = userRepository.selectById(id);
         UserResponse userResponse = new UserResponse(user.getName(), user.getEmail(), user.getPhone());
         RestTemplate restTemplate = new RestTemplate();
-        System.out.println("vamos");
         List<Object> userClients =  restTemplate.getForObject(URL_USER_CLIENTS + user.getId(), List.class);
-        System.out.println("vamos2");
         if (userClients != null) userResponse.setClients(userClients);
         long endTime = System.currentTimeMillis();
         logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime-startTime, userResponse );

@@ -1,7 +1,6 @@
 package com.optimissa.training.userservice.api;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class UserResponse {

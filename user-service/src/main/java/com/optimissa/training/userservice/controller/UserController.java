@@ -1,8 +1,6 @@
 package com.optimissa.training.userservice.controller;
 
 import com.optimissa.training.userservice.api.StringResponse;
-import com.optimissa.training.userservice.api.UserBasicResponse;
-import com.optimissa.training.userservice.api.UserResponse;
 import com.optimissa.training.userservice.model.User;
 import com.optimissa.training.userservice.service.UserService;
 import com.optimissa.training.userservice.util.UserUtil;
@@ -12,10 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/users")

@@ -2,23 +2,23 @@ package com.optimissa.training.userservice.api;
 
 public class UserBasicResponse {
 
-    private String fullname;
+    private String fullName;
     private String email;
 
     public UserBasicResponse() {
     }
 
-    public UserBasicResponse(String fullname, String email) {
-        this.fullname = fullname;
+    public UserBasicResponse(String fullName, String email) {
+        this.fullName = fullName;
         this.email = email;
     }
 
-    public String getFullname() {
-        return fullname;
+    public String getFullName() {
+        return fullName;
     }
 
-    public void setFullname(String fullname) {
-        this.fullname = fullname;
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
     }
 
     public String getEmail() {
@@ -32,7 +32,7 @@ public class UserBasicResponse {
     @Override
     public String toString() {
         return "UsersResponse{" +
-                "fullname='" + fullname + '\'' +
+                "fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 '}';
     }
