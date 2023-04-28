@@ -38,10 +38,7 @@ public class TransactionsController{
         } catch (Exception e) {
             log.error("Error: {}", ResponseEntity.status(HttpStatus.NOT_FOUND).build());
             return new ResponseEntity<>("Id doesnt exist. " + e.getMessage(), HttpStatus.NOT_FOUND);
-
         }
-
-
     }
 
     @GetMapping("/get-all")

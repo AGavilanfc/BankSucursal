@@ -1,9 +1,6 @@
 package com.optimissa.training.transactionservice.services;
 
-import com.optimissa.training.transactionservice.api.AccountResponse;
-import com.optimissa.training.transactionservice.api.FundResponse;
-import com.optimissa.training.transactionservice.api.TransactionRequest;
-import com.optimissa.training.transactionservice.api.TransactionResponse;
+import com.optimissa.training.transactionservice.api.*;
 import com.optimissa.training.transactionservice.controllers.TransactionsController;
 import com.optimissa.training.transactionservice.dtos.Transaction;
 import com.optimissa.training.transactionservice.repository.TransactionRespository;
@@ -23,6 +20,8 @@ public class TransactionsService {
     RestTemplate restTemplate = new RestTemplate();
     String urlFund = "http://localhost:8095/funds";
     String urlAccount = "http://localhost:8092/accounts/getAccount";
+    String urlAccount2 = "http://localhost:8092/accounts";
+
     String urlCurrency = "http://localhost:8093/currencies";
 
 
@@ -61,19 +60,24 @@ public class TransactionsService {
 
 
     public int insertNewTransaction(Transaction transaction) {
+
+        updateAccount(transaction.getAccount_Id(), transaction.getAmount());
         String transaction_numbrer = "TRX" + new Date().getTime() + (int) (Math.random() * 1000);
+
         return transactionRespository.insertNewTransaction(transaction, transaction_numbrer);
     }
 
-    public int updateAccount(int id_transaction,int id_account, int balance) {
-        //{{USER-ACCOUNT}}/accounts/update/to-account/15/add-balance/220.0
-        //{{USER-ACCOUNT}}/accounts/update/to-account/15/substract-balance/220.0
+    public int updateAccount(int id_account, double amount) {
 
-    return 0;
+       AccountResponse account = getByIdAccount(id_account);
+       account.getBalance();
 
-
-
+        if (account.getBalance() > 0) {
+            restTemplate.put(urlAccount2 + "/update/to-account/" + id_account + "/add-balance/" + amount, Object.class);
+        } else{
+            restTemplate.put(urlAccount2 + "/update/to-account/" + id_account + "/substract-balance/" + amount * -1,  Object.class);
+        }
+        return 1;
     }
-
 
 }

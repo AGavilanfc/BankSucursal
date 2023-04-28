@@ -16,6 +16,9 @@ public class AccountRequest {
         this.balance = balance;
     }
 
+    public AccountRequest(int idAccount, double balance) {
+    }
+
     public int getId() {
         return id;
     }
