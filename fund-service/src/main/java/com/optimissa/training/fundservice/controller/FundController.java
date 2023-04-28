@@ -44,6 +44,7 @@ public class FundController {
     public ResponseEntity<List<Fund>> getAllFunds() {
         logger.info("Calling getAllFunds()");
         List<Fund> funds = fundService.getAllFunds();
+        logger.info("Retrieved {} funds", funds.size());
         return new ResponseEntity<>(funds, HttpStatus.OK);
     }
 
@@ -66,6 +67,7 @@ public class FundController {
         if (!funds.isEmpty()) {
             return new ResponseEntity<>(funds, HttpStatus.OK);
         } else {
+            logger.error("Fund with name {} not found", name);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -77,6 +79,7 @@ public class FundController {
         if (fund != null) {
             return new ResponseEntity<>(fund, HttpStatus.OK);
         } else {
+            logger.error("Fund with refNumber {} not found", refNumber);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -88,6 +91,7 @@ public class FundController {
         if (!funds.isEmpty()) {
             return new ResponseEntity<>(funds, HttpStatus.OK);
         } else {
+            logger.error("Fund with currencyId {} not found", currencyId);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -103,6 +107,7 @@ public class FundController {
         }
     }
 
+
     @GetMapping("/get-all/inactive")
     public ResponseEntity<List<Fund>> getByInactive() {
         logger.info("Calling getInactive");
@@ -113,6 +118,7 @@ public class FundController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteById(@PathVariable int id) {
