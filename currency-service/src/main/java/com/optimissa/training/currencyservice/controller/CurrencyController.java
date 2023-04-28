@@ -23,32 +23,35 @@ public class CurrencyController {
     @Autowired
     private CurrencyService currencyService;
     @GetMapping("/convert")
-    public Object convertCurrency(
+    public ResponseEntity<Object> convertCurrency(
             @RequestParam("from") int from,
             @RequestParam("to") int to,
             @RequestParam("amount") Double amount
     ) {
-        Currency currencyFrom, currencyTo;
-       try {
-           currencyFrom = currencyService.getCurrencyById(from);
-       } catch(Exception e) {
-           return "Id FROM incorrecto";
-       }
+        Currency currencyFrom = null, currencyTo = null;
+
         try {
-            currencyTo = currencyService.getCurrencyById(to);
-        } catch(Exception e) {
-            return "Id TO incorrecto";
+            currencyFrom = currencyService.getCurrencyById(from);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("incorrect Id FROM ");
         }
 
-        return conversionService.convertCurrency(currencyFrom.getCode(), currencyTo.getCode(), amount);
+        try {
+            currencyTo = currencyService.getCurrencyById(to);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("incorrect Id TO");
+        }
 
+        if (currencyFrom == null) {
+            return ResponseEntity.badRequest().body("incorrect Id FROM ");
+        }
+
+        if (currencyTo == null) {
+            return ResponseEntity.badRequest().body("incorrect Id TO");
+        }
+
+        return ResponseEntity.ok(conversionService.convertCurrency(currencyFrom.getCode(), currencyTo.getCode(), amount));
     }
-
-
-    //convert (currencyIDorigenFROM, currencyIDestinoTO, cantidad>0)
-    // 1. validar las currency que nos han pasado (BBDD)
-    // 2. ejecutar la conversion contra el API externo
-
 
 
     @GetMapping("/get-all")
@@ -58,15 +61,18 @@ public class CurrencyController {
     }
 
     @GetMapping(value = "/get-by-id/{id}")
-    public Currency getCurrencyById(@PathVariable int id) {
-        logger.info("estamos entrando en get-by-id {}",id);
-        Currency currency = currencyService.getCurrencyById(id);
-
-        return currency;
+    public ResponseEntity<Object> getCurrencyById(@PathVariable int id) {
+        try {
+            Currency currency = currencyService.getCurrencyById(id);
+            return ResponseEntity.ok(currency);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ID not found");
+        }
     }
 
 
-    @PostMapping(value = "/get-all")
+
+    @PostMapping(value = "/create")
     @ResponseStatus(HttpStatus.CREATED)
     public String createCurrency(@RequestBody Currency currency) {
         logger.info("estamos creando una moneda");
@@ -75,7 +81,7 @@ public class CurrencyController {
 
 
 
-    @DeleteMapping("/get-by-id/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteCurrency(@PathVariable int id) {
         logger.info("estamos borrando una moneda");
         return currencyService.deleteById(id);
@@ -83,7 +89,7 @@ public class CurrencyController {
     }
 
 
-    @PatchMapping("/get-by-id/{id}")
+    @PatchMapping("/update/{id}")
     public String updateCurrency(@PathVariable int id, @RequestBody Currency currency) {
         logger.info("estamos editando una moneda");
         boolean updated = currencyService.updateCurrency(id, currency);
