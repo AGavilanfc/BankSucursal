@@ -79,7 +79,7 @@ public class ClientService {
     }
 
     public List<AccountResponse> getAccountsByClientId(int id) {
-        String url = "http://localhost:8092/accounts/get-by-client-id/";
+        String url = "http://localhost:8092/accounts/get-by-client/";
         List<AccountRequest> accountsRequest = restTemplate.getForObject(url + id, List.class);
         List<AccountResponse> accountsResponse = new ArrayList<>();
         for(AccountRequest account : accountsRequest) {
