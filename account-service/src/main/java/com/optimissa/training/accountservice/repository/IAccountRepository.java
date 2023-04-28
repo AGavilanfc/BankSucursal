@@ -13,5 +13,7 @@ public interface IAccountRepository {
     List<Account> getAccountByClient(int clientId);
     int updateAddBalance(int id, double balance);
 
-    Map<String, Integer> getIBANCodes(int ibanEntity, int ibanCountry);
+    int detIBANEntity(int ibanEntityId);
+
+    String getibanCountry(int ibanCountryId);
 }

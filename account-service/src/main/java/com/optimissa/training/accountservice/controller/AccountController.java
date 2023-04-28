@@ -40,15 +40,20 @@ public class AccountController {
 
 
 
-    @GetMapping(value = "/getAccounts", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/get-all", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Account> getAllAccount() {
         return accountService.getAllAccount();
     }
 
-    @GetMapping(value = "/getAccount/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Account getAccount(@PathVariable int id) {
-        Account account = accountService.getAccount(id);
-        return account;
+    @GetMapping(value = "/get-by-id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Object getAccount(@PathVariable int id) {
+        try{
+            Account account = accountService.getAccount(id);
+            return account;
+        }catch (Exception e){
+            return new ResponseEntity<>("can't get an account "+id, HttpStatus.BAD_REQUEST);
+        }
+
     }
 
     @GetMapping(value = "/get-by-client/{clientId}")
@@ -56,7 +61,7 @@ public class AccountController {
         return accountService.getAccountByClient(clientId);
     }
 
-    @PostMapping(value = "/newAccount", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/create", produces = "application/json", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity newAccount(@RequestBody AccountRequest accountRequest) {
         //accountrequest para recoger los datos recibidos por la request
@@ -84,7 +89,7 @@ public class AccountController {
 //        return new ResponseEntity<>("can't change the balance",HttpStatus.BAD_REQUEST);
 //    }
 
-    @DeleteMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<StringResponse> deleteAccount(@PathVariable int id) {
 
         return ResponseEntity.ok(accountService.deleteAccount(id));

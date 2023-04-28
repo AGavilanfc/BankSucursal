@@ -35,9 +35,7 @@ public class AccountService {
 
 
     public Account getAccount(int id) {
-        Account acc = accountRepository.getAccount(id);
-
-        return  new Account();
+        return accountRepository.getAccount(id);
     }
 
     public List<Account> getAllAccount() {
@@ -68,20 +66,22 @@ public class AccountService {
 
     private String generateIBAN(int ibanEntity, int ibanCountry, Account a) {
 
-        int max = 999999999;
-        int min = 100000000;
+        int max = 999_999_999;
+        int min = 100_000_000;
         Random random = new Random();
         int countryControl = random.nextInt(100);
         int branch = random.nextInt(9000) + 1000;
         int accountControl = random.nextInt(100);
         int accountNumber = random.nextInt((max - min) + 1) + min;
+        int lastNumber = random.nextInt(10);
 
         int iban = ibanRepository.save(ibanCountry, ibanEntity, branch, accountControl, accountNumber, countryControl);
         a.setIban_id(iban);
 
-        Map<String, Integer> map = accountRepository.getIBANCodes(ibanEntity, ibanCountry);
+        String country = accountRepository.getibanCountry(ibanCountry);
+        int entity = accountRepository.detIBANEntity(ibanEntity);
 
-        String result = String.valueOf("map.get(0)."+countryControl+ibanEntity+branch+accountControl+accountNumber);
+        String result = country+countryControl+entity+branch+accountControl+accountNumber+lastNumber;
 
         return result;
     }

@@ -42,8 +42,8 @@ public class AccountRepository implements IAccountRepository {
 
 
     public int save(Account account) {
-        String sql = "INSERT INTO ACCOUNT ( balance,iban_id ,client_id,currency_id,active) VALUES (?,?,?,?,?)";
-        return jdbcTemplate.update(sql, account.getBalance(), account.getIban_id(), account.getClient_id(), account.getCurrency_id(), true);
+        String sql = "INSERT INTO ACCOUNT ( balance,iban_id ,client_id,currency_id,active,iban) VALUES (?,?,?,?,?,?)";
+        return jdbcTemplate.update(sql, account.getBalance(), account.getIban_id(), account.getClient_id(), account.getCurrency_id(), true,account.getIban());
 
     }
 
@@ -67,7 +67,7 @@ public class AccountRepository implements IAccountRepository {
         double balanceFinal = 0;
 
 
-        if(balanceActual>0 && isActive){
+        if(balance>0 && isActive){
             balanceFinal = balanceActual + balance;
         }
 
@@ -78,15 +78,13 @@ public class AccountRepository implements IAccountRepository {
     }
 
     @Override
-    public Map<String, Integer> getIBANCodes(int ibanEntity, int ibanCountry) {
+    public int detIBANEntity(int ibanEntityId) {
+        return jdbcTemplate.queryForObject(GET_IBAN_ENTITY, new Object[]{ibanEntityId}, Integer.class);
+    }
 
-        int entity = jdbcTemplate.queryForObject(GET_IBAN_ENTITY, new Object[]{ibanEntity}, Integer.class);
-        String country = jdbcTemplate.queryForObject(GET_IBAN_COUNTRY, new Object[]{ibanCountry}, String.class);
-
-        Map<String, Integer> result = new HashMap<>();
-        result.put(country, entity);
-
-        return result;
+    @Override
+    public String getibanCountry(int ibanCountryId) {
+        return jdbcTemplate.queryForObject(GET_IBAN_COUNTRY, new Object[]{ibanCountryId}, String.class);
     }
 
 
