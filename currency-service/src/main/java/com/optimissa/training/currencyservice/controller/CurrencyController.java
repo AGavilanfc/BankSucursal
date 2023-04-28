@@ -23,34 +23,37 @@ public class CurrencyController {
     @Autowired
     private CurrencyService currencyService;
     @GetMapping("/convert")
-    public Object convertCurrency(
+    public ResponseEntity<Object> convertCurrency(
             @RequestParam("from") int from,
             @RequestParam("to") int to,
             @RequestParam("amount") Double amount
     ) {
-        Currency currencyFrom, currencyTo;
-       try {
-           currencyFrom = currencyService.getCurrencyById(from);
-       } catch(Exception e) {
-           return "Id FROM incorrecto";
-       }
+        Currency currencyFrom = null, currencyTo = null;
+
         try {
-            currencyTo = currencyService.getCurrencyById(to);
-        } catch(Exception e) {
-            return "Id TO incorrecto";
+            currencyFrom = currencyService.getCurrencyById(from);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("incorrect Id FROM ");
         }
 
-        return conversionService.convertCurrency(currencyFrom.getCode(), currencyTo.getCode(), amount);
+        try {
+            currencyTo = currencyService.getCurrencyById(to);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("incorrect Id TO");
+        }
 
+        if (currencyFrom == null) {
+            return ResponseEntity.badRequest().body("incorrect Id FROM ");
+        }
+
+        if (currencyTo == null) {
+            return ResponseEntity.badRequest().body("incorrect Id TO");
+        }
+
+        return ResponseEntity.ok(conversionService.convertCurrency(currencyFrom.getCode(), currencyTo.getCode(), amount));
     }
 
-
-    //convert (currencyIDorigenFROM, currencyIDestinoTO, cantidad>0)
-    // 1. validar las currency que nos han pasado (BBDD)
-    // 2. ejecutar la conversion contra el API externo
-
-
-
+    
     @GetMapping("/get-all")
     public List<Currency> getAllCurrencies() {
         logger.info("estamos entrando en getAllCurrencies");
