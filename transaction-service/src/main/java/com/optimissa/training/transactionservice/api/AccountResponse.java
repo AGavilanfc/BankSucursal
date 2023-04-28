@@ -4,17 +4,21 @@ public class AccountResponse {
 
 
     private int id;
+
+    private double balance;
     private Boolean active;
     private int currency_id;
 
     public AccountResponse() {
     }
 
-    public AccountResponse(int id, Boolean active, int currency_id) {
+    public AccountResponse(int id,double balance, Boolean active, int currency_id) {
         this.id = id;
+        this.balance = balance;
         this.active = active;
         this.currency_id = currency_id;
     }
+
 
     public int getId() {
         return id;
@@ -22,6 +26,15 @@ public class AccountResponse {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+
+    public double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
     }
 
     public Boolean getactive() {

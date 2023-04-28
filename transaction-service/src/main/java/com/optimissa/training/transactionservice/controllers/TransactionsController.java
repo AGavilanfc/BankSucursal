@@ -38,23 +38,20 @@ public class TransactionsController{
         } catch (Exception e) {
             log.error("Error: {}", ResponseEntity.status(HttpStatus.NOT_FOUND).build());
             return new ResponseEntity<>("Id doesnt exist. " + e.getMessage(), HttpStatus.NOT_FOUND);
-
         }
-
-
     }
 
     @GetMapping("/get-all")
-    public List<Transaction> getAllTransaction(@RequestParam int limit, @RequestParam int page) {
+    public ResponseEntity<Object> getAllTransaction(@RequestParam int limit, @RequestParam int page) {
         log.info("obtain all transactions");
         try {
-            return tranService.getAllTransactions(limit, page);
+            return ResponseEntity.ok(tranService.getAllTransactions(limit, page));
         } catch (Exception e) {
             log.error("Bad request: Error: {}", e.getMessage());
+            return ResponseEntity.badRequest().body("Bad request: "+ e.getMessage());
 
         }
 
-        return null;
     }
 
 
