@@ -82,7 +82,7 @@ public class TransactionsController{
             log.info("Time: {}", (end - start));
 
         } catch (Exception e) {
-            log.error("Error: {}", ResponseEntity.internalServerError().build(), e.getMessage());
+            log.error("Error: {}{}", ResponseEntity.internalServerError().build(), e.getMessage(), e.getStackTrace());
             return new ResponseEntity<>("Not created. " + e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
