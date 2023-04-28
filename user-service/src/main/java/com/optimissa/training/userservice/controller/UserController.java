@@ -57,8 +57,8 @@ public class UserController {
         try {
             return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error(e.getCause().getMessage());
-            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+            logger.error("Id not found");
+            return new ResponseEntity<>(new StringResponse("Id not found"), HttpStatus.NOT_FOUND);
         }
     }
 
@@ -67,8 +67,8 @@ public class UserController {
         try {
             return new ResponseEntity<>(userService.getUserByEmail(email), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error(e.getCause().getMessage());
-            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+            logger.error("Email not found");
+            return new ResponseEntity<>(new StringResponse("Email not found"), HttpStatus.NOT_FOUND);
         }
     }
 
