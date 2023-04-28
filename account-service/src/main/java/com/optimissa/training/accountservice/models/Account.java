@@ -18,15 +18,8 @@ public class Account implements Serializable {
     private int iban_id;
     private int client_id;
     private int currency_id;
-    private int iban;
+    private String iban;
 
-     public int getIban() {
-         return iban;
-     }
-
-     public void setIban(int iban) {
-         this.iban = iban;
-     }
 //Constructor
 
     public Account() {
@@ -90,4 +83,11 @@ public class Account implements Serializable {
         this.active = active;
     }
 
-}
+     public String getIban() {
+         return iban;
+     }
+
+     public void setIban(String iban) {
+         this.iban = iban;
+     }
+ }

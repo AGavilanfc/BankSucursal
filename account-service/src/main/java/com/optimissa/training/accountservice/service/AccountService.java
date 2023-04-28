@@ -11,6 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Random;
 
 
 @Service
@@ -33,9 +35,7 @@ public class AccountService {
 
 
     public Account getAccount(int id) {
-        Account acc = accountRepository.getAccount(id);
-
-        return  new Account();
+        return accountRepository.getAccount(id);
     }
 
     public List<Account> getAllAccount() {
@@ -49,15 +49,41 @@ public class AccountService {
 
     public boolean createAccount(AccountRequest accountRequest) {
 
-        //mapper AccountRequest -> AccoutnDTO
+        int ibanCountry = accountRequest.getIbanCountry();
+        int ibanEntity = accountRequest.getIbanEntity();
+
+        //mapper AccountRequest -> AccountDTO
         Account account = accountRequestMapper.maptoAccount(accountRequest);
         int lineaAccount = 0;
-        if(validationIbanService.validate(accountRequest.getIbanCountry(),accountRequest.getIbanEntity())){
-            int iban = ibanRepository.save(accountRequest.getIbanCountry(),accountRequest.getIbanEntity());
-            account.setIban_id(iban);
+
+        if(validationIbanService.validate(ibanCountry, ibanEntity)){
+
+            account.setIban(generateIBAN(ibanEntity, ibanCountry, account));
             lineaAccount = accountRepository.save(account);
         }
         return lineaAccount > 0;
+    }
+
+    private String generateIBAN(int ibanEntity, int ibanCountry, Account a) {
+
+        int max = 999_999_999;
+        int min = 100_000_000;
+        Random random = new Random();
+        int countryControl = random.nextInt(100);
+        int branch = random.nextInt(9000) + 1000;
+        int accountControl = random.nextInt(100);
+        int accountNumber = random.nextInt((max - min) + 1) + min;
+        int lastNumber = random.nextInt(10);
+
+        int iban = ibanRepository.save(ibanCountry, ibanEntity, branch, accountControl, accountNumber, countryControl);
+        a.setIban_id(iban);
+
+        String country = accountRepository.getibanCountry(ibanCountry);
+        int entity = accountRepository.detIBANEntity(ibanEntity);
+
+        String result = country+countryControl+entity+branch+accountControl+accountNumber+lastNumber;
+
+        return result;
     }
 
     public int updateBalance(int id, double balance) {

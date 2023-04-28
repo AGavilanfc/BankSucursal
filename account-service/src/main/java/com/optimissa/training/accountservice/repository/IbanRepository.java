@@ -29,15 +29,7 @@ public class IbanRepository implements IibanRepository {
 
     }
 
-    public int save(int countryId , int entityId) {
-
-        int max = 999999999;
-        int min = 100000000;
-        Random random = new Random();
-        int countryControl = random.nextInt(100);
-        int branch = random.nextInt(9000) + 1000;
-        int accountControl = random.nextInt(100);
-        int accountNumber = random.nextInt((max - min) + 1) + min;
+    public int save(int countryId , int entityId, int branch, int accountControl, int accountNumber, int countryControl) {
 
         jdbcTemplate.update(ADD_NEW_IBAN, countryId, countryControl,
                                 entityId, branch, accountControl, accountNumber);

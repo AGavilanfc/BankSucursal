@@ -2,11 +2,12 @@ package com.optimissa.training.accountservice.repository;
 
 import com.optimissa.training.accountservice.mapper.AccountMapper;
 import com.optimissa.training.accountservice.models.Account;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class AccountRepository implements IAccountRepository {
@@ -15,6 +16,8 @@ public class AccountRepository implements IAccountRepository {
 
     private final String GET_BALANCE = "SELECT BALANCE FROM ACCOUNT WHERE id = ?";
     private final String VALUE_ACTIVE = "SELECT ACTIVE FROM ACCOUNT WHERE id = ?";
+    private final String GET_IBAN_ENTITY = "SELECT E.CODE FROM ENTITY E WHERE E.ID = ?";
+    private final String GET_IBAN_COUNTRY = "SELECT C.CODE FROM COUNTRY C WHERE C.ID = ?";
     public AccountRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
 
@@ -39,8 +42,8 @@ public class AccountRepository implements IAccountRepository {
 
 
     public int save(Account account) {
-        String sql = "INSERT INTO ACCOUNT ( balance,iban_id ,client_id,currency_id,active) VALUES (?,?,?,?,?)";
-        return jdbcTemplate.update(sql, account.getBalance(), account.getIban_id(), account.getClient_id(), account.getCurrency_id(), true);
+        String sql = "INSERT INTO ACCOUNT ( balance,iban_id ,client_id,currency_id,active,iban) VALUES (?,?,?,?,?,?)";
+        return jdbcTemplate.update(sql, account.getBalance(), account.getIban_id(), account.getClient_id(), account.getCurrency_id(), true,account.getIban());
 
     }
 
@@ -64,7 +67,7 @@ public class AccountRepository implements IAccountRepository {
         double balanceFinal = 0;
 
 
-        if(balanceActual>0 && isActive){
+        if(balance>0 && isActive){
             balanceFinal = balanceActual + balance;
         }
 
@@ -73,6 +76,17 @@ public class AccountRepository implements IAccountRepository {
         return jdbcTemplate.update(sql, balanceFinal, id);
 
     }
+
+    @Override
+    public int detIBANEntity(int ibanEntityId) {
+        return jdbcTemplate.queryForObject(GET_IBAN_ENTITY, new Object[]{ibanEntityId}, Integer.class);
+    }
+
+    @Override
+    public String getibanCountry(int ibanCountryId) {
+        return jdbcTemplate.queryForObject(GET_IBAN_COUNTRY, new Object[]{ibanCountryId}, String.class);
+    }
+
 
     //poner el dinero en la cuenta (ID, DINERO>0):
     // 1. comrobar si existe la cuenta y si esta activa
