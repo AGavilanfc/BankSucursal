@@ -53,7 +53,7 @@ public class CurrencyController {
         return ResponseEntity.ok(conversionService.convertCurrency(currencyFrom.getCode(), currencyTo.getCode(), amount));
     }
 
-    
+
     @GetMapping("/get-all")
     public List<Currency> getAllCurrencies() {
         logger.info("estamos entrando en getAllCurrencies");
@@ -61,15 +61,18 @@ public class CurrencyController {
     }
 
     @GetMapping(value = "/get-by-id/{id}")
-    public Currency getCurrencyById(@PathVariable int id) {
-        logger.info("estamos entrando en get-by-id {}",id);
-        Currency currency = currencyService.getCurrencyById(id);
-
-        return currency;
+    public ResponseEntity<Object> getCurrencyById(@PathVariable int id) {
+        try {
+            Currency currency = currencyService.getCurrencyById(id);
+            return ResponseEntity.ok(currency);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ID not found");
+        }
     }
 
 
-    @PostMapping(value = "/get-all")
+
+    @PostMapping(value = "/create")
     @ResponseStatus(HttpStatus.CREATED)
     public String createCurrency(@RequestBody Currency currency) {
         logger.info("estamos creando una moneda");
@@ -78,7 +81,7 @@ public class CurrencyController {
 
 
 
-    @DeleteMapping("/get-by-id/{id}")
+    @DeleteMapping("/delete/{id}")
     public String deleteCurrency(@PathVariable int id) {
         logger.info("estamos borrando una moneda");
         return currencyService.deleteById(id);
@@ -86,7 +89,7 @@ public class CurrencyController {
     }
 
 
-    @PatchMapping("/get-by-id/{id}")
+    @PatchMapping("/update/{id}")
     public String updateCurrency(@PathVariable int id, @RequestBody Currency currency) {
         logger.info("estamos editando una moneda");
         boolean updated = currencyService.updateCurrency(id, currency);

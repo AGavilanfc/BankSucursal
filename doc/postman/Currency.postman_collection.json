@@ -30,14 +30,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL-CURRENCY}}/currencies/get-by-id/1",
+					"raw": "{{URL-CURRENCY}}/currencies/get-by-id/7",
 					"host": [
 						"{{URL-CURRENCY}}"
 					],
 					"path": [
 						"currencies",
 						"get-by-id",
-						"1"
+						"7"
 					]
 				}
 			},
@@ -58,13 +58,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL-CURRENCY}}/currencies/get-all",
+					"raw": "{{URL-CURRENCY}}/currencies/create",
 					"host": [
 						"{{URL-CURRENCY}}"
 					],
 					"path": [
 						"currencies",
-						"get-all"
+						"create"
 					]
 				}
 			},
@@ -76,14 +76,14 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{URL-CURRENCY}}/currencies/get-by-id/21",
+					"raw": "{{URL-CURRENCY}}/currencies/delete/24",
 					"host": [
 						"{{URL-CURRENCY}}"
 					],
 					"path": [
 						"currencies",
-						"get-by-id",
-						"21"
+						"delete",
+						"24"
 					]
 				}
 			},
@@ -96,7 +96,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Peseta\",\r\n    \"symbol\": \"$\",\r\n    \"code\": \"PTS\"\r\n}",
+					"raw": "{\r\n    \"name\": \"dolardeplata\",\r\n    \"symbol\": \"$\",\r\n    \"code\": \"DiP\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -104,24 +104,16 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL-CURRENCY}}/currencies/get-by-id/11",
+					"raw": "{{URL-CURRENCY}}/currencies/update/25",
 					"host": [
 						"{{URL-CURRENCY}}"
 					],
 					"path": [
 						"currencies",
-						"get-by-id",
-						"11"
+						"update",
+						"25"
 					]
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "clientes",
-			"request": {
-				"method": "GET",
-				"header": []
 			},
 			"response": []
 		},
@@ -162,7 +154,7 @@
 					}
 				],
 				"url": {
-					"raw": "{{URL-CURRENCY}}/currencies/convert?amount=34&to=1&from=2",
+					"raw": "{{URL-CURRENCY}}/currencies/convert?amount=34&from=5&to=1",
 					"host": [
 						"{{URL-CURRENCY}}"
 					],
@@ -181,12 +173,12 @@
 							"value": "34"
 						},
 						{
-							"key": "to",
-							"value": "1"
+							"key": "from",
+							"value": "5"
 						},
 						{
-							"key": "from",
-							"value": "2"
+							"key": "to",
+							"value": "1"
 						}
 					]
 				}
@@ -199,14 +191,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL-CURRENCY}}/currencies/get-by-code/EUR",
+					"raw": "{{URL-CURRENCY}}/currencies/get-by-code/DiPp",
 					"host": [
 						"{{URL-CURRENCY}}"
 					],
 					"path": [
 						"currencies",
 						"get-by-code",
-						"EUR"
+						"DiPp"
 					]
 				}
 			},

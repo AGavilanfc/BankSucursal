@@ -38,6 +38,7 @@ public class CurrencyService {
                 return null;
             }
         } catch (MyException e) {
+            System.out.println("eee");
             logger.error("An error occurred while getting currency with id {}: {}", id, e.getMessage(), e);
             throw new MyException("que te jodan" + id + "not Found");
         }
