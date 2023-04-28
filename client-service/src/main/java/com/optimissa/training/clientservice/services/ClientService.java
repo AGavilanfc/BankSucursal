@@ -2,6 +2,7 @@ package com.optimissa.training.clientservice.services;
 
 import com.optimissa.training.clientservice.api.*;
 import com.optimissa.training.clientservice.controller.ClientController;
+import com.optimissa.training.clientservice.mappers.AccountRequestMapper;
 import com.optimissa.training.clientservice.mappers.ClientRequestMapper;
 import com.optimissa.training.clientservice.mappers.ClientResponseMapper;
 import com.optimissa.training.clientservice.mappers.CurrencyRequestMapper;
@@ -19,12 +20,9 @@ import java.util.List;
 @Service
 public class ClientService {
 
-    Logger logger = LoggerFactory.getLogger(ClientController.class);
-
-
     private final IClientRepository repository;
-
     private final RestTemplate restTemplate = new RestTemplate();
+    Logger logger = LoggerFactory.getLogger(ClientController.class);
 
     public ClientService(IClientRepository repository) {
         this.repository = repository;
@@ -41,7 +39,7 @@ public class ClientService {
 
 
     public int insertClient(Client newClient) throws RuntimeException {
-        if(!ClientUtils.isValidEmail(newClient.getEmail())) {
+        if (!ClientUtils.isValidEmail(newClient.getEmail())) {
             String msg = "Invalid email";
             logger.error("Error inserting client: {}", msg);
             throw new RuntimeException(msg);
@@ -55,7 +53,7 @@ public class ClientService {
 
     public int updateClient(ClientRequest clientToModify, int id) {
         Client modifiedClient = ClientRequestMapper.mapToClient(clientToModify);
-        if(!ClientUtils.isValidEmail(modifiedClient.getEmail())) {
+        if (!ClientUtils.isValidEmail(modifiedClient.getEmail())) {
             String msg = "Invalid email";
             logger.error("Error inserting client: {}", msg);
             throw new RuntimeException(msg);
@@ -68,7 +66,7 @@ public class ClientService {
     public List<ClientResponse> getClientByUserId(int id) {
         List<Client> clients = repository.getClientByUserId(id);
         List<ClientResponse> clientResponses = new ArrayList<>();
-        for(Client client : clients) {
+        for (Client client : clients) {
             clientResponses.add(ClientResponseMapper.mapToClientResponse(client));
         }
         return clientResponses;
@@ -80,8 +78,15 @@ public class ClientService {
         return CurrencyRequestMapper.mapToCurrencyResponse(currencyRequest);
     }
 
-    public AccountRequest getAccount(String url) {
-        return restTemplate.getForObject(url, AccountRequest.class);
+    public List<AccountResponse> getAccountsByClientId(int id) {
+        String url = "http://localhost:8092/accounts/get-by-client-id/";
+        List<AccountRequest> accountsRequest = restTemplate.getForObject(url + id, List.class);
+        List<AccountResponse> accountsResponse = new ArrayList<>();
+        for(AccountRequest account : accountsRequest) {
+            CurrencyResponse currencyResponse = getCurrencyResponse(account.getCurrencyId());
+            accountsResponse.add(AccountRequestMapper.mapToAccountResponse(account, currencyResponse));
+        }
+        return accountsResponse;
     }
 
 }
