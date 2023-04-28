@@ -29,13 +29,13 @@ public class AccountRepository implements IAccountRepository {
     }
 
     public Account getAccount(int id) {
-        Account account = jdbcTemplate.queryForObject("SELECT ID, BALANCE, IBAN_ID, CLIENT_ID, CURRENCY_ID, ACTIVE FROM banksucursal.ACCOUNT where id = ?",
+        Account account = jdbcTemplate.queryForObject("SELECT ID, BALANCE, IBAN_ID, CLIENT_ID, CURRENCY_ID, ACTIVE ,IBAN  FROM banksucursal.ACCOUNT where id = ?",
                 new Object[]{id}, new AccountMapper());
         return account;
     }
 
     public List<Account> getAccountByClient(int clientid) {
-        return jdbcTemplate.query("SELECT ID, BALANCE, IBAN_ID, CLIENT_ID,CURRENCY_ID,  ACTIVE FROM banksucursal.ACCOUNT where CLIENT_ID = ?",
+        return jdbcTemplate.query("SELECT ID, BALANCE, IBAN_ID, CLIENT_ID,CURRENCY_ID,  ACTIVE , IBAN FROM banksucursal.ACCOUNT where CLIENT_ID = ?",
                 new Object[]{clientid}, new AccountMapper());
     }
 
@@ -56,16 +56,16 @@ public class AccountRepository implements IAccountRepository {
 
         double balanceActual= jdbcTemplate.queryForObject(GET_BALANCE , new Object[]{id}, Double.class);
         boolean isActive = jdbcTemplate.queryForObject(VALUE_ACTIVE,new Object[]{id}, Boolean.class);
-
         double balanceFinal = 0;
-
 
         if(balance>0 && isActive){
             balanceFinal = balanceActual + balance;
+            String sql = "UPDATE ACCOUNT SET balance = ? WHERE id = ?";
+            jdbcTemplate.update(sql, balanceFinal, id);
+
         }
 
-        String sql = "UPDATE ACCOUNT SET balance = ? WHERE id = ?";
-        return jdbcTemplate.update(sql, balanceFinal, id);
+        return 0;
     }
 
     @Override
@@ -78,10 +78,11 @@ public class AccountRepository implements IAccountRepository {
 
         if(balance>0 && isActive && balance<=balanceActual){
             balanceFinal = balanceActual - balance;
+            String sql = "UPDATE ACCOUNT SET balance = ? WHERE id = ?";
+            jdbcTemplate.update(sql, balanceFinal, id);
         }
 
-        String sql = "UPDATE ACCOUNT SET balance = ? WHERE id = ?";
-        return jdbcTemplate.update(sql, balanceFinal, id);
+        return 0;
     }
 
     @Override
