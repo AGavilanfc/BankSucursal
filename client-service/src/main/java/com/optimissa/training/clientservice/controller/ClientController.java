@@ -1,8 +1,6 @@
 package com.optimissa.training.clientservice.controller;
 
-import com.optimissa.training.clientservice.api.AccountRequest;
-import com.optimissa.training.clientservice.api.ClientRequest;
-import com.optimissa.training.clientservice.api.ClientResponse;
+import com.optimissa.training.clientservice.api.*;
 import com.optimissa.training.clientservice.model.Client;
 import com.optimissa.training.clientservice.services.ClientService;
 import org.slf4j.Logger;
@@ -108,11 +106,9 @@ public class ClientController {
         return ResponseEntity.ok(service.getClientByUserId(id));
     }
 
-
-    @GetMapping("/get-accounts/{id}")
-    public AccountRequest getAccounts(@PathVariable int id) {
-        String url = "https://119f818c-c2d2-4cec-b4a5-8163025854e0.mock.pstmn.io/get-by-clientId/" + id;
-        return service.getAccount(url);
+    @GetMapping("/get-accounts/by-client-id/{id}")
+    public List<AccountResponse> getAccounts(@PathVariable int id) {
+        return service.getAccountsByClientId(id);
     }
 
 }
