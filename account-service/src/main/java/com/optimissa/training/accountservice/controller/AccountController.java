@@ -43,8 +43,8 @@ public class AccountController {
         }catch (Exception e){
             return new ResponseEntity<>("Can't get an account "+id + " , it doesn´t exist", HttpStatus.BAD_REQUEST);
         }
-
     }
+
 
     @GetMapping(value = "/get-by-client/{clientId}")
     public List<Account> getAccountByClient(@PathVariable int clientId){
