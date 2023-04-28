@@ -1,28 +1,18 @@
 package com.optimissa.training.productservice.repository;
 
 import com.optimissa.training.productservice.model.Product;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.DataClassRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 @Repository
 public class JdbcProductRepository implements ProductRepository {
 
     private final JdbcTemplate jdbcTemplate;
-
-    @Autowired
-    private NamedParameterJdbcTemplate namedJdbc;
 
     public JdbcProductRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
