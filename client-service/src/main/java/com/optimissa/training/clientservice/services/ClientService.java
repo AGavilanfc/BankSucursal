@@ -11,11 +11,13 @@ import com.optimissa.training.clientservice.repository.IClientRepository;
 import com.optimissa.training.clientservice.utils.ClientUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.relational.core.sql.In;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ClientService {
@@ -80,10 +82,10 @@ public class ClientService {
 
     public List<AccountResponse> getAccountsByClientId(int id) {
         String url = "http://localhost:8092/accounts/get-by-client/";
-        List<AccountRequest> accountsRequest = restTemplate.getForObject(url + id, List.class);
+        AccountRequest[] accountsRequest = restTemplate.getForObject(url + id, AccountRequest[].class);
         List<AccountResponse> accountsResponse = new ArrayList<>();
         for(AccountRequest account : accountsRequest) {
-            CurrencyResponse currencyResponse = getCurrencyResponse(account.getCurrencyId());
+            CurrencyResponse currencyResponse = getCurrencyResponse(account.getCurrency_id());
             accountsResponse.add(AccountRequestMapper.mapToAccountResponse(account, currencyResponse));
         }
         return accountsResponse;
