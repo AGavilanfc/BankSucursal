@@ -1,10 +1,9 @@
 {
 	"info": {
-		"_postman_id": "77118705-2c84-488e-aa29-95deed07d4d9",
+		"_postman_id": "6bcc8904-c58e-46b8-8230-58fa2d22e058",
 		"name": "Product Service",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-		"_exporter_id": "26584841",
-		"_collection_link": "https://becariosteam.postman.co/workspace/BankSucursal~cb19bea7-f510-4a1c-84a6-1c24b78a6897/collection/26584073-77118705-2c84-488e-aa29-95deed07d4d9?action=share&creator=26584841&source=collection_link"
+		"_exporter_id": "26118021"
 	},
 	"item": [
 		{
@@ -14,7 +13,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Plan de pensiones2\"\r\n}",
+					"raw": "{\r\n    \"name\": \"Cuenta ahorro Plus\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -22,12 +21,13 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL-PRODUCT}}/products",
+					"raw": "{{URL-PRODUCT}}/products/create",
 					"host": [
 						"{{URL-PRODUCT}}"
 					],
 					"path": [
-						"products"
+						"products",
+						"create"
 					]
 				}
 			},
@@ -39,12 +39,13 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL-PRODUCT}}/products",
+					"raw": "{{URL-PRODUCT}}/products/get-all",
 					"host": [
 						"{{URL-PRODUCT}}"
 					],
 					"path": [
-						"products"
+						"products",
+						"get-all"
 					]
 				}
 			},
@@ -56,14 +57,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL-PRODUCT}}/products/id/1",
+					"raw": "{{URL-PRODUCT}}/products/get-by-id/10",
 					"host": [
 						"{{URL-PRODUCT}}"
 					],
 					"path": [
 						"products",
-						"id",
-						"1"
+						"get-by-id",
+						"10"
 					]
 				}
 			},
@@ -75,14 +76,14 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL-PRODUCT}}/products/name/Hipoteca3",
+					"raw": "{{URL-PRODUCT}}/products/get-by-name/Hipoteca",
 					"host": [
 						"{{URL-PRODUCT}}"
 					],
 					"path": [
 						"products",
-						"name",
-						"Hipoteca3"
+						"get-by-name",
+						"Hipoteca"
 					]
 				}
 			},
@@ -94,14 +95,33 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{URL-PRODUCT}}/products/active/true",
+					"raw": "{{URL-PRODUCT}}/products/get-all/active",
 					"host": [
 						"{{URL-PRODUCT}}"
 					],
 					"path": [
 						"products",
-						"active",
-						"true"
+						"get-all",
+						"active"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Product By Inactive",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{URL-PRODUCT}}/products/get-all/inactive",
+					"host": [
+						"{{URL-PRODUCT}}"
+					],
+					"path": [
+						"products",
+						"get-all",
+						"inactive"
 					]
 				}
 			},
@@ -113,13 +133,14 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{URL-PRODUCT}}/products/6",
+					"raw": "{{URL-PRODUCT}}/products/delete/8",
 					"host": [
 						"{{URL-PRODUCT}}"
 					],
 					"path": [
 						"products",
-						"6"
+						"delete",
+						"8"
 					]
 				}
 			},
@@ -132,7 +153,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\r\n    \"name\": \"Hipoteca\",\r\n    \"active\": true\r\n}",
+					"raw": "{\r\n    \"name\": \"Hipoteca Plus\"\r\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -140,13 +161,14 @@
 					}
 				},
 				"url": {
-					"raw": "{{URL-PRODUCT}}/products/1",
+					"raw": "{{URL-PRODUCT}}/products/update/4",
 					"host": [
 						"{{URL-PRODUCT}}"
 					],
 					"path": [
 						"products",
-						"1"
+						"update",
+						"4"
 					]
 				}
 			},

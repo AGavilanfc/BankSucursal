@@ -34,12 +34,14 @@ public class ProductController {
         logger.info("Calling saveProduct()");
         int result = productService.saveProduct(product);
         if (result > 0) {
+            logger.info("Product created successfully");
             return ResponseEntity.ok("Product created successfully");
         } else {
+            logger.error("Failed to create new product");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to create new product");
         }
-        }
+    }
 
     @GetMapping("/get-all")
     public ResponseEntity<List<Product>> getAllProducts() {
@@ -49,6 +51,7 @@ public class ProductController {
             logger.warn("List of Products is Empty");
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         } else {
+            logger.info("Showing all products");
             return new ResponseEntity<>(products, HttpStatus.OK);
         }
     }
@@ -59,6 +62,7 @@ public class ProductController {
         logger.info("Calling getProductById for id {}", id);
         Product product = productService.getProductById(id);
         if (product != null) {
+            logger.info("Showing requested product");
             return new ResponseEntity<>(product, HttpStatus.OK);
         } else {
             logger.error("Product with id {} not found", id);
@@ -71,8 +75,10 @@ public class ProductController {
         logger.info("Calling getProductByName for {}", name);
         List<Product> products = productService.getProductByName(name);
         if (!products.isEmpty()) {
+            logger.info("Showing list of Products");
             return new ResponseEntity<>(products, HttpStatus.OK);
         } else {
+            logger.error("Product with name {} not found", name);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -82,8 +88,10 @@ public class ProductController {
         logger.info("Calling getActives");
         List<Product> products = productService.getProductByActive();
         if (!products.isEmpty()) {
+            logger.info("Showing list of Products");
             return new ResponseEntity<>(products, HttpStatus.OK);
         } else {
+            logger.error("Active products not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -93,8 +101,10 @@ public class ProductController {
         logger.info("Calling getInactives");
         List<Product> products = productService.getProductByInactive();
         if (!products.isEmpty()) {
+            logger.info("Showing list of Products");
             return new ResponseEntity<>(products, HttpStatus.OK);
         } else {
+            logger.error("Inactive products not found");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -104,8 +114,10 @@ public class ProductController {
         logger.info("Calling deleteProduct for id {}", id);
         int result = productService.deleteProduct(id);
         if (result > 0) {
+            logger.info("Product has been successfully deleted");
             return new ResponseEntity<>("Product with id " + id + " has been successfully deleted", HttpStatus.OK);
         } else {
+            logger.error("Product with id {} not found", id);
             return new ResponseEntity<>("Product with id " + id + " was not found", HttpStatus.NOT_FOUND);
         }
     }
@@ -115,8 +127,10 @@ public class ProductController {
         logger.info("Calling updateProduct for id {}", id);
         int result = productService.updateProduct(id, productRequest);
         if (result > 0) {
+            logger.info("Product has been successfully updated");
             return new ResponseEntity<>("Product with id " + id + " has been successfully updated", HttpStatus.OK);
         } else {
+            logger.error("Product with id {} not found", id);
             return new ResponseEntity<>("Product with id " + id + " was not found", HttpStatus.NOT_FOUND);
         }
     }
