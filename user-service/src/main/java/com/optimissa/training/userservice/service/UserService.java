@@ -1,7 +1,7 @@
 package com.optimissa.training.userservice.service;
 
 import com.optimissa.training.userservice.api.UserBasicResponse;
-import com.optimissa.training.userservice.api.UserResponse;
+// import com.optimissa.training.userservice.api.UserResponse;
 import com.optimissa.training.userservice.controller.UserController;
 import com.optimissa.training.userservice.model.User;
 import com.optimissa.training.userservice.repository.UserRepositoryJDBC;
@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
+// import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.List;
 @Service
 public class UserService {
 
-    private static final String URL_USER_CLIENTS = "http://localhost:8091/clients/get-by-userId/";
+    // private static final String URL_USER_CLIENTS = "http://localhost:8091/clients/get-by-userId/";
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @Autowired
@@ -52,7 +52,16 @@ public class UserService {
         return users;
     }
 
-    public UserResponse getUserById(int id) {
+    public User getUserById(int id) {
+        logger.info("Started userService.getUserById()");
+        long startTime = System.currentTimeMillis();
+        User user = userRepository.selectById(id);
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime-startTime, user );
+        return user;
+    }
+
+    /* public UserResponse getUserById(int id) {
         logger.info("Started userService.getUserById()");
         long startTime = System.currentTimeMillis();
         User user = userRepository.selectById(id);
@@ -63,7 +72,7 @@ public class UserService {
         long endTime = System.currentTimeMillis();
         logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime-startTime, userResponse );
         return userResponse;
-    }
+    } */
 
     public User getUserByEmail(String email) {
         logger.info("Started userService.getUserById()");
