@@ -1,5 +1,6 @@
 package com.optimissa.training.accountservice.controller;
 import com.optimissa.training.accountservice.api.AccountRequest;
+import com.optimissa.training.accountservice.api.AccountResponse;
 import com.optimissa.training.accountservice.mapper.AccountRequestMapper;
 import com.optimissa.training.accountservice.models.Account;
 import com.optimissa.training.accountservice.models.StringResponse;
@@ -36,13 +37,12 @@ public class AccountController {
     }
 
     @GetMapping(value = "/get-by-id/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Object getAccount(@PathVariable int id) {
-        try{
-            Account account = accountService.getAccount(id);
-            return account;
-        }catch (Exception e){
-            return new ResponseEntity<>("Can't get an account "+id + " , it doesn´t exist", HttpStatus.BAD_REQUEST);
-        }
+    public ResponseEntity<Object> getAccount(@PathVariable int id) {
+
+            AccountResponse account = accountService.getAccount(id);
+            return ResponseEntity.ok(account);
+
+
     }
 
 
