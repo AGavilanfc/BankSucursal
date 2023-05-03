@@ -15,7 +15,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/transactions")
-public class TransactionsController{
+public class TransactionsController {
 
     private static final Logger log = LoggerFactory.getLogger(TransactionsController.class);
     RestTemplate restTemplate = new RestTemplate();
@@ -24,16 +24,19 @@ public class TransactionsController{
     String urlCurrency = "http://localhost:8093/currencies";
 
 
-
     @Autowired
     private TransactionsService tranService;
 
     @GetMapping("/get-by-id/{id}")
     public ResponseEntity<Object> getTransaction(@PathVariable int id) {
+        Long start = System.currentTimeMillis();
 
         try {
-                log.info("obtain one transaction: {}", id);
-                 return ResponseEntity.ok(tranService.getByIdTransaction(id));
+            log.info("obtain one transaction: {}", id);
+            TransactionResponse transaction = tranService.getByIdTransaction(id);
+            Long end = System.currentTimeMillis();
+            log.info("Time: {}", (end - start));
+            return ResponseEntity.ok(transaction);
 
         } catch (Exception e) {
             log.error("Error: {}", ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -43,31 +46,41 @@ public class TransactionsController{
 
     @GetMapping("/get-all")
     public ResponseEntity<Object> getAllTransaction(@RequestParam int limit, @RequestParam int page) {
+        Long start = System.currentTimeMillis();
+
         log.info("obtain all transactions");
         try {
-            return ResponseEntity.ok(tranService.getAllTransactions(limit, page));
+            List<Transaction> transactions = tranService.getAllTransactions(limit, page);
+            log.info("obtain all transactions with limit=" + limit + " and page=" + page);
+            Long end = System.currentTimeMillis();
+            log.info("Time: {}", (end - start));
+            return ResponseEntity.ok(transactions);
         } catch (Exception e) {
             log.error("Bad request: Error: {}", e.getMessage());
-            return ResponseEntity.badRequest().body("Bad request: "+ e.getMessage());
+            return ResponseEntity.badRequest().body("Bad request: " + e.getMessage());
 
         }
+
 
     }
 
 
-    @GetMapping("/get-all/filter" )
-
-    public List<Transaction> getAllTransactionsByAmount(@RequestParam int min, @RequestParam int max) {
-        log.info("obtain all transactions");
-        if(min > max) throw new IllegalArgumentException("min must be less than max");
+    @GetMapping("/get-all/filter")
+    public ResponseEntity<Object> getAllTransactionsByAmount(@RequestParam int min, @RequestParam int max) {
+        Long start = System.currentTimeMillis();
+        if (min > max) throw new IllegalArgumentException("min must be less than max");
         try {
-            return tranService.getAllTransactionsByAmount(min, max);
+            List<Transaction> transaction = tranService.getAllTransactionsByAmount(min, max);
+            Long end = System.currentTimeMillis();
+            log.info("Time: {}", (end - start));
+            log.info("obtained all by amount min= " + min + " max= " + max);
+            return ResponseEntity.ok(transaction);
         } catch (Exception e) {
-            log.error("Bad request: Error: {}", e.getMessage());
+            log.error("Error: {}{}", ResponseEntity.internalServerError().build(), e.getMessage(), e.getStackTrace());
+            return new ResponseEntity<>("Not created. " + e.getMessage(), HttpStatus.BAD_REQUEST);
 
         }
 
-        return null;
     }
 
     @PostMapping
@@ -75,10 +88,9 @@ public class TransactionsController{
         Long start = System.currentTimeMillis();
 
         try {
-
-            ResponseEntity.ok(tranService.insertNewTransaction(transaction));
+            int transaction2 = tranService.insertNewTransaction(transaction);
+            ResponseEntity.ok(transaction2);
             Long end = System.currentTimeMillis();
-
             log.info("Time: {}", (end - start));
 
         } catch (Exception e) {
@@ -92,12 +104,17 @@ public class TransactionsController{
 
     @GetMapping("/fund/{id}")
     public Object getFund(@PathVariable int id) {
+        Long start = System.currentTimeMillis();
+
         log.info("obtain one fund: {}", id);
         try {
             return restTemplate.getForObject(urlFund + "/id/" + id, Object.class);
         } catch (Exception e) {
             log.error("Error: {}", e.getMessage());
         }
+        Long end = System.currentTimeMillis();
+        log.info("Time: {}", (end - start));
+
         return null;
     }
 }
