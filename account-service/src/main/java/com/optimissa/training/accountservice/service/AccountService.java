@@ -1,6 +1,8 @@
 package com.optimissa.training.accountservice.service;
 
 import com.optimissa.training.accountservice.api.AccountRequest;
+import com.optimissa.training.accountservice.api.AccountResponse;
+import com.optimissa.training.accountservice.api.CurrencyResponse;
 import com.optimissa.training.accountservice.mapper.AccountMapper;
 import com.optimissa.training.accountservice.mapper.AccountRequestMapper;
 import com.optimissa.training.accountservice.models.*;
@@ -9,7 +11,9 @@ import com.optimissa.training.accountservice.repository.EntityRepository;
 import com.optimissa.training.accountservice.repository.IbanRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
+import java.util.Currency;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -33,11 +37,29 @@ public class AccountService {
     @Autowired
     AccountMapper accountMapper;
 
+    RestTemplate restTemplate = new RestTemplate();
 
-    public Account getAccount(int id) {
-        return accountRepository.getAccount(id);
+    String urlCurrency = "http://localhost:8093/currencies/";
+
+
+    public AccountResponse getAccount(int id) {
+        Account account = accountRepository.getAccount(id);
+
+        return new AccountResponse(
+               account.getId(),
+               account.getBalance(),
+               account.isActive(),
+               account.getIban_id(),
+               account.getClient_id(),
+               getByIdAccount(account.getCurrency_id()),
+               account.getIban()
+        );
+
     }
 
+    public CurrencyResponse getByIdAccount(int id) {
+        return restTemplate.getForObject("http://localhost:8093/currencies/get-by-id/" + id, CurrencyResponse.class);
+    }
     public List<Account> getAllAccount() {
         return accountRepository.getAllAccount();
     }

@@ -18,6 +18,7 @@ public class AccountRepository implements IAccountRepository {
     private final String VALUE_ACTIVE = "SELECT ACTIVE FROM ACCOUNT WHERE id = ?";
     private final String GET_IBAN_ENTITY = "SELECT E.CODE FROM ENTITY E WHERE E.ID = ?";
     private final String GET_IBAN_COUNTRY = "SELECT C.CODE FROM COUNTRY C WHERE C.ID = ?";
+    private final String GET_CURRENCY_DATA = "SELECT M.NAME , M.SYMBOL , M.CODE FROM CURRENCY M WHERE M.ID=?";
     public AccountRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
 
@@ -28,10 +29,16 @@ public class AccountRepository implements IAccountRepository {
                 new Object[]{}, new AccountMapper());
     }
 
+
+    //CAMBIAR
     public Account getAccount(int id) {
         Account account = jdbcTemplate.queryForObject("SELECT ID, BALANCE, IBAN_ID, CLIENT_ID, CURRENCY_ID, ACTIVE ,IBAN  FROM banksucursal.ACCOUNT where id = ?",
                 new Object[]{id}, new AccountMapper());
+
+        //jdbcTemplate.queryForObject(GET_CURRENCY_DATA, new Object[]{currency_id}, Integer.class);
+
         return account;
+
     }
 
     public List<Account> getAccountByClient(int clientid) {
