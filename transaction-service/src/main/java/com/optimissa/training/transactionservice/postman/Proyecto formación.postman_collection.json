@@ -1,0 +1,1913 @@
+{
+	"info": {
+		"_postman_id": "0ac51aa2-d1ca-4181-88c3-f8c2081e03da",
+		"name": "Proyecto formación",
+		"description": "Documentación de las APIs REST para el proyecto de formación.\n\n- Se encuentran en BETA",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26584073",
+		"_collection_link": "https://becariosteam.postman.co/workspace/BankSucursal~cb19bea7-f510-4a1c-84a6-1c24b78a6897/collection/26584841-0ac51aa2-d1ca-4181-88c3-f8c2081e03da?action=share&creator=26584073&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "user-service",
+			"item": [
+				{
+					"name": "Get all Users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body size should be less that 50\", function () {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    console.log(responseJson)\r",
+									"    pm.expect(responseJson.length).equals(11);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{USER_PORT}}/users/get-all",
+							"host": [
+								"{{URL_PATH}}{{USER_PORT}}"
+							],
+							"path": [
+								"users",
+								"get-all"
+							]
+						},
+						"description": "Obtener la información de todos los usuarios.\n\nLos usuarios son los administradores de la aplicación."
+					},
+					"response": [
+						{
+							"name": "Get all Users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_PATH}}{{USER_PORT}}/users/get-all",
+									"host": [
+										"{{URL_PATH}}{{USER_PORT}}"
+									],
+									"path": [
+										"users",
+										"get-all"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"id\": 1,\n        \"name\": \"Emilio\",\n        \"lastName1\": \"Perez\",\n        \"lastName2\": \"Castellanos\",\n        \"email\": \"emilio@gmail.com\",\n        \"phone\": \"67859474\",\n        \"active\": false\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Francisco\",\n        \"lastName1\": \"Gomez\",\n        \"lastName2\": null,\n        \"email\": \"fran@mail.com\",\n        \"phone\": \"123456789\",\n        \"active\": true\n    },\n    {\n        \"id\": 4,\n        \"name\": \"Emilio\",\n        \"lastName1\": \"Casado\",\n        \"lastName2\": \"Arias\",\n        \"email\": \"emilio@mail.com\",\n        \"phone\": \"2223213321\",\n        \"active\": true\n    },\n    {\n        \"id\": 5,\n        \"name\": \"Tomas\",\n        \"lastName1\": \"Reñones\",\n        \"lastName2\": \"Mora\",\n        \"email\": \"tomas@mail.com\",\n        \"phone\": \"12312111\",\n        \"active\": false\n    },\n    {\n        \"id\": 6,\n        \"name\": \"Juan\",\n        \"lastName1\": \"Gomez\",\n        \"lastName2\": null,\n        \"email\": \"juan@mail.com\",\n        \"phone\": \"12345678900\",\n        \"active\": true\n    },\n    {\n        \"id\": 8,\n        \"name\": \"Manuel\",\n        \"lastName1\": \"Diaz\",\n        \"lastName2\": \"Torres\",\n        \"email\": \"manuel@mail.com\",\n        \"phone\": \"8855221144a\",\n        \"active\": false\n    },\n    {\n        \"id\": 25,\n        \"name\": \"Alberto\",\n        \"lastName1\": \"Carrillo\",\n        \"lastName2\": \"Diaz\",\n        \"email\": \"alberto.carri@mail.com\",\n        \"phone\": \"8855221133\",\n        \"active\": true\n    },\n    {\n        \"id\": 28,\n        \"name\": \"Alberto\",\n        \"lastName1\": \"Carrillo\",\n        \"lastName2\": \"Diaz\",\n        \"email\": \"albertocarrillo@mail.com\",\n        \"phone\": \"8855221133\",\n        \"active\": true\n    },\n    {\n        \"id\": 29,\n        \"name\": \"Pepito\",\n        \"lastName1\": \"Diaz\",\n        \"lastName2\": \"Diaz\",\n        \"email\": \"pepito@mail.com\",\n        \"phone\": \"778844112255\",\n        \"active\": true\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Get User By Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.be.ok;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{USER_PORT}}/users/get-by-id/{{USER_ID}}",
+							"host": [
+								"{{URL_PATH}}{{USER_PORT}}"
+							],
+							"path": [
+								"users",
+								"get-by-id",
+								"{{USER_ID}}"
+							]
+						},
+						"description": "/{id}\n\n- Se pasa la id del usuario del que queremos obtener la información"
+					},
+					"response": [
+						{
+							"name": "Get User By Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_PATH}}{{USER_PORT}}/users/get-by-id/1",
+									"host": [
+										"{{URL_PATH}}{{USER_PORT}}"
+									],
+									"path": [
+										"users",
+										"get-by-id",
+										"1"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\r\n    \"id\": 1,\r\n    \"name\": \"Emilio\",\r\n    \"lastName1\": \"Perez\",\r\n    \"lastName2\": \"Castellanos\",\r\n    \"email\": \"emilio@gmail.com\",\r\n    \"phone\": \"67859474\",\r\n    \"active\": false\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Get active users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.be.ok;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{USER_PORT}}/users/get-all/active",
+							"host": [
+								"{{URL_PATH}}{{USER_PORT}}"
+							],
+							"path": [
+								"users",
+								"get-all",
+								"active"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get all active users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_PATH}}{{USER_PORT}}/users/get-all/active",
+									"host": [
+										"{{URL_PATH}}{{USER_PORT}}"
+									],
+									"path": [
+										"users",
+										"get-all",
+										"active"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\r\n    {\r\n        \"fullname\": \"Francisco Gomez\",\r\n        \"email\": \"fran@mail.com\"\r\n    },\r\n    {\r\n        \"fullname\": \"Emilio Casado\",\r\n        \"email\": \"emilio@mail.com\"\r\n    }\r\n]"
+						}
+					]
+				},
+				{
+					"name": "Get inactive users",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.be.ok;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{USER_PORT}}/users/get-all/inactive",
+							"host": [
+								"{{URL_PATH}}{{USER_PORT}}"
+							],
+							"path": [
+								"users",
+								"get-all",
+								"inactive"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get all inactive users",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_PATH}}{{USER_PORT}}/users/get-all/inactive",
+									"host": [
+										"{{URL_PATH}}{{USER_PORT}}"
+									],
+									"path": [
+										"users",
+										"get-all",
+										"inactive"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\r\n    {\r\n        \"fullname\": \"Francisco Gomez\",\r\n        \"email\": \"fran@mail.com\"\r\n    },\r\n    {\r\n        \"fullname\": \"Emilio Casado\",\r\n        \"email\": \"emilio@mail.com\"\r\n    }\r\n]"
+						}
+					]
+				},
+				{
+					"name": "Get user by email",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"    pm.response.to.be.ok;\r",
+									"    pm.response.to.be.withBody;\r",
+									"    pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{USER_PORT}}/users/get-by-email/{{USER_EMAIL}}",
+							"host": [
+								"{{URL_PATH}}{{USER_PORT}}"
+							],
+							"path": [
+								"users",
+								"get-by-email",
+								"{{USER_EMAIL}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get U",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_PATH}}{{USER_PORT}}/users/get-by-id/1",
+									"host": [
+										"{{URL_PATH}}{{USER_PORT}}"
+									],
+									"path": [
+										"users",
+										"get-by-id",
+										"1"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\r\n    \"id\": 1,\r\n    \"name\": \"Emilio\",\r\n    \"lastName1\": \"Perez\",\r\n    \"lastName2\": \"Castellanos\",\r\n    \"email\": \"emilio@gmail.com\",\r\n    \"phone\": \"67859474\",\r\n    \"active\": false\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Add new User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Juan\",\r\n    \"lastName1\": \"Gomez\",\r\n    \"lastName2\": null,\r\n    \"email\": \"{{USER_EMAIL}}\",\r\n    \"phone\": \"+23123456783\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_PATH}}{{USER_PORT}}/users/create",
+							"host": [
+								"{{URL_PATH}}{{USER_PORT}}"
+							],
+							"path": [
+								"users",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Francisco\",\r\n    \"lastName1\": \"Gomez\",\r\n    \"lastName2\": null,\r\n    \"email\": \"juan3232@mail.com\",\r\n    \"phone\": \"3412345678\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_PATH}}{{USER_PORT}}/users/update/id/1",
+							"host": [
+								"{{URL_PATH}}{{USER_PORT}}"
+							],
+							"path": [
+								"users",
+								"update",
+								"id",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete user by ID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Francisco\",\r\n    \"lastName1\": \"Gomez\",\r\n    \"lastName2\": null,\r\n    \"email\": \"juan@mail.com\",\r\n    \"phone\": \"123456789\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_PATH}}{{USER_PORT}}/users/delete/id/33",
+							"host": [
+								"{{URL_PATH}}{{USER_PORT}}"
+							],
+							"path": [
+								"users",
+								"delete",
+								"id",
+								"33"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Documentación para el servicio de usuarios.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "client-service",
+			"item": [
+				{
+					"name": "Get all clients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response body size should be \", function () {\r",
+									"    const responseJson = pm.response.json();\r",
+									"    console.log(responseJson)\r",
+									"    pm.expect(responseJson.length).equals(10);\r",
+									"})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{CLIENT_PORT}}/clients/get-all",
+							"host": [
+								"{{URL_PATH}}{{CLIENT_PORT}}"
+							],
+							"path": [
+								"clients",
+								"get-all"
+							]
+						},
+						"description": "Get all the clients information.\n\n- In the next version of our API, this request will be paginated"
+					},
+					"response": [
+						{
+							"name": "Get all clients",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL-CLIENT}}/clients/get-all",
+									"host": [
+										"{{URL-CLIENT}}"
+									],
+									"path": [
+										"clients",
+										"get-all"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "[\r\n    {\r\n        \"id\": 1,\r\n        \"name\": \"Luis\",\r\n        \"lastName1\": \"Monzon\",\r\n        \"lastName2\": null,\r\n        \"email\": \"luis@gmail.com\",\r\n        \"phone\": \"675485784\",\r\n        \"active\": true,\r\n        \"identifier\": \"47876543G\",\r\n        \"userId\": 1\r\n    },\r\n    {\r\n        \"id\": 2,\r\n        \"name\": \"Alvaro\",\r\n        \"lastName1\": \"Gavilannn\",\r\n        \"lastName2\": \"Fernandez\",\r\n        \"email\": \"alvaro.gfc@gmail.com\",\r\n        \"phone\": \"666677777\",\r\n        \"active\": true,\r\n        \"identifier\": \"11111111H\",\r\n        \"userId\": 1\r\n    },\r\n    {\r\n        \"id\": 12,\r\n        \"name\": \"Ignacio\",\r\n        \"lastName1\": \"Pinto\",\r\n        \"lastName2\": \"Rodriguez\",\r\n        \"email\": \"ew@gmail.com\",\r\n        \"phone\": \"654654654\",\r\n        \"active\": false,\r\n        \"identifier\": \"12345678P\",\r\n        \"userId\": 1\r\n    },\r\n    {\r\n        \"id\": 13,\r\n        \"name\": \"Alvarooo\",\r\n        \"lastName1\": \"Gavilan\",\r\n        \"lastName2\": \"Fernandez\",\r\n        \"email\": \"alvaro34gfc@gmail.com\",\r\n        \"phone\": \"666677778\",\r\n        \"active\": true,\r\n        \"identifier\": \"11111422H\",\r\n        \"userId\": 4\r\n    },\r\n    {\r\n        \"id\": 14,\r\n        \"name\": \"Vidal\",\r\n        \"lastName1\": \"Lera\",\r\n        \"lastName2\": \"Valencia\",\r\n        \"email\": \"vidal.algo@gmail.com\",\r\n        \"phone\": \"654654654\",\r\n        \"active\": false,\r\n        \"identifier\": \"92345678P\",\r\n        \"userId\": 1\r\n    }\r\n]"
+						}
+					]
+				},
+				{
+					"name": "Get client by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{CLIENT_PORT}}/clients/get-by-id/{{CLIENT_ID}}",
+							"host": [
+								"{{URL_PATH}}{{CLIENT_PORT}}"
+							],
+							"path": [
+								"clients",
+								"get-by-id",
+								"{{CLIENT_ID}}"
+							]
+						},
+						"description": "Get the client information by Id"
+					},
+					"response": [
+						{
+							"name": "Get client by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL-CLIENT}}/clients/get-by-id/2",
+									"host": [
+										"{{URL-CLIENT}}"
+									],
+									"path": [
+										"clients",
+										"get-by-id",
+										"2"
+									]
+								}
+							},
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "",
+									"type": "text"
+								}
+							],
+							"cookie": [],
+							"body": "{\r\n    \"name\": \"Luis\",\r\n    \"lastName1\": \"Monzon\",\r\n    \"lastName2\": null,\r\n    \"email\": \"luis@gmail.com\",\r\n    \"phone\": \"675485784\",\r\n    \"identifier\": \"47876543G\"\r\n}"
+						}
+					]
+				},
+				{
+					"name": "Get all clients by UserId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{CLIENT_PORT}}/clients/get-by-userId/{{USER_ID}}",
+							"host": [
+								"{{URL_PATH}}{{CLIENT_PORT}}"
+							],
+							"path": [
+								"clients",
+								"get-by-userId",
+								"{{USER_ID}}"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get all clients by UserId",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_PATH}}{{CLIENT_PORT}}/clients/get-by-userId/1",
+									"host": [
+										"{{URL_PATH}}{{CLIENT_PORT}}"
+									],
+									"path": [
+										"clients",
+										"get-by-userId",
+										"1"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get all accounts by ClientId",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{CLIENT_PORT}}/clients/get-accounts/2",
+							"host": [
+								"{{URL_PATH}}{{CLIENT_PORT}}"
+							],
+							"path": [
+								"clients",
+								"get-accounts",
+								"2"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get all accounts by ClientId",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_PATH}}{{CLIENT_PORT}}/clients/get-accounts/2",
+									"host": [
+										"{{URL_PATH}}{{CLIENT_PORT}}"
+									],
+									"path": [
+										"clients",
+										"get-accounts",
+										"2"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get all accounts from a client",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{CLIENT_PORT}}/clients/get-accounts/by-client-id/{{CLIENT_ID}}",
+							"host": [
+								"{{URL_PATH}}{{CLIENT_PORT}}"
+							],
+							"path": [
+								"clients",
+								"get-accounts",
+								"by-client-id",
+								"{{CLIENT_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add new client",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"let userId = pm.environment.get(\"USER_ID\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Pablo\",\r\n    \"lastName1\": \"Blazquez\",\r\n    \"lastName2\": \"\",\r\n    \"email\": \"pepe12345632@gmail.com\",\r\n    \"phone\": \"654654655\",\r\n    \"active\": true,\r\n    \"identifier\": \"29345678Q\",\r\n    \"userId\": \"{{USER_ID}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_PATH}}{{CLIENT_PORT}}/clients/create",
+							"host": [
+								"{{URL_PATH}}{{CLIENT_PORT}}"
+							],
+							"path": [
+								"clients",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update a Client by ID",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Alvaro\",\r\n    \"lastName1\": \"Gavilan\",\r\n    \"lastName2\": \"Fernandez\",\r\n    \"email\": \"alvaro.gfc@gmail.com\",\r\n    \"phone\": \"666677777\",\r\n    \"userId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_PATH}}{{CLIENT_PORT}}/clients/update/{{CLIENT_ID}}",
+							"host": [
+								"{{URL_PATH}}{{CLIENT_PORT}}"
+							],
+							"path": [
+								"clients",
+								"update",
+								"{{CLIENT_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Deactivate a Client",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{CLIENT_PORT}}/clients/delete/14",
+							"host": [
+								"{{URL_PATH}}{{CLIENT_PORT}}"
+							],
+							"path": [
+								"clients",
+								"delete",
+								"14"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Documentación para el servicio de clientes.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"response must be valid and have a body\", function () {",
+							"    pm.response.to.be.ok;",
+							"    pm.response.to.be.withBody;",
+							"    pm.response.to.be.json;",
+							"});",
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "account-service",
+			"item": [
+				{
+					"name": "Get all accounts",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{ACCOUNT_PORT}}/accounts/get-all",
+							"host": [
+								"{{URL_PATH}}{{ACCOUNT_PORT}}"
+							],
+							"path": [
+								"accounts",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get account by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{ACCOUNT_PORT}}/accounts/get-by-id/1",
+							"host": [
+								"{{URL_PATH}}{{ACCOUNT_PORT}}"
+							],
+							"path": [
+								"accounts",
+								"get-by-id",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Accounts By Client",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{ACCOUNT_PORT}}/accounts/get-by-client/{{CLIENT_ID}}",
+							"host": [
+								"{{URL_PATH}}{{ACCOUNT_PORT}}"
+							],
+							"path": [
+								"accounts",
+								"get-by-client",
+								"{{CLIENT_ID}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add account",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"ibanCountry\": 1,\r\n    \"ibanEntity\": 2,\r\n    \"clientId\": 2,\r\n    \"currencyId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_PATH}}{{ACCOUNT_PORT}}/accounts/create",
+							"host": [
+								"{{URL_PATH}}{{ACCOUNT_PORT}}"
+							],
+							"path": [
+								"accounts",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update balance account",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"balance\": 6.0,\r\n        \"active\": false,\r\n        \"iban_id\": 1,\r\n        \"client_id\": 1,\r\n        \"currency_id\": 1\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_PATH}}{{ACCOUNT_PORT}}/accounts/update/to-account/{{ACCOUNT_ID}}/add-balance/{{BALANCE}}",
+							"host": [
+								"{{URL_PATH}}{{ACCOUNT_PORT}}"
+							],
+							"path": [
+								"accounts",
+								"update",
+								"to-account",
+								"{{ACCOUNT_ID}}",
+								"add-balance",
+								"{{BALANCE}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Account",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{ACCOUNT_PORT}}/accounts/delete/4",
+							"host": [
+								"{{URL_PATH}}{{ACCOUNT_PORT}}"
+							],
+							"path": [
+								"accounts",
+								"delete",
+								"4"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "currency-service",
+			"item": [
+				{
+					"name": "Get all currencies",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{CURRENCY_PORT}}/currencies/get-all",
+							"host": [
+								"{{URL_PATH}}{{CURRENCY_PORT}}"
+							],
+							"path": [
+								"currencies",
+								"get-all"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get all currencies",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL-CURRENCY}}/currencies/get-all",
+									"host": [
+										"{{URL-CURRENCY}}"
+									],
+									"path": [
+										"currencies",
+										"get-all"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get currency by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{CURRENCY_PORT}}/currencies/get-by-id/1",
+							"host": [
+								"{{URL_PATH}}{{CURRENCY_PORT}}"
+							],
+							"path": [
+								"currencies",
+								"get-by-id",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get currency by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL-CURRENCY}}/currencies/get-by-id/1",
+									"host": [
+										"{{URL-CURRENCY}}"
+									],
+									"path": [
+										"currencies",
+										"get-by-id",
+										"1"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get currency by name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{CURRENCY_PORT}}/currencies/get-by-name/Yen",
+							"host": [
+								"{{URL_PATH}}{{CURRENCY_PORT}}"
+							],
+							"path": [
+								"currencies",
+								"get-by-name",
+								"Yen"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get currency by code",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{CURRENCY_PORT}}/currencies/get-by-code/EUR",
+							"host": [
+								"{{URL_PATH}}{{CURRENCY_PORT}}"
+							],
+							"path": [
+								"currencies",
+								"get-by-code",
+								"EUR"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get the conversion result with 2 currencies and the amount",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{URL_PATH}}{{CURRENCY_PORT}}/currencies/convert?amount=34&to=1&from=2",
+							"host": [
+								"{{URL_PATH}}{{CURRENCY_PORT}}"
+							],
+							"path": [
+								"currencies",
+								"convert"
+							],
+							"query": [
+								{
+									"key": "amount",
+									"value": "34"
+								},
+								{
+									"key": "to",
+									"value": "1"
+								},
+								{
+									"key": "from",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add new currency",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"dolardeplata\",\r\n    \"symbol\": \"$\",\r\n    \"code\": \"DDP\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_PATH}}{{CURRENCY_PORT}}/currencies/get-all",
+							"host": [
+								"{{URL_PATH}}{{CURRENCY_PORT}}"
+							],
+							"path": [
+								"currencies",
+								"get-all"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update currency",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Peseta\",\r\n    \"symbol\": \"$\",\r\n    \"code\": \"PTS\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_PATH}}{{CURRENCY_PORT}}/currencies/get-by-id/11",
+							"host": [
+								"{{URL_PATH}}{{CURRENCY_PORT}}"
+							],
+							"path": [
+								"currencies",
+								"get-by-id",
+								"11"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete currency",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{CURRENCY_PORT}}/currencies/get-by-id/21",
+							"host": [
+								"{{URL_PATH}}{{CURRENCY_PORT}}"
+							],
+							"path": [
+								"currencies",
+								"get-by-id",
+								"21"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "transaction-service",
+			"item": [
+				{
+					"name": "Get All Transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL-TRANS}}/transactions/get-all?limit=3&page=1",
+							"host": [
+								"{{URL-TRANS}}"
+							],
+							"path": [
+								"transactions",
+								"get-all"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "3"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						},
+						"description": "Obtener todas las transacciones\n\n- En la siguiente versión de la API, se actualizara está para paginar la respuesta"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transaction By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL-TRANS}}/transactions/get-by-id/1",
+							"host": [
+								"{{URL-TRANS}}"
+							],
+							"path": [
+								"transactions",
+								"get-by-id",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Transaction by amount",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL-TRANS}}/transactions/get-all/filter?min=5&max=100",
+							"host": [
+								"{{URL-TRANS}}"
+							],
+							"path": [
+								"transactions",
+								"get-all",
+								"filter"
+							],
+							"query": [
+								{
+									"key": "min",
+									"value": "5"
+								},
+								{
+									"key": "max",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Filter transactions",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL-TRANS}}/transactions/get-all/filter?min=30&max=50",
+							"host": [
+								"{{URL-TRANS}}"
+							],
+							"path": [
+								"transactions",
+								"get-all",
+								"filter"
+							],
+							"query": [
+								{
+									"key": "min",
+									"value": "30"
+								},
+								{
+									"key": "max",
+									"value": "50"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Insert new Transaction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"amount\": \"4000\",\r\n    \"account_Id\": 1,\r\n    \"fund_Id\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL-TRANS}}/transactions",
+							"host": [
+								"{{URL-TRANS}}"
+							],
+							"path": [
+								"transactions"
+							],
+							"query": [
+								{
+									"key": "transaction_number",
+									"value": "\"NUM0001\"",
+									"disabled": true
+								},
+								{
+									"key": "amount",
+									"value": "80839645.89",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"description": "Documentación para el servicio de transacciones.",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "fund-service",
+			"item": [
+				{
+					"name": "Get all funds",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{FUND_PORT}}/funds/get-all",
+							"host": [
+								"{{URL_PATH}}{{FUND_PORT}}"
+							],
+							"path": [
+								"funds",
+								"get-all"
+							]
+						},
+						"description": "Get all funds\n\n- In the next version of our API, this request will be paginated"
+					},
+					"response": [
+						{
+							"name": "Get all funds",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_PATH}}{{FUND_PORT}}/funds/get-all",
+									"host": [
+										"{{URL_PATH}}{{FUND_PORT}}"
+									],
+									"path": [
+										"funds",
+										"get-all"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get fund information by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{FUND_PORT}}/funds/get-by-id/1",
+							"host": [
+								"{{URL_PATH}}{{FUND_PORT}}"
+							],
+							"path": [
+								"funds",
+								"get-by-id",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get fund information by ID",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_PATH}}{{FUND_PORT}}/funds/get-by-id/1",
+									"host": [
+										"{{URL_PATH}}{{FUND_PORT}}"
+									],
+									"path": [
+										"funds",
+										"get-by-id",
+										"1"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get fund information by name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{FUND_PORT}}/funds/get-by-name/Delfin",
+							"host": [
+								"{{URL_PATH}}{{FUND_PORT}}"
+							],
+							"path": [
+								"funds",
+								"get-by-name",
+								"Delfin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get fund information by reference number",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{FUND_PORT}}/funds/get-by-refNumber/REF156785",
+							"host": [
+								"{{URL_PATH}}{{FUND_PORT}}"
+							],
+							"path": [
+								"funds",
+								"get-by-refNumber",
+								"REF156785"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get funds by currency",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{FUND_PORT}}/funds/get-by-currencyId/1",
+							"host": [
+								"{{URL_PATH}}{{FUND_PORT}}"
+							],
+							"path": [
+								"funds",
+								"get-by-currencyId",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all active funds",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{FUND_PORT}}/funds/active/1",
+							"host": [
+								"{{URL_PATH}}{{FUND_PORT}}"
+							],
+							"path": [
+								"funds",
+								"active",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get all inactive funds",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{FUND_PORT}}/funds/get-all/inactive",
+							"host": [
+								"{{URL_PATH}}{{FUND_PORT}}"
+							],
+							"path": [
+								"funds",
+								"get-all",
+								"inactive"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save fund",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Santander\",\r\n    \"refNumber\": \"REF11345\",\r\n    \"currencyId\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_PATH}}{{FUND_PORT}}/funds/create",
+							"host": [
+								"{{URL_PATH}}{{FUND_PORT}}"
+							],
+							"path": [
+								"funds",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update fund",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"Delfin\",\r\n    \"refNumber\":\"REF156785\",\r\n    \"currencyId\":3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_PATH}}{{FUND_PORT}}/funds/1",
+							"host": [
+								"{{URL_PATH}}{{FUND_PORT}}"
+							],
+							"path": [
+								"funds",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete fund",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{FUND_PORT}}/funds/delete/1",
+							"host": [
+								"{{URL_PATH}}{{FUND_PORT}}"
+							],
+							"path": [
+								"funds",
+								"delete",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "product-service",
+			"item": [
+				{
+					"name": "Get All Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{PRODUCT_PORT}}/products/get-all",
+							"host": [
+								"{{URL_PATH}}{{PRODUCT_PORT}}"
+							],
+							"path": [
+								"products",
+								"get-all"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get All Products",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_PATH}}{{PRODUCT_PORT}}/products/get-all",
+									"host": [
+										"{{URL_PATH}}{{PRODUCT_PORT}}"
+									],
+									"path": [
+										"products",
+										"get-all"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get Product By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{PRODUCT_PORT}}/products/get-by-id/1",
+							"host": [
+								"{{URL_PATH}}{{PRODUCT_PORT}}"
+							],
+							"path": [
+								"products",
+								"get-by-id",
+								"1"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "Get Product By Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{URL_PATH}}{{PRODUCT_PORT}}/products/get-by-id/1",
+									"host": [
+										"{{URL_PATH}}{{PRODUCT_PORT}}"
+									],
+									"path": [
+										"products",
+										"get-by-id",
+										"1"
+									]
+								}
+							},
+							"_postman_previewlanguage": "Text",
+							"header": [],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Get Product By Name",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{PRODUCT_PORT}}/products/get-by-name/Hipoteca",
+							"host": [
+								"{{URL_PATH}}{{PRODUCT_PORT}}"
+							],
+							"path": [
+								"products",
+								"get-by-name",
+								"Hipoteca"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product By Active",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{PRODUCT_PORT}}/products/get-all/active",
+							"host": [
+								"{{URL_PATH}}{{PRODUCT_PORT}}"
+							],
+							"path": [
+								"products",
+								"get-all",
+								"active"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Product By Inactive",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{PRODUCT_PORT}}/products/get-all/inactive",
+							"host": [
+								"{{URL_PATH}}{{PRODUCT_PORT}}"
+							],
+							"path": [
+								"products",
+								"get-all",
+								"inactive"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Save Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Plan de pensiones2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_PATH}}{{PRODUCT_PORT}}/products/create",
+							"host": [
+								"{{URL_PATH}}{{PRODUCT_PORT}}"
+							],
+							"path": [
+								"products",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Hipoteca\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL_PATH}}{{PRODUCT_PORT}}/products/update/1",
+							"host": [
+								"{{URL_PATH}}{{PRODUCT_PORT}}"
+							],
+							"path": [
+								"products",
+								"update",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{URL_PATH}}{{PRODUCT_PORT}}/products/delete/6",
+							"host": [
+								"{{URL_PATH}}{{PRODUCT_PORT}}"
+							],
+							"path": [
+								"products",
+								"delete",
+								"6"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.environment.set(\"USER_ID\", 1);",
+					"pm.environment.set(\"CLIENT_ID\", 2);"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"pm.test(\"response must be valid and have a body\", function () {",
+					"    pm.response.to.be.success;",
+					"});",
+					"",
+					"pm.test(\"response should be okay to process\", function () {",
+					"    pm.response.to.not.be.error;",
+					"    pm.response.to.not.have.jsonBody(\"error\");",
+					"});",
+					"",
+					"pm.test(\"Response time is less than limit 1.5s\", function() {",
+					"var limit = 1500;",
+					"pm.expect(pm.response.responseTime, \"Response time was longer than \" + limit + \" ms.\").to.be.below(limit);",
+					"console.log(\"Response Time: \" + pm.response.responseTime + \" ms\" + \" / Response Date: \" + pm.response.headers.get(\"Date\"));",
+					"});",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "localhost:8080",
+			"disabled": true
+		}
+	]
+}
