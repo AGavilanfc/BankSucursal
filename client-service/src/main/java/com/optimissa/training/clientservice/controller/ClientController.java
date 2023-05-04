@@ -24,13 +24,18 @@ public class ClientController {
     }
 
     @GetMapping("/get-all")
-    public List<Client> getClients() {
+    public ResponseEntity<Object> getClients() {
         logger.info("Searching clients");
         Long startTime = System.currentTimeMillis();
-        List<Client> clients = service.getClients();
-        Long endTime = System.currentTimeMillis();
-        logger.info("Finished in {} ms Response: {}", (endTime - startTime), clients.toString());
-        return clients;
+       try {
+           List<Client> clients = service.getClients();
+           Long endTime = System.currentTimeMillis();
+           logger.info("Finished getClients in {} ms", (endTime - startTime));
+           return ResponseEntity.ok(clients);
+       } catch (Exception e) {
+           logger.error("Error searching clients: {}", e.getMessage());
+           return new ResponseEntity<>("Clients not found. ", HttpStatus.NOT_FOUND);
+       }
     }
 
     @GetMapping("get-by-id/{id}")
@@ -40,7 +45,7 @@ public class ClientController {
         try {
             ClientResponse client = service.getClientById(id);
             Long endTime = System.currentTimeMillis();
-            logger.info("Finished in {} ms Response: {}", (endTime - startTime), client.toString());
+            logger.info("Finished getClientById in {} ms", (endTime - startTime));
             return ResponseEntity.ok(client);
         } catch(Exception e) {
             logger.error("Error searching client with id {}: not found", id);
@@ -48,14 +53,44 @@ public class ClientController {
         }
     }
 
+    @GetMapping("get-by-identifier/{identifier}")
+    public ResponseEntity<Object> getClientsByIdentifier(@PathVariable String identifier) {
+        logger.info("Searching client by identifier {}", identifier);
+        Long startTime = System.currentTimeMillis();
+        try {
+            ClientResponse client = service.getClientByIdentifier(identifier);
+            Long endTime = System.currentTimeMillis();
+            logger.info("Finished getClientByIdentifier in {} ms", (endTime - startTime));
+            return ResponseEntity.ok(client);
+        } catch (Exception e) {
+            logger.error("Error searching client with id {}: not found", identifier);
+            return new ResponseEntity<>("Client not found. ", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("get-last")
+    public ResponseEntity<Object> getLastClient() {
+        logger.info("Searching last client");
+        Long startTime = System.currentTimeMillis();
+        try {
+            ClientResponse client = service.getLastClient();
+            Long endTime = System.currentTimeMillis();
+            logger.info("Finished getLastClient in {} ms", (endTime - startTime));
+            return ResponseEntity.ok(client);
+        } catch (Exception e) {
+            logger.error("Error searching last client: not found");
+            return new ResponseEntity<>("Client not found. ", HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/create")
-    public ResponseEntity<Object> insertClient(@RequestBody Client newClient) throws RuntimeException {
+    public ResponseEntity<Object> insertClient(@RequestBody ClientRequest newClient) throws RuntimeException {
         logger.info("Inserting new client {}", newClient);
         Long startTime = System.currentTimeMillis();
         try {
             int response = service.insertClient(newClient);
             Long endTime = System.currentTimeMillis();
-            logger.info("Finished in {} ms Response: {}", (endTime - startTime), response);
+            logger.info("Finished insertClient in {} ms", (endTime - startTime));
         } catch (Exception e) {
             logger.error("Error inserting client: {}", e.getMessage());
             return ResponseEntity.unprocessableEntity().body("Incorrect data: " + e.getMessage());
@@ -71,7 +106,7 @@ public class ClientController {
             int response = service.deleteClient(id);
             if (response == 0) throw new Exception("id not found");
             Long endTime = System.currentTimeMillis();
-            logger.info("Finished in {} ms Response: {}", (endTime - startTime), response);
+            logger.info("Finished deleteClient in {} ms", (endTime - startTime));
         } catch (Exception e) {
             logger.error("Error deleting client with id {}: {}", id, e.getMessage());
             return new ResponseEntity<>("Client not found. ", HttpStatus.NOT_FOUND);
@@ -90,7 +125,7 @@ public class ClientController {
                 return new ResponseEntity<>("Client not found. ", HttpStatus.NOT_FOUND);
             }
             Long endTime = System.currentTimeMillis();
-            logger.info("Finished in {} ms Response: {}", (endTime - startTime), response);
+            logger.info("Finished updateClient in {} ms", (endTime - startTime));
         } catch (Exception e) {
             logger.error("Error updating client with id {}: {}", id, e.getMessage());
             return ResponseEntity.unprocessableEntity().body("Incorrect data: " + e.getMessage());
@@ -102,8 +137,19 @@ public class ClientController {
     //Communication with other modules
 
     @GetMapping("get-by-userId/{id}")
-    public ResponseEntity<List<ClientResponse>> getClientByUserId(@PathVariable int id){
-        return ResponseEntity.ok(service.getClientByUserId(id));
+    public ResponseEntity<Object> getClientByUserId(@PathVariable int id){
+        logger.info("Searching clients by userId {}", id);
+        Long startTime = System.currentTimeMillis();
+        try {
+            List<ClientResponse> clients = service.getClientByUserId(id);
+            if (clients.isEmpty()) throw new Exception("not found");
+            Long endTime = System.currentTimeMillis();
+            logger.info("Finished getClientsByUserId in {} ms", (endTime - startTime));
+            return ResponseEntity.ok(clients);
+        } catch (Exception e) {
+            logger.error("Error searching clients with userId {}: {}", id, e.getMessage());
+            return new ResponseEntity<>("Clients not found. ", HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/get-accounts/by-client-id/{id}")

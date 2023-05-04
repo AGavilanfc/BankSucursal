@@ -12,6 +12,8 @@ public class ClientRequest {
 
     private String phone;
 
+    private String identifier;
+
     private int userId;
 
 
@@ -53,6 +55,14 @@ public class ClientRequest {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getIdentifier() {
+        return identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        this.identifier = identifier;
     }
 
     public int getUserId() {

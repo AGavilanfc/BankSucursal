@@ -36,6 +36,16 @@ public class ClientRepository implements IClientRepository{
         return jdbc.queryForObject(query, new BeanPropertyRowMapper<>(Client.class), id);
     }
 
+    public Client getClientByIdentifier(String identifier) {
+        String query = "SELECT * FROM CLIENT WHERE IDENTIFIER = ?";
+        return jdbc.queryForObject(query, new BeanPropertyRowMapper<>(Client.class), identifier);
+    }
+
+    public Client getLastClient() {
+        String query = "SELECT * FROM CLIENT WHERE ID = (SELECT MAX(ID) FROM CLIENT)";
+        return jdbc.queryForObject(query, new BeanPropertyRowMapper<>(Client.class));
+    }
+
     @GetMapping("/get-by-userId")
     public List<Client> getClientByUserId(int id) {
         String query = "SELECT * FROM CLIENT WHERE USER_ID = ?";
@@ -66,6 +76,7 @@ public class ClientRepository implements IClientRepository{
                 .addValue("lastName2", modifiedClient.getLastName2())
                 .addValue("email", modifiedClient.getEmail())
                 .addValue("phone", modifiedClient.getPhone())
+                .addValue("identifier", modifiedClient.getIdentifier())
                 .addValue("userId", modifiedClient.getUserId())
                 .addValue("id", id)
                 ;
@@ -74,6 +85,7 @@ public class ClientRepository implements IClientRepository{
                 "LAST_NAME2 = :lastName2, " +
                 "EMAIL = :email, " +
                 "PHONE = :phone, " +
+                "IDENTIFIER = :identifier, " +
                 "USER_ID = :userId " +
                 "WHERE ID = :id";
         return namedJdbc.update(query, params);

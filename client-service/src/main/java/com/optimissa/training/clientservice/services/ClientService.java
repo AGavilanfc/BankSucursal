@@ -39,8 +39,18 @@ public class ClientService {
         return clientResponse;
     }
 
+    public ClientResponse getClientByIdentifier(String identifier){
+        Client client = repository.getClientByIdentifier(identifier);
+        return ClientResponseMapper.mapToClientResponse(client);
+    }
 
-    public int insertClient(Client newClient) throws RuntimeException {
+    public ClientResponse getLastClient() {
+        Client client = repository.getLastClient();
+        return ClientResponseMapper.mapToClientResponse(client);
+    }
+
+    public int insertClient(ClientRequest newClientRequest) throws RuntimeException {
+        Client newClient = ClientRequestMapper.mapToClient(newClientRequest);
         if (!ClientUtils.isValidEmail(newClient.getEmail())) {
             String msg = "Invalid email";
             logger.error("Error inserting client: {}", msg);
