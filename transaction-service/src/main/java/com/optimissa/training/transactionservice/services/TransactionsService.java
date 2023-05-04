@@ -22,9 +22,6 @@ public class TransactionsService {
     String urlAccount = "http://localhost:8092/accounts/get-by-id";
     String urlAccount2 = "http://localhost:8092/accounts";
 
-    String urlCurrency = "http://localhost:8093/currencies";
-
-
 
 
     @Autowired
@@ -42,11 +39,14 @@ public class TransactionsService {
     public TransactionResponse getByIdTransaction(int id) {
 
         Transaction transaction = transactionRespository.getByIdTransaction(id);
+        AccountResponse account = getByIdAccount(transaction.getAccount_Id());
+        FundResponse fund = getByIdFund(transaction.getFund_Id());
         return new TransactionResponse(
                 transaction.getDate(),
                 transaction.getAmount(),
-                getByIdAccount(transaction.getAccount_Id()),
-                getByIdFund(transaction.getFund_Id())
+                account,
+                fund
+
         );
     }
 

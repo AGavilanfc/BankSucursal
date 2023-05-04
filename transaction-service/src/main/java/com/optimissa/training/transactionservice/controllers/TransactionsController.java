@@ -35,11 +35,11 @@ public class TransactionsController {
             log.info("obtain one transaction: {}", id);
             TransactionResponse transaction = tranService.getByIdTransaction(id);
             Long end = System.currentTimeMillis();
-            log.info("Time: {}", (end - start));
+            log.info("getTransaction, Time: {}", (end - start));
             return ResponseEntity.ok(transaction);
 
         } catch (Exception e) {
-            log.error("Error: {}", ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+            log.error("getTransaction, Error: {}", ResponseEntity.status(HttpStatus.NOT_FOUND).build());
             return new ResponseEntity<>("Id doesnt exist. " + e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
@@ -56,7 +56,7 @@ public class TransactionsController {
             log.info("Time: {}", (end - start));
             return ResponseEntity.ok(transactions);
         } catch (Exception e) {
-            log.error("Bad request: Error: {}", e.getMessage());
+            log.error("getAllTransaction, Bad request: Error: {}", e.getMessage());
             return ResponseEntity.badRequest().body("Bad request: " + e.getMessage());
 
         }
@@ -76,7 +76,7 @@ public class TransactionsController {
             log.info("obtained all by amount min= " + min + " max= " + max);
             return ResponseEntity.ok(transaction);
         } catch (Exception e) {
-            log.error("Error: {}{}", ResponseEntity.internalServerError().build(), e.getMessage(), e.getStackTrace());
+            log.error("getAllTransactionsByAmount, Error: {}{}", ResponseEntity.internalServerError().build(), e.getMessage(), e.getStackTrace());
             return new ResponseEntity<>("Not created. " + e.getMessage(), HttpStatus.BAD_REQUEST);
 
         }
@@ -94,7 +94,7 @@ public class TransactionsController {
             log.info("Time: {}", (end - start));
 
         } catch (Exception e) {
-            log.error("Error: {}{}", ResponseEntity.internalServerError().build(), e.getMessage(), e.getStackTrace());
+            log.error("createTransaction, Error: {}{}", ResponseEntity.internalServerError().build(), e.getMessage(), e.getStackTrace());
             return new ResponseEntity<>("Not created. " + e.getMessage(), HttpStatus.UNPROCESSABLE_ENTITY);
         }
 
