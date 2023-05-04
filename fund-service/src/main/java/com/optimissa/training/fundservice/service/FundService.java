@@ -1,6 +1,7 @@
 package com.optimissa.training.fundservice.service;
 
 import com.optimissa.training.fundservice.api.FundRequest;
+import com.optimissa.training.fundservice.controller.FundController;
 import com.optimissa.training.fundservice.mapper.FundRequestMapper;
 import com.optimissa.training.fundservice.model.Fund;
 import com.optimissa.training.fundservice.repository.FundRepository;
@@ -18,7 +19,7 @@ public class FundService {
     RestTemplate restTemplate = new RestTemplate();
     String urlProduct = "http://localhost:8096/products";
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FundService.class);
+    private final Logger logger = LoggerFactory.getLogger(FundController.class);
 
 
     private final FundRepository fundRepository;

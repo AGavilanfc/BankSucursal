@@ -6,6 +6,15 @@ public class FundResponse {
     private String refNumber;
     private int currencyId;
 
+    public FundResponse() {
+    }
+
+    public FundResponse(String name, String refNumber, int currencyId) {
+        this.name = name;
+        this.refNumber = refNumber;
+        this.currencyId = currencyId;
+    }
+
     public String getName() { return name;}
 
     public void setName(String name) { this.name = name;}
@@ -17,4 +26,13 @@ public class FundResponse {
     public int getCurrencyId() { return currencyId;}
 
     public void setCurrencyId(int currencyId) { this.currencyId = currencyId;}
+
+    @Override
+    public String toString() {
+        return "FundResponse{" +
+                "name='" + name + '\'' +
+                ", refNumber='" + refNumber + '\'' +
+                ", currencyId=" + currencyId +
+                '}';
+    }
 }
