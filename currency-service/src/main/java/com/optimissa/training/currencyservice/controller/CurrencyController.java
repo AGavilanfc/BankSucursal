@@ -31,7 +31,12 @@ public class CurrencyController {
         Currency currencyFrom = null, currencyTo = null;
 
         try {
+            Long start = System.currentTimeMillis();
             currencyFrom = currencyService.getCurrencyById(from);
+            Long end = System.currentTimeMillis();
+            logger.info("convertCurrency, Time: {}", (end - start));
+
+
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("incorrect Id FROM ");
         }
@@ -57,13 +62,20 @@ public class CurrencyController {
     @GetMapping("/get-all")
     public List<Currency> getAllCurrencies() {
         logger.info("estamos entrando en getAllCurrencies");
-        return currencyService.getAllCurrencies();
+        Long start = System.currentTimeMillis();
+        List<Currency> currencies = currencyService.getAllCurrencies();
+        Long end = System.currentTimeMillis();
+        logger.info("getAllCurrencies, Time: {}", (end - start));
+        return currencies;
     }
 
     @GetMapping(value = "/get-by-id/{id}")
     public ResponseEntity<Object> getCurrencyById(@PathVariable int id) {
         try {
+            Long start = System.currentTimeMillis();
             Currency currency = currencyService.getCurrencyById(id);
+            Long end = System.currentTimeMillis();
+            logger.info("getCurrencyById, Time: {}", (end - start));
             return ResponseEntity.ok(currency);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("ID not found");
@@ -76,7 +88,11 @@ public class CurrencyController {
     @ResponseStatus(HttpStatus.CREATED)
     public String createCurrency(@RequestBody Currency currency) {
         logger.info("estamos creando una moneda");
-       return currencyService.createCurrency(currency);
+        Long start = System.currentTimeMillis();
+        String currency1 = currencyService.createCurrency(currency);
+        Long end = System.currentTimeMillis();
+        logger.info("createCurrency, Time: {}", (end - start));
+       return currency1;
     }
 
 
@@ -84,7 +100,11 @@ public class CurrencyController {
     @DeleteMapping("/delete/{id}")
     public String deleteCurrency(@PathVariable int id) {
         logger.info("estamos borrando una moneda");
-        return currencyService.deleteById(id);
+        Long start = System.currentTimeMillis();
+        String currency = currencyService.deleteById(id);
+        Long end = System.currentTimeMillis();
+        logger.info("deleteCurrency, Time: {}", (end - start));
+        return currency;
 
     }
 
@@ -92,7 +112,10 @@ public class CurrencyController {
     @PatchMapping("/update/{id}")
     public String updateCurrency(@PathVariable int id, @RequestBody Currency currency) {
         logger.info("estamos editando una moneda");
+        Long start = System.currentTimeMillis();
         boolean updated = currencyService.updateCurrency(id, currency);
+        Long end = System.currentTimeMillis();
+        logger.info("updateCurrency, Time: {}", (end - start));
         if (updated) {
             return "Currency updated successfully!";
         } else {
@@ -105,7 +128,10 @@ public class CurrencyController {
     @GetMapping(value = "/get-by-name/{name}")
     public ResponseEntity<?> getCurrencyByName(@PathVariable String name) {
         logger.info("estamos entrando en get-by-name {}", name);
+        Long start = System.currentTimeMillis();
         Currency currency = currencyService.getByName(name);
+        Long end = System.currentTimeMillis();
+        logger.info("getCurrencyByName, Time: {}", (end - start));
         if (currency != null) {
             return ResponseEntity.ok(currency);
         } else {
@@ -117,7 +143,10 @@ public class CurrencyController {
     public ResponseEntity<?> getCurrencyByCode(@PathVariable String code) {
         logger.info("estamos entrando en get-by-code {}", code);
         try {
+            Long start = System.currentTimeMillis();
             Currency currency = currencyService.getByCode(code);
+            Long end = System.currentTimeMillis();
+            logger.info("getCurrencyByCode, Time: {}", (end - start));
             return ResponseEntity.ok(currency);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Currency not found");
