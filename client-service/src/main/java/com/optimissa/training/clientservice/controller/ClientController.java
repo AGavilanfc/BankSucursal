@@ -53,6 +53,21 @@ public class ClientController {
         }
     }
 
+    @GetMapping("get-by-identifier/{identifier}")
+    public ResponseEntity<Object> getClientsByIdentifier(@PathVariable String identifier) {
+        logger.info("Searching client by identifier {}", identifier);
+        Long startTime = System.currentTimeMillis();
+        try {
+            ClientResponse client = service.getClientByIdentifier(identifier);
+            Long endTime = System.currentTimeMillis();
+            logger.info("Finished getClientByIdentifier in {}", (endTime - startTime));
+            return ResponseEntity.ok(client);
+        } catch (Exception e) {
+            logger.error("Error searching client with id {}: not found", identifier);
+            return new ResponseEntity<>("Client not found. ", HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Object> insertClient(@RequestBody ClientRequest newClient) throws RuntimeException {
         logger.info("Inserting new client {}", newClient);
