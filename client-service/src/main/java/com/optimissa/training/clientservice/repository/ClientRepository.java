@@ -41,6 +41,11 @@ public class ClientRepository implements IClientRepository{
         return jdbc.queryForObject(query, new BeanPropertyRowMapper<>(Client.class), identifier);
     }
 
+    public Client getLastClient() {
+        String query = "SELECT * FROM CLIENT WHERE ID = (SELECT MAX(ID) FROM CLIENT)";
+        return jdbc.queryForObject(query, new BeanPropertyRowMapper<>(Client.class));
+    }
+
     @GetMapping("/get-by-userId")
     public List<Client> getClientByUserId(int id) {
         String query = "SELECT * FROM CLIENT WHERE USER_ID = ?";

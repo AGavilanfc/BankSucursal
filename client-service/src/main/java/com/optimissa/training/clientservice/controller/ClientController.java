@@ -45,7 +45,7 @@ public class ClientController {
         try {
             ClientResponse client = service.getClientById(id);
             Long endTime = System.currentTimeMillis();
-            logger.info("Finished getClientById in {}", (endTime - startTime));
+            logger.info("Finished getClientById in {} ms", (endTime - startTime));
             return ResponseEntity.ok(client);
         } catch(Exception e) {
             logger.error("Error searching client with id {}: not found", id);
@@ -60,10 +60,25 @@ public class ClientController {
         try {
             ClientResponse client = service.getClientByIdentifier(identifier);
             Long endTime = System.currentTimeMillis();
-            logger.info("Finished getClientByIdentifier in {}", (endTime - startTime));
+            logger.info("Finished getClientByIdentifier in {} ms", (endTime - startTime));
             return ResponseEntity.ok(client);
         } catch (Exception e) {
             logger.error("Error searching client with id {}: not found", identifier);
+            return new ResponseEntity<>("Client not found. ", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @GetMapping("get-last")
+    public ResponseEntity<Object> getLastClient() {
+        logger.info("Searching last client");
+        Long startTime = System.currentTimeMillis();
+        try {
+            ClientResponse client = service.getLastClient();
+            Long endTime = System.currentTimeMillis();
+            logger.info("Finished getLastClient in {} ms", (endTime - startTime));
+            return ResponseEntity.ok(client);
+        } catch (Exception e) {
+            logger.error("Error searching last client: not found");
             return new ResponseEntity<>("Client not found. ", HttpStatus.NOT_FOUND);
         }
     }

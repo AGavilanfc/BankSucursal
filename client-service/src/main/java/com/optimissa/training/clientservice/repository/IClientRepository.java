@@ -12,6 +12,8 @@ public interface IClientRepository {
 
     public Client getClientByIdentifier(String identifier);
 
+    public Client getLastClient();
+
     public List<Client> getClientByUserId(int id);
 
     public int insertClient(Client newClient);

@@ -41,8 +41,12 @@ public class ClientService {
 
     public ClientResponse getClientByIdentifier(String identifier){
         Client client = repository.getClientByIdentifier(identifier);
-        ClientResponse clientResponse= ClientResponseMapper.mapToClientResponse(client);
-        return clientResponse;
+        return ClientResponseMapper.mapToClientResponse(client);
+    }
+
+    public ClientResponse getLastClient() {
+        Client client = repository.getLastClient();
+        return ClientResponseMapper.mapToClientResponse(client);
     }
 
     public int insertClient(ClientRequest newClientRequest) throws RuntimeException {
