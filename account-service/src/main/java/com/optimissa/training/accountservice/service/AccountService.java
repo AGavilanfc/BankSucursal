@@ -1,21 +1,18 @@
 package com.optimissa.training.accountservice.service;
-
 import com.optimissa.training.accountservice.api.AccountRequest;
 import com.optimissa.training.accountservice.api.AccountResponse;
 import com.optimissa.training.accountservice.api.CurrencyResponse;
+import com.optimissa.training.accountservice.controller.AccountController;
 import com.optimissa.training.accountservice.mapper.AccountMapper;
 import com.optimissa.training.accountservice.mapper.AccountRequestMapper;
 import com.optimissa.training.accountservice.models.*;
 import com.optimissa.training.accountservice.repository.AccountRepository;
-import com.optimissa.training.accountservice.repository.EntityRepository;
 import com.optimissa.training.accountservice.repository.IbanRepository;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-
-import java.util.Currency;
 import java.util.List;
-import java.util.Map;
 import java.util.Random;
 
 
@@ -41,39 +38,59 @@ public class AccountService {
 
     String urlCurrency = "http://localhost:8093/currencies/";
 
+    private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(AccountController.class.getName());
+
 
     public AccountResponse getAccount(int id) {
+        LOGGER.info("Started AccountService.getAccount()");
+        long start = System.currentTimeMillis();
         Account account = accountRepository.getAccount(id);
-
-        return new AccountResponse(
-               account.getId(),
-               account.getBalance(),
-               account.isActive(),
-               account.getIban_id(),
-               account.getClient_id(),
-               getByIdAccount(account.getCurrency_id()),
-               account.getIban()
-        );
+        AccountResponse accountResponse = new AccountResponse(
+                account.getId(),
+                account.getBalance(),
+                account.isActive(),
+                account.getIban_id(),
+                account.getClient_id(),
+                getByIdAccount(account.getCurrency_id()),
+                account.getIban());
+        long end = System.currentTimeMillis();
+        LOGGER.info("Finished AccountService.getAccount() , " , end-start, accountResponse.toString() );
+        return accountResponse;
 
     }
 
     public CurrencyResponse getByIdAccount(int id) {
-        return restTemplate.getForObject("http://localhost:8093/currencies/get-by-id/" + id, CurrencyResponse.class);
-    }
-    public List<Account> getAllAccount() {
-        return accountRepository.getAllAccount();
+        LOGGER.info("Started AccountService.getByIdAccount()");
+        long start = System.currentTimeMillis();
+        CurrencyResponse currencyResponse = restTemplate.getForObject("http://localhost:8093/currencies/get-by-id/" + id, CurrencyResponse.class);
+        long end = System.currentTimeMillis();
+        LOGGER.info("Finished AccountService.getByIdAccount() , " , end-start, currencyResponse.toString() );
+        return currencyResponse;
     }
 
+    public List<Account> getAllAccount() {
+        LOGGER.info("Started AccountService.getAllAccount()");
+        long start = System.currentTimeMillis();
+        List<Account>accounts = accountRepository.getAllAccount();
+        long end = System.currentTimeMillis();
+        LOGGER.info("Finished AccountService.getAllAccount() , " , end-start, accounts.toString() );
+        return accounts;
+    }
 
     public List<Account> getAccountByClient(int clientId) {
-        return accountRepository.getAccountByClient(clientId);
+        LOGGER.info("Started AccountService.getAccountByClient()");
+        long start = System.currentTimeMillis();
+        List<Account>accounts = accountRepository.getAccountByClient(clientId);
+        long end = System.currentTimeMillis();
+        LOGGER.info("Finished AccountService.getAccountByClient() , " , end-start, accounts.toString() );
+        return accounts;
     }
 
     public boolean createAccount(AccountRequest accountRequest) {
-
+        LOGGER.info("Started AccountService.createAccount()");
+        long start = System.currentTimeMillis();
         int ibanCountry = accountRequest.getIbanCountry();
         int ibanEntity = accountRequest.getIbanEntity();
-
         //mapper AccountRequest -> AccountDTO
         Account account = accountRequestMapper.maptoAccount(accountRequest);
         int lineaAccount = 0;
@@ -83,11 +100,14 @@ public class AccountService {
             account.setIban(generateIBAN(ibanEntity, ibanCountry, account));
             lineaAccount = accountRepository.save(account);
         }
+        long end = System.currentTimeMillis();
+        LOGGER.info("Finished AccountService.createAccount() , " , end-start, account.toString() );
         return lineaAccount > 0;
     }
 
     private String generateIBAN(int ibanEntity, int ibanCountry, Account a) {
-
+        LOGGER.info("Started AccountService.generateIBAN()");
+        long start = System.currentTimeMillis();
         int max = 999_999_999;
         int min = 100_000_000;
         Random random = new Random();
@@ -104,30 +124,41 @@ public class AccountService {
         int entity = accountRepository.detIBANEntity(ibanEntity);
 
         String result = country+countryControl+entity+branch+accountControl+accountNumber+lastNumber;
-
+        long end = System.currentTimeMillis();
+        LOGGER.info("Finished AccountService.generateIBAN() , " , end-start, result);
         return result;
     }
 
     public int updateBalance(int id, double balance) {
-        return accountRepository.updateAddBalance(id,balance);
+        LOGGER.info("Started AccountService.updateBalance()");
+        long start = System.currentTimeMillis();
+        int result = accountRepository.updateAddBalance(id,balance);
+        long end = System.currentTimeMillis();
+        LOGGER.info("Finished AccountService.updateBalance() , " , end-start, result );
+        return result;
     }
 
     public int updateBalanceDeduct(int id, double balance) {
-        return accountRepository.updateBalanceSubstract(id,balance);
+        LOGGER.info("Started AccountService.updateBalanceDeduct()");
+        long start = System.currentTimeMillis();
+        int result = accountRepository.updateBalanceSubstract(id,balance);
+        long end = System.currentTimeMillis();
+        LOGGER.info("Finished AccountService.updateBalanceSubstract() , " , end-start, result );
+        return result;
     }
 
     public StringResponse deleteAccount(int id) {
+        LOGGER.info("Started AccountService.deleteAccount()");
+        long start = System.currentTimeMillis();
         String str = "a";
-
 
         if (accountRepository.delete(id) == 1) {
             str = "se ha desactivado la cuenta " + id;
-
         } else {
             str = "no se ha desactivado la cuenta " + id + " porque no existe";
         }
-
+        long end = System.currentTimeMillis();
+        LOGGER.info("Finished AccountService.DeleteAccount() , " , end-start, str);
         return new StringResponse(str);
     }
-
 }

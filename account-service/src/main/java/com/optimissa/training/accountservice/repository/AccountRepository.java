@@ -69,7 +69,6 @@ public class AccountRepository implements IAccountRepository {
             balanceFinal = balanceActual + balance;
             String sql = "UPDATE ACCOUNT SET balance = ? WHERE id = ?";
             jdbcTemplate.update(sql, balanceFinal, id);
-
         }
 
         return 0;
@@ -80,7 +79,6 @@ public class AccountRepository implements IAccountRepository {
 
         double balanceActual= jdbcTemplate.queryForObject(GET_BALANCE , new Object[]{id}, Double.class);
         boolean isActive = jdbcTemplate.queryForObject(VALUE_ACTIVE,new Object[]{id}, Boolean.class);
-
         double balanceFinal = 0;
 
         if(balance>0 && isActive && balance<=balanceActual){
