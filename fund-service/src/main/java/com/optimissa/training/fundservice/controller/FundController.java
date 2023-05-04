@@ -30,11 +30,13 @@ public class FundController {
 
     @PostMapping("/create")
     public ResponseEntity<String> saveFund(@RequestBody Fund fund) {
-        logger.info("Calling saveFund");
+        long millis = System.currentTimeMillis();
         int result = fundService.saveFund(fund);
-        if (result >0) {
+        if (result > 0) {
+            logger.info("Fund saved successfully in " + (System.currentTimeMillis() - millis) + " millis");
             return ResponseEntity.ok("Fund created successfully");
         } else {
+            logger.error("Failed to create new Fund in " + (System.currentTimeMillis() - millis) + " millis");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("Failed to create new Fund");
         }
@@ -42,67 +44,79 @@ public class FundController {
 
     @GetMapping("/get-all")
     public ResponseEntity<List<Fund>> getAllFunds() {
-        logger.info("Calling getAllFunds()");
+        long startMillis = System.currentTimeMillis();
+        logger.info("Calling getAllFunds() at " + startMillis + " millis");
         List<Fund> funds = fundService.getAllFunds();
-        logger.info("Retrieved {} funds", funds.size());
+        logger.info("Retrieved {} funds in " + (System.currentTimeMillis() - startMillis) + " millis", funds.size());
         return new ResponseEntity<>(funds, HttpStatus.OK);
     }
 
     @GetMapping("/get-by-id/{id}")
     public ResponseEntity<Fund> getById(@PathVariable int id) {
-        logger.info("Calling getProductById for id {}", id);
+        long startMillis = System.currentTimeMillis();
+        logger.info("Calling getById for id {} at " + startMillis + " millis", id);
         Fund fund = fundService.getById(id);
         if (fund != null) {
+            logger.info("Retrieved Fund with id {} in " + (System.currentTimeMillis() - startMillis) + " millis", id);
             return new ResponseEntity<>(fund, HttpStatus.OK);
         } else {
-            logger.error("Fund with id {} not found", id);
+            logger.error("Fund with id {} not found in " + (System.currentTimeMillis() - startMillis) + " millis", id);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/get-by-name/{name}")
     public ResponseEntity<List<Fund>> getByName(@PathVariable String name) {
-        logger.info("Calling getFundByName for {}", name);
+        long startMillis = System.currentTimeMillis();
+        logger.info("Calling getByName for {} at " + startMillis + " millis", name);
         List<Fund> funds = fundService.getByName(name);
         if (!funds.isEmpty()) {
+            logger.info("Retrieved {} funds for name {} in " + (System.currentTimeMillis() - startMillis) + " millis", funds.size(), name);
             return new ResponseEntity<>(funds, HttpStatus.OK);
         } else {
-            logger.error("Fund with name {} not found", name);
+            logger.error("Fund with name {} not found in " + (System.currentTimeMillis() - startMillis) + " millis", name);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/get-by-refNumber/{refNumber}")
     public ResponseEntity<Fund> getByRefNumber(@PathVariable String refNumber) {
-        logger.info("Calling getFundByRefNumber for {}", refNumber);
+        long startMillis = System.currentTimeMillis();
+        logger.info("Calling getByRefNumber for {} at " + startMillis + " millis", refNumber);
         Fund fund = fundService.getByRefNumber(refNumber);
         if (fund != null) {
+            logger.info("Retrieved Fund with refNumber {} in " + (System.currentTimeMillis() - startMillis) + " millis", refNumber);
             return new ResponseEntity<>(fund, HttpStatus.OK);
         } else {
-            logger.error("Fund with refNumber {} not found", refNumber);
+            logger.error("Fund with refNumber {} not found in " + (System.currentTimeMillis() - startMillis) + " millis", refNumber);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/get-by-currencyId/{currencyId}")
     public ResponseEntity<List<Fund>> getByCurrencyId(@PathVariable int currencyId) {
-        logger.info("Calling getFundByCurrencyId for {}", currencyId);
+        long startMillis = System.currentTimeMillis();
+        logger.info("Calling getByCurrencyId for {} at " + startMillis + " millis", currencyId);
         List<Fund> funds = fundService.getByCurrencyId(currencyId);
         if (!funds.isEmpty()) {
+            logger.info("Retrieved {} funds with currencyId {} in " + (System.currentTimeMillis() - startMillis) + " millis", funds.size(), currencyId);
             return new ResponseEntity<>(funds, HttpStatus.OK);
         } else {
-            logger.error("Fund with currencyId {} not found", currencyId);
+            logger.error("No funds found with currencyId {} in " + (System.currentTimeMillis() - startMillis) + " millis", currencyId);
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
 
     @GetMapping("/get-all/active")
     public ResponseEntity<List<Fund>> getByActive() {
-        logger.info("Calling getActives");
+        long startMillis = System.currentTimeMillis();
+        logger.info("Calling getByActive at " + startMillis + " millis");
         List<Fund> funds = fundService.getByActive();
         if (!funds.isEmpty()) {
+            logger.info("Retrieved {} active funds in " + (System.currentTimeMillis() - startMillis) + " millis", funds.size());
             return new ResponseEntity<>(funds, HttpStatus.OK);
         } else {
+            logger.error("No active funds found in " + (System.currentTimeMillis() - startMillis) + " millis");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -110,11 +124,14 @@ public class FundController {
 
     @GetMapping("/get-all/inactive")
     public ResponseEntity<List<Fund>> getByInactive() {
-        logger.info("Calling getInactive");
+        long startMillis = System.currentTimeMillis();
+        logger.info("Calling getByInactive at " + startMillis + " millis");
         List<Fund> funds = fundService.getByInactive();
         if (!funds.isEmpty()) {
+            logger.info("Retrieved {} inactive funds in " + (System.currentTimeMillis() - startMillis) + " millis", funds.size());
             return new ResponseEntity<>(funds, HttpStatus.OK);
         } else {
+            logger.error("No inactive funds found in " + (System.currentTimeMillis() - startMillis) + " millis");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
@@ -122,25 +139,31 @@ public class FundController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteById(@PathVariable int id) {
-        logger.info("Calling deleteFund for id {}", id);
+        long millis = System.currentTimeMillis();
+        logger.info("Calling deleteFund for id {} at {}", id, millis);
         int result = fundService.deleteById(id);
         if (result > 0) {
-            return new ResponseEntity<>("Fund with id " + id + " has been successfully deleted", HttpStatus.OK);
+            return new ResponseEntity<>("Fund with id " + id + " has been successfully deleted at " + millis, HttpStatus.OK);
         } else {
+            return new ResponseEntity<>("Fund with id " + id + " was not found at " + millis, HttpStatus.NOT_FOUND);
+        }
+    }
+
+
+    @PutMapping("/update/{id}")
+    public ResponseEntity<String> updateFund(@PathVariable("id") int id, @RequestBody FundRequest fundRequest) {
+        long millis = System.currentTimeMillis();
+        logger.info("[{}] Calling updateFund for id {}", millis, id);
+        int result = fundService.update(id, fundRequest);
+        if (result > 0) {
+            logger.info("[{}] Fund with id {} has been successfully updated", millis, id);
+            return new ResponseEntity<>("Fund with id " + id + " has been successfully updated", HttpStatus.OK);
+        } else {
+            logger.error("[{}] Fund with id {} was not found", millis, id);
             return new ResponseEntity<>("Fund with id " + id + " was not found", HttpStatus.NOT_FOUND);
         }
     }
 
-    @PutMapping("/update/{id}")
-    public ResponseEntity<String> updateFund(@PathVariable("id") int id, @RequestBody FundRequest fundRequest) {
-        logger.info("Calling updateFund for id {}", id);
-        int result = fundService.update(id, fundRequest);
-        if (result > 0) {
-            return new ResponseEntity<>("Fund with id " + id + " has been successfully updated", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("Fund with id " + id + " was not found", HttpStatus.NOT_FOUND);
-        }
-    }
 
 
 
