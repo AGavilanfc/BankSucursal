@@ -89,15 +89,11 @@ public class AccountController {
     @PutMapping(value = "/update/to-account/{id}/substract-balance/{balance}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity substractBalance(@PathVariable int id , @PathVariable double balance){
 
-        try{
             if(accountService.updateBalanceDeduct(id,balance)==0){
                 return new ResponseEntity<>("Balance has been changed successfully",HttpStatus.ACCEPTED);
             }
             return new ResponseEntity<>("can't change the balance",HttpStatus.BAD_REQUEST);
-        }catch (Exception e){
-            LOGGER.error(e.getCause().getMessage());
-            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+
     }
 
     @DeleteMapping(value = "/delete/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
