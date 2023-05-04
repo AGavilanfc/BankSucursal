@@ -12,6 +12,7 @@ public class ClientRequestMapper {
         client.setLastName2(requestClient.getLastName2());
         client.setEmail(requestClient.getEmail());
         client.setPhone(requestClient.getPhone());
+        client.setIdentifier(requestClient.getIdentifier());
         client.setUserId(requestClient.getUserId());
         return client;
     }

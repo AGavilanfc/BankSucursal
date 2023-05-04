@@ -66,6 +66,7 @@ public class ClientRepository implements IClientRepository{
                 .addValue("lastName2", modifiedClient.getLastName2())
                 .addValue("email", modifiedClient.getEmail())
                 .addValue("phone", modifiedClient.getPhone())
+                .addValue("identifier", modifiedClient.getIdentifier())
                 .addValue("userId", modifiedClient.getUserId())
                 .addValue("id", id)
                 ;
@@ -74,6 +75,7 @@ public class ClientRepository implements IClientRepository{
                 "LAST_NAME2 = :lastName2, " +
                 "EMAIL = :email, " +
                 "PHONE = :phone, " +
+                "IDENTIFIER = :identifier, " +
                 "USER_ID = :userId " +
                 "WHERE ID = :id";
         return namedJdbc.update(query, params);

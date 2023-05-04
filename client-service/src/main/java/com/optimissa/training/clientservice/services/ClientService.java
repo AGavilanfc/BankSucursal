@@ -40,7 +40,8 @@ public class ClientService {
     }
 
 
-    public int insertClient(Client newClient) throws RuntimeException {
+    public int insertClient(ClientRequest newClientRequest) throws RuntimeException {
+        Client newClient = ClientRequestMapper.mapToClient(newClientRequest);
         if (!ClientUtils.isValidEmail(newClient.getEmail())) {
             String msg = "Invalid email";
             logger.error("Error inserting client: {}", msg);

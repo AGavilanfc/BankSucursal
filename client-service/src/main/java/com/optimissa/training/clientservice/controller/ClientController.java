@@ -54,7 +54,7 @@ public class ClientController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Object> insertClient(@RequestBody Client newClient) throws RuntimeException {
+    public ResponseEntity<Object> insertClient(@RequestBody ClientRequest newClient) throws RuntimeException {
         logger.info("Inserting new client {}", newClient);
         Long startTime = System.currentTimeMillis();
         try {
