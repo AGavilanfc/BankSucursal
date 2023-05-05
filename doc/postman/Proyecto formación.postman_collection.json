@@ -340,12 +340,32 @@
 				},
 				{
 					"name": "Add new User",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"EMAIL\", \"pepe@gmail.com\");\r",
+									"\r",
+									"let email = pm.environment.get(\"EMAIL\");\r",
+									"\r",
+									"emailFinal = Math.floor(Math.random()*10000) + email\r",
+									"\r",
+									"pm.environment.set(\"EMAIL\", emailFinal);\r",
+									"\r",
+									"console.log(emailFinal)\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"request": {
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Juan\",\r\n    \"lastName1\": \"Gomez\",\r\n    \"lastName2\": null,\r\n    \"email\": \"{{USER_EMAIL}}\",\r\n    \"phone\": \"+23123456783\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Juan\",\r\n    \"lastName1\": \"Gomez\",\r\n    \"lastName2\": null,\r\n    \"email\": \"{{EMAIL}}\",\r\n    \"phone\": \"+23123456783\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -372,7 +392,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Francisco\",\r\n    \"lastName1\": \"Gomez\",\r\n    \"lastName2\": null,\r\n    \"email\": \"juan3232@mail.com\",\r\n    \"phone\": \"3412345678\"\r\n}",
+							"raw": "{\r\n    \"name\": \"Francisco\",\r\n    \"lastName1\": \"Gomez\",\r\n    \"lastName2\": null,\r\n    \"email\": \"juan3232234@mail.com\",\r\n    \"phone\": \"3412345678\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -401,7 +421,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"name\": \"Francisco\",\r\n    \"lastName1\": \"Gomez\",\r\n    \"lastName2\": null,\r\n    \"email\": \"juan@mail.com\",\r\n    \"phone\": \"123456789\"\r\n}",
+							"raw": "",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -409,7 +429,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{URL_PATH}}{{USER_PORT}}/users/delete/id/33",
+							"raw": "{{URL_PATH}}{{USER_PORT}}/users/delete/id/32",
 							"host": [
 								"{{URL_PATH}}{{USER_PORT}}"
 							],
@@ -417,7 +437,7 @@
 								"users",
 								"delete",
 								"id",
-								"33"
+								"32"
 							]
 						}
 					},
