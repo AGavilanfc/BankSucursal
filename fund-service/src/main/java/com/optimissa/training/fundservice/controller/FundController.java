@@ -139,27 +139,33 @@ public class FundController {
 
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteById(@PathVariable int id) {
-        long millis = System.currentTimeMillis();
-        logger.info("Calling deleteFund for id {} at {}", id, millis);
+        long startMillis = System.currentTimeMillis();
+        logger.info("Calling deleteFund for id {} at {}", id, startMillis);
         int result = fundService.deleteById(id);
-        if (result > 0) {
-            return new ResponseEntity<>("Fund with id " + id + " has been successfully deleted at " + millis, HttpStatus.OK);
+        long endMillis = System.currentTimeMillis();
+
+        if (result == 1) {
+            logger.info("Fund with id {} has been successfully deleted in {} ms", id, endMillis-startMillis);
+            return new ResponseEntity<>("Fund with id " + id + " has been successfully deleted at " + (endMillis-startMillis), HttpStatus.OK);
         } else {
-            return new ResponseEntity<>("Fund with id " + id + " was not found at " + millis, HttpStatus.NOT_FOUND);
+            logger.info("Fund with id {} has not been deleted in {} ms", id, endMillis-startMillis);
+            return new ResponseEntity<>("Fund with id " + id + " was not found at " + (endMillis-startMillis), HttpStatus.NOT_FOUND);
         }
     }
 
 
     @PutMapping("/update/{id}")
     public ResponseEntity<String> updateFund(@PathVariable("id") int id, @RequestBody FundRequest fundRequest) {
-        long millis = System.currentTimeMillis();
-        logger.info("[{}] Calling updateFund for id {}", millis, id);
+        long startMillis = System.currentTimeMillis();
+        logger.info("[{}] Calling updateFund for id {}", startMillis, id);
         int result = fundService.update(id, fundRequest);
-        if (result > 0) {
-            logger.info("[{}] Fund with id {} has been successfully updated", millis, id);
+        long endMillis = System.currentTimeMillis();
+
+        if (result == 1) {
+            logger.info("Fund with id {} has been successfully updated in {} ms", id, endMillis-startMillis);
             return new ResponseEntity<>("Fund with id " + id + " has been successfully updated", HttpStatus.OK);
         } else {
-            logger.error("[{}] Fund with id {} was not found", millis, id);
+            logger.error("Fund with id {} has not been updated in {} ms", id, endMillis-startMillis);
             return new ResponseEntity<>("Fund with id " + id + " was not found", HttpStatus.NOT_FOUND);
         }
     }

@@ -8,6 +8,7 @@ import com.optimissa.training.accountservice.mapper.AccountRequestMapper;
 import com.optimissa.training.accountservice.models.*;
 import com.optimissa.training.accountservice.repository.AccountRepository;
 import com.optimissa.training.accountservice.repository.IbanRepository;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,8 +38,9 @@ public class AccountService {
     RestTemplate restTemplate = new RestTemplate();
 
     String urlCurrency = "http://localhost:8093/currencies/";
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccountService.class);
 
-    private final org.slf4j.Logger LOGGER = LoggerFactory.getLogger(AccountController.class.getName());
+
 
 
     public AccountResponse getAccount(int id) {
@@ -54,7 +56,7 @@ public class AccountService {
                 getByIdAccount(account.getCurrency_id()),
                 account.getIban());
         long end = System.currentTimeMillis();
-        LOGGER.info("Finished AccountService.getAccount() , " , end-start, accountResponse.toString() );
+        LOGGER.info("Finished AccountService.getAccount(), {} ms, {} " , end-start, accountResponse.toString() );
         return accountResponse;
 
     }
@@ -64,7 +66,7 @@ public class AccountService {
         long start = System.currentTimeMillis();
         CurrencyResponse currencyResponse = restTemplate.getForObject("http://localhost:8093/currencies/get-by-id/" + id, CurrencyResponse.class);
         long end = System.currentTimeMillis();
-        LOGGER.info("Finished AccountService.getByIdAccount() , " , end-start, currencyResponse.toString() );
+        LOGGER.info("Finished AccountService.getByIdAccount(), {} ms, {} " , end-start, currencyResponse.toString() );
         return currencyResponse;
     }
 
@@ -73,7 +75,7 @@ public class AccountService {
         long start = System.currentTimeMillis();
         List<Account>accounts = accountRepository.getAllAccount();
         long end = System.currentTimeMillis();
-        LOGGER.info("Finished AccountService.getAllAccount() , " , end-start, accounts.toString() );
+        LOGGER.info("Finished AccountService.getAllAccount(), {} ms, {} " , end-start, accounts.toString() );
         return accounts;
     }
 
@@ -82,7 +84,7 @@ public class AccountService {
         long start = System.currentTimeMillis();
         List<Account>accounts = accountRepository.getAccountByClient(clientId);
         long end = System.currentTimeMillis();
-        LOGGER.info("Finished AccountService.getAccountByClient() , " , end-start, accounts.toString() );
+        LOGGER.info("Finished AccountService.getAccountByClient(), {} ms, {} " , end-start, accounts.toString() );
         return accounts;
     }
 
@@ -101,7 +103,7 @@ public class AccountService {
             lineaAccount = accountRepository.save(account);
         }
         long end = System.currentTimeMillis();
-        LOGGER.info("Finished AccountService.createAccount() , " , end-start, account.toString() );
+        LOGGER.info("Finished AccountService.createAccount(), {}ms, {} " , end-start, account.toString() );
         return lineaAccount > 0;
     }
 
@@ -125,7 +127,7 @@ public class AccountService {
 
         String result = country+countryControl+entity+branch+accountControl+accountNumber+lastNumber;
         long end = System.currentTimeMillis();
-        LOGGER.info("Finished AccountService.generateIBAN() , " , end-start, result);
+        LOGGER.info("Finished AccountService.generateIBAN(), {}ms, {} " , end-start, result);
         return result;
     }
 
@@ -134,7 +136,7 @@ public class AccountService {
         long start = System.currentTimeMillis();
         int result = accountRepository.updateAddBalance(id,balance);
         long end = System.currentTimeMillis();
-        LOGGER.info("Finished AccountService.updateBalance() , " , end-start, result );
+        LOGGER.info("Finished AccountService.updateBalance(), {}ms, {}" , end-start, result );
         return result;
     }
 
@@ -143,7 +145,7 @@ public class AccountService {
         long start = System.currentTimeMillis();
         int result = accountRepository.updateBalanceSubstract(id,balance);
         long end = System.currentTimeMillis();
-        LOGGER.info("Finished AccountService.updateBalanceSubstract() , " , end-start, result );
+        LOGGER.info("Finished AccountService.updateBalanceSubstract(), {}ms, {}" , end-start, result );
         return result;
     }
 
@@ -158,7 +160,7 @@ public class AccountService {
             str = "no se ha desactivado la cuenta " + id + " porque no existe";
         }
         long end = System.currentTimeMillis();
-        LOGGER.info("Finished AccountService.DeleteAccount() , " , end-start, str);
+        LOGGER.info("Finished AccountService.DeleteAccount(), {}ms, {}" , end-start, str);
         return new StringResponse(str);
     }
 }
