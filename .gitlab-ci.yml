@@ -9,6 +9,6 @@ build_job:
     only:
         - pushes
     script:
-        - mvn --batch-mode verify sonar:sonar -Dsonar.host.url=http://srvoptiic.optimissa.into:9000 -Dsonar.login=5f31959cb05db624a1ee7d623339dd631a11066a
+        - mvn --batch-mode verify sonar:sonar -Dsonar.host.url=http://srvoptiic3.optimissa.into:9100/ -Dsonar.login=squ_b59e2f974bdf336032a1c96acac46ede78c64bfd
     tags:
         - docker
