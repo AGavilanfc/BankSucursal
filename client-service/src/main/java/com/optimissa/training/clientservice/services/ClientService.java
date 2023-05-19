@@ -49,6 +49,15 @@ public class ClientService {
         return ClientResponseMapper.mapToClientResponse(client);
     }
 
+    public List<Client> getClientByStartWith(String select, String data) {
+        logger.info("Started userService.getUserById()");
+        long startTime = System.currentTimeMillis();
+        List<Client> user = repository.selectByStartWith(select, data);
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime-startTime, user.toString() );
+        return user;
+    }
+
     public int insertClient(ClientRequest newClientRequest) throws RuntimeException {
         Client newClient = ClientRequestMapper.mapToClient(newClientRequest);
         if (!ClientUtils.isValidEmail(newClient.getEmail())) {
@@ -100,5 +109,8 @@ public class ClientService {
         }
         return accountsResponse;
     }
+
+
+
 
 }

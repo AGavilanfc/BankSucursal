@@ -1,6 +1,8 @@
 package com.optimissa.training.userservice.repository;
 
 import com.optimissa.training.userservice.model.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,11 +13,16 @@ import java.util.List;
 @Repository
 public class UserRepositoryJDBC implements UserRepository {
 
+    private final Logger logger = LoggerFactory.getLogger(UserRepositoryJDBC.class);
+
     private static final String SQL_SELECT_ALL = "SELECT * FROM USER";
     private static final String SQL_SELECT_ALL_ACTIVE = "SELECT * FROM USER WHERE active = 1";
     private static final String SQL_SELECT_ALL_INACTIVE = "SELECT * FROM USER WHERE active = 0";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM USER WHERE id = ?";
     private static final String SQL_SELECT_BY_EMAIL = "SELECT * FROM USER WHERE email = ?";
+
+    private static final String SQL_SELECT_BY_StartWith = "SELECT * FROM USER WHERE name LIKE ?";
+
     private static final String SQL_INSERT = "INSERT INTO USER (name, last_name1, last_name2, email, phone) " +
             "VALUES (?, ?, ?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE USER SET name = ?, last_name1 = ?, last_name2 = ?, email = ?, phone = ? " +
@@ -67,6 +74,22 @@ public class UserRepositoryJDBC implements UserRepository {
                 email
         );
     }
+    @Override
+    public List<User> selectByStartWith(String select, String data) {
+
+        logger.info("pepe  {} ---- {} {}", SQL_SELECT_BY_StartWith, data,select);
+
+
+        return jdbcTemplate.query(
+                "SELECT * FROM USER WHERE "+ select +" LIKE ?",
+                new BeanPropertyRowMapper<>(User.class),
+                data+"%"
+        );
+    }
+
+
+
+
 
     @Override
     public int insert(User user) {

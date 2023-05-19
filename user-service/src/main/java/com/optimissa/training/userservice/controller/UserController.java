@@ -72,6 +72,16 @@ public class UserController {
         }
     }
 
+    @GetMapping("/get-by-StartWith/{select}/{data}")
+    public ResponseEntity<Object> getUserByStartWith(@PathVariable String select, @PathVariable String data) {
+        try {
+            return new ResponseEntity<>(userService.getUserByStartWith(select,data), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Not found");
+            return new ResponseEntity<>(new StringResponse("Not found"), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/create")
     public ResponseEntity<StringResponse> addUser(@RequestBody User user) {
         if (userUtil.checkEmail(user.getEmail())) {

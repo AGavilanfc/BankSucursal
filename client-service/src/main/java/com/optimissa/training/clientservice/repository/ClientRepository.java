@@ -31,6 +31,14 @@ public class ClientRepository implements IClientRepository{
         return jdbc.query(query, new BeanPropertyRowMapper<>(Client.class));
     }
 
+    @Override
+    public List<Client> selectByStartWith(String select, String data) {
+        String query = "SELECT * FROM CLIENT WHERE "+ select +" LIKE ?";
+
+        return jdbc.query(query, new BeanPropertyRowMapper<>(Client.class), data+"%");
+
+    }
+
     public Client getClientById(int id) {
         String query = "SELECT * FROM CLIENT WHERE ID = ?";
         return jdbc.queryForObject(query, new BeanPropertyRowMapper<>(Client.class), id);
