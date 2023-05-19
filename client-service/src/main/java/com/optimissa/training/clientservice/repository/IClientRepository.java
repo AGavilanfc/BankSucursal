@@ -8,6 +8,9 @@ public interface IClientRepository {
 
     public List<Client> getClients();
 
+    public List<Client> selectByStartWith(String select, String data);
+
+
     public Client getClientById(int id);
 
     public Client getClientByIdentifier(String identifier);
@@ -21,5 +24,6 @@ public interface IClientRepository {
     public int deleteClient(int id);
 
     public int updateClient(Client modifiedClient, int id);
+
 
 }

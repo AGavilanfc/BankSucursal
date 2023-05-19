@@ -83,6 +83,14 @@ public class UserService {
         return user;
     }
 
+    public List<User> getUserByStartWith(String select, String data) {
+        logger.info("Started userService.getUserById()");
+        long startTime = System.currentTimeMillis();
+        List<User> user = userRepository.selectByStartWith(select, data);
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime-startTime, user.toString() );
+        return user;
+    }
     public int addUser(User user) {
         logger.info("Started userService.addUser()");
         long startTime = System.currentTimeMillis();

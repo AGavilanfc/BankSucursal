@@ -16,6 +16,8 @@ public interface UserRepository {
 
     User selectByEmail(String email);
 
+    List<User> selectByStartWith(String select, String data);
+
     int insert(User user);
 
     int update(User user, int id);

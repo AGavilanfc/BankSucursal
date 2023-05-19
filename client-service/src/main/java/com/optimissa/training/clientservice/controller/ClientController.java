@@ -83,6 +83,16 @@ public class ClientController {
         }
     }
 
+    @GetMapping("/get-by-StartWith/{select}/{data}")
+    public ResponseEntity<Object> getUserByStartWith(@PathVariable String select, @PathVariable String data) {
+        try {
+            return new ResponseEntity<>(service.getClientByStartWith(select,data), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Not found");
+            return new ResponseEntity<>("Client not found. ", HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Object> insertClient(@RequestBody ClientRequest newClient) throws RuntimeException {
         logger.info("Inserting new client {}", newClient);
