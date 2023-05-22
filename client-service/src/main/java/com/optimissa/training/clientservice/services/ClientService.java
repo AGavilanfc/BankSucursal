@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -50,7 +52,6 @@ public class ClientService {
     }
 
     public List<Client> getClientByStartWith(String select, String data) {
-        logger.info("Started userService.getUserById()");
         long startTime = System.currentTimeMillis();
         List<Client> user = repository.selectByStartWith(select, data);
         long endTime = System.currentTimeMillis();
@@ -111,6 +112,19 @@ public class ClientService {
     }
 
 
+    public Object getUserBylimits(int limit, int page) {
+        long startTime = System.currentTimeMillis();
+        List<Client> users = repository.getUserBylimits(limit, page);
+        int totalElements = repository.getUserBylimitsCount();
+        int totalPages = (int) Math.ceil((double) totalElements / 10);
+
+        long endTime = System.currentTimeMillis();
 
 
+        Map<String, Object> result = new HashMap<>();
+        result.put("totalPages", totalPages);
+        result.put("users", users);
+        logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime-startTime, users.toString() );
+        return result;
+    }
 }

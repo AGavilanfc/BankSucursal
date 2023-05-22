@@ -93,6 +93,16 @@ public class ClientController {
         }
     }
 
+    @GetMapping("/get-clients/{page}")
+    public ResponseEntity<Object> getUserBylimits(@PathVariable int page) {
+        try {
+            return new ResponseEntity<>(service.getUserBylimits(10,page), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Not found");
+            return new ResponseEntity<>("Client not found. ", HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/create")
     public ResponseEntity<Object> insertClient(@RequestBody ClientRequest newClient) throws RuntimeException {
         logger.info("Inserting new client {}", newClient);

@@ -10,8 +10,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 @Component
@@ -38,6 +36,22 @@ public class ClientRepository implements IClientRepository{
         return jdbc.query(query, new BeanPropertyRowMapper<>(Client.class), data+"%");
 
     }
+
+    @Override
+    public List<Client> getUserBylimits(int limit, int page) {
+        String query = "SELECT * FROM CLIENT LIMIT ? OFFSET ?";
+
+        return jdbc.query(query, new BeanPropertyRowMapper<>(Client.class),limit,page);
+
+    }
+
+    public int getUserBylimitsCount() {
+        String query = "SELECT COUNT(*) FROM CLIENT";
+        return jdbc.queryForObject(query, Integer.class);
+
+    }
+
+
 
     public Client getClientById(int id) {
         String query = "SELECT * FROM CLIENT WHERE ID = ?";
