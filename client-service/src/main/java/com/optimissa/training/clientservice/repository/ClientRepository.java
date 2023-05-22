@@ -39,9 +39,10 @@ public class ClientRepository implements IClientRepository{
 
     @Override
     public List<Client> getUserBylimits(int limit, int page) {
+        int offset = (page-1)*limit;
         String query = "SELECT * FROM CLIENT LIMIT ? OFFSET ?";
 
-        return jdbc.query(query, new BeanPropertyRowMapper<>(Client.class),limit,page);
+        return jdbc.query(query, new BeanPropertyRowMapper<>(Client.class),limit,offset);
 
     }
 

@@ -89,9 +89,10 @@ public class UserRepositoryJDBC implements UserRepository {
 
     @Override
     public List<User> getUserBylimits(int limit, int page) {
+        int offset = (page-1)*limit;
         String query = "SELECT * FROM USER LIMIT ? OFFSET ?";
 
-        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(User.class),limit,page);
+        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(User.class),limit,offset);
 
     }
 
