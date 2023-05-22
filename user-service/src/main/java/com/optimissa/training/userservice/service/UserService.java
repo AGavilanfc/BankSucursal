@@ -97,13 +97,15 @@ public class UserService {
     public Object getUserBylimits(int limit, int page) {
         long startTime = System.currentTimeMillis();
         List<User> users = userRepository.getUserBylimits(limit, page);
+
         int totalElements = userRepository.getUserBylimitsCount();
         int totalPages = (int) Math.ceil((double) totalElements / 10);
 
-        long endTime = System.currentTimeMillis();
         Map<String, Object> result = new HashMap<>();
         result.put("totalPages", totalPages);
         result.put("users", users);
+
+        long endTime = System.currentTimeMillis();
         logger.info("Finished userService.getUserBylimits(). Execution took: {}ms. Response: {}", endTime-startTime, users.toString() );
         return result;
     }

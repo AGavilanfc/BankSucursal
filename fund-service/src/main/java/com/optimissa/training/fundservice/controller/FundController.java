@@ -13,6 +13,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/funds")
 public class FundController {

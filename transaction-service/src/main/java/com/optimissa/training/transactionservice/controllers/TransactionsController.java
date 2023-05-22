@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
-
+@CrossOrigin
 @RestController
 @RequestMapping("/transactions")
 public class TransactionsController {
