@@ -31,7 +31,15 @@ public class UserController {
             return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
+    @GetMapping("/get-users/{page}")
+    public ResponseEntity<Object> getUserBylimits(@PathVariable int page) {
+        try {
+            return new ResponseEntity<>(userService.getUserBylimits(10,page), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Not found");
+            return new ResponseEntity<>("Client not found. ", HttpStatus.NOT_FOUND);
+        }
+    }
     @GetMapping("/get-all/active")
     public ResponseEntity<Object> getActiveUsers() {
         try {

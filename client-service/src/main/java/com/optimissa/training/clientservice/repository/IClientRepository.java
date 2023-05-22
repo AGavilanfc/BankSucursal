@@ -26,4 +26,6 @@ public interface IClientRepository {
     public int updateClient(Client modifiedClient, int id);
 
 
+    List<Client> getUserBylimits(int limit, int page);
+    public int getUserBylimitsCount();
 }

@@ -1,6 +1,7 @@
 package com.optimissa.training.userservice.repository;
 
 import com.optimissa.training.userservice.model.User;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 import java.util.List;
 
@@ -17,6 +18,10 @@ public interface UserRepository {
     User selectByEmail(String email);
 
     List<User> selectByStartWith(String select, String data);
+
+    public List<User> getUserBylimits(int limit, int page);
+
+    public int getUserBylimitsCount();
 
     int insert(User user);
 

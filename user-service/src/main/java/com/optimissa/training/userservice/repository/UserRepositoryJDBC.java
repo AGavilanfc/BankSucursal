@@ -87,6 +87,19 @@ public class UserRepositoryJDBC implements UserRepository {
         );
     }
 
+    @Override
+    public List<User> getUserBylimits(int limit, int page) {
+        String query = "SELECT * FROM USER LIMIT ? OFFSET ?";
+
+        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(User.class),limit,page);
+
+    }
+
+    public int getUserBylimitsCount() {
+        String query = "SELECT COUNT(*) FROM USER";
+        return jdbcTemplate.queryForObject(query, Integer.class);
+
+    }
 
 
 
