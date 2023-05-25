@@ -19,7 +19,7 @@ public class UserRepositoryJDBC implements UserRepository {
     private static final String SQL_SELECT_ALL_ACTIVE = "SELECT * FROM USER WHERE active = 1";
     private static final String SQL_SELECT_ALL_INACTIVE = "SELECT * FROM USER WHERE active = 0";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM USER WHERE id = ?";
-    private static final String SQL_SELECT_BY_EMAIL = "SELECT * FROM USER WHERE email = ?";
+    private static final String SQL_SELECT_BY_EMAIL = "SELECT * FROM USER WHERE email = ?"+" AND ACTIVE=1";
 
     private static final String SQL_SELECT_BY_StartWith = "SELECT * FROM USER WHERE name LIKE ?";
 
