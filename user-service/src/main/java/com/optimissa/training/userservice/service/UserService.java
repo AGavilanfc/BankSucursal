@@ -136,4 +136,13 @@ public class UserService {
         return affectedRows;
     }
 
+    public int updateUserStatus(int id, int activate) {
+        logger.info("Started userService.updateUser()");
+        long startTime = System.currentTimeMillis();
+        int affectedRows = userRepository.updateUserStatus(id,activate);
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.updateUser(). Execution took: {}ms. Response: affectedRows = {}", endTime-startTime, affectedRows );
+        return affectedRows;
+    }
+
 }
