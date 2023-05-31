@@ -177,4 +177,19 @@ public class ClientController {
         return service.getAccountsByClientId(id);
     }
 
+
+
+
+
+    @PostMapping("/update/id/{id}/status/{activate}")
+    public ResponseEntity<Object> updateActivateUser(@PathVariable int id, @PathVariable int activate) {
+        try {
+            return new ResponseEntity<>(service.updateUserStatus(id, activate), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error(e.getCause().getMessage());
+            return new ResponseEntity<>("Clients not found. ", HttpStatus.NOT_FOUND);
+        }
+    }
 }
+
+

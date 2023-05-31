@@ -132,4 +132,11 @@ public class UserRepositoryJDBC implements UserRepository {
     public int delete(int id) {
         return jdbcTemplate.update(SQL_DELETE, id);
     }
+
+    public int updateUserStatus(int id, int activate) {
+        String query = "UPDATE USER SET ACTIVE = ? WHERE ID = ?";
+
+        return jdbcTemplate.update(query, activate, id);
+
+    }
 }

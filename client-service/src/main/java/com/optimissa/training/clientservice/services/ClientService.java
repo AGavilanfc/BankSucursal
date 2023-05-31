@@ -127,4 +127,13 @@ public class ClientService {
         logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime-startTime, users.toString() );
         return result;
     }
+
+    public int updateUserStatus(int id, int activate) {
+        logger.info("Started userService.updateUser()");
+        long startTime = System.currentTimeMillis();
+        int affectedRows = repository.updateUserStatus(id,activate);
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.updateUser(). Execution took: {}ms. Response: affectedRows = {}", endTime-startTime, affectedRows );
+        return affectedRows;
+    }
 }

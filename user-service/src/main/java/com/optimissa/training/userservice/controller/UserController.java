@@ -152,4 +152,14 @@ public class UserController {
         }
     }
 
+    @PostMapping("/update/id/{id}/status/{activate}")
+    public ResponseEntity<Object> updateActivateUser(@PathVariable int id, @PathVariable int activate) {
+        try {
+            return new ResponseEntity<>(userService.updateUserStatus(id, activate), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error(e.getCause().getMessage());
+            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }

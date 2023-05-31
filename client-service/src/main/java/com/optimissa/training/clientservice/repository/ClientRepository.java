@@ -113,6 +113,12 @@ public class ClientRepository implements IClientRepository{
                 "WHERE ID = :id";
         return namedJdbc.update(query, params);
     }
+    public int updateUserStatus(int id, int activate) {
+        String query = "UPDATE CLIENT SET ACTIVE = ? WHERE ID = ?";
+
+        return jdbc.update(query, activate, id);
+
+    }
 
 
 }

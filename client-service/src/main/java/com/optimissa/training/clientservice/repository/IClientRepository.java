@@ -28,4 +28,6 @@ public interface IClientRepository {
 
     List<Client> getUserBylimits(int limit, int page);
     public int getUserBylimitsCount();
+
+    public int updateUserStatus(int id, int activate);
 }
