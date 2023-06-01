@@ -18,7 +18,7 @@ CREATE TABLE `CLIENT` (
   `NAME` varchar(30) NOT NULL,
   `LAST_NAME1` varchar(30) NOT NULL,
   `LAST_NAME2` varchar(30),
-  `EMAIL`  NOT NULL UNIQUE,
+  `EMAIL` varchar(50) NOT NULL UNIQUE,
   `PHONE` varchar(20),
   `ACTIVE` Boolean NOT NULL DEFAULT 1,
   `IDENTIFIER` varchar(20) NOT NULL UNIQUE,
