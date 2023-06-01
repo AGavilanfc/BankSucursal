@@ -1,5 +1,6 @@
 package com.optimissa.training.transactionservice.repository;
 
+import com.optimissa.training.transactionservice.dtos.Account;
 import com.optimissa.training.transactionservice.dtos.Transaction;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -54,5 +55,19 @@ public class TransactionRespository implements ITransactionRepository {
         return jdbcTemplate.query(
                 sql, new BeanPropertyRowMapper<>(Transaction.class), min, max
         );
+    }
+
+    @Override
+    public List<Account> getAccountBylimits(int id , int page, int limit) {
+        int offset = (page-1)*limit;
+        String query = "SELECT * FROM TRANSACTION WHERE ACCOUNT_ID = ? LIMIT ? OFFSET ?";
+
+        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(Account.class),id ,limit,offset);
+
+    }
+
+    public int getAccountBylimitsCount() {
+        String query = "SELECT COUNT(*) FROM TRANSACTION";
+        return jdbcTemplate.queryForObject(query, Integer.class);
     }
 }

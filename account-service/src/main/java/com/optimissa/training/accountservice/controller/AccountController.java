@@ -47,7 +47,7 @@ public class AccountController {
                 AccountResponse account = accountService.getAccount(id);
                 return ResponseEntity.ok(account);
             }catch(Exception e){
-                LOGGER.error(e.getCause().getMessage());
+//                LOGGER.error(e.getCause().getMessage());
                 return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
             }
     }

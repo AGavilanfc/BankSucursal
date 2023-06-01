@@ -2,6 +2,7 @@ package com.optimissa.training.transactionservice.services;
 
 import com.optimissa.training.transactionservice.api.*;
 import com.optimissa.training.transactionservice.controllers.TransactionsController;
+import com.optimissa.training.transactionservice.dtos.Account;
 import com.optimissa.training.transactionservice.dtos.Transaction;
 import com.optimissa.training.transactionservice.repository.TransactionRespository;
 import org.slf4j.Logger;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TransactionsService {
@@ -80,4 +83,15 @@ public class TransactionsService {
         return 1;
     }
 
+    public Object getAllTransactionByAccount(int id, int page, int limit) {
+        long startTime = System.currentTimeMillis();
+        List<Account> account = transactionRespository.getAccountBylimits(id, page,limit);
+        int totalElements = transactionRespository.getAccountBylimitsCount();
+        int totalPages = (int) Math.ceil((double) totalElements / 10);
+        long endTime = System.currentTimeMillis();
+        Map<String, Object> result = new HashMap<>();
+        result.put("totalPages", totalPages);
+        result.put("accounts", account);
+        return result;
+    }
 }

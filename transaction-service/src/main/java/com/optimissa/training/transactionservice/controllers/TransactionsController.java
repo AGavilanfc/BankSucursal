@@ -60,10 +60,21 @@ public class TransactionsController {
             return ResponseEntity.badRequest().body("Bad request: " + e.getMessage());
 
         }
-
-
     }
 
+    @GetMapping("/get-all-by-accountId/{id}/pages/{page}")
+    public ResponseEntity<Object> getAllTransactionByAccount(@PathVariable int id, @PathVariable int page) {
+        Long start = System.currentTimeMillis();
+
+        log.info("obtain all transactions by account");
+        try {
+            return new ResponseEntity<>(tranService.getAllTransactionByAccount(id,page,10),HttpStatus.OK);
+        } catch (Exception e) {
+            log.error("getAllTransaction, Bad request: Error: {}", e.getMessage());
+            return ResponseEntity.badRequest().body("Bad request: " + e.getMessage());
+
+        }
+    }
 
     @GetMapping("/get-all/filter")
     public ResponseEntity<Object> getAllTransactionsByAmount(@RequestParam int min, @RequestParam int max) {
