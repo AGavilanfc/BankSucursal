@@ -85,13 +85,20 @@ public class TransactionsService {
 
     public Object getAllTransactionByAccount(int id, int page, int limit) {
         long startTime = System.currentTimeMillis();
-        List<Account> account = transactionRespository.getAccountBylimits(id, page,limit);
+        List<Transaction> transactions = transactionRespository.getAccountBylimits(id, page,limit);
         int totalElements = transactionRespository.getAccountBylimitsCount();
         int totalPages = (int) Math.ceil((double) totalElements / 10);
         long endTime = System.currentTimeMillis();
         Map<String, Object> result = new HashMap<>();
         result.put("totalPages", totalPages);
-        result.put("accounts", account);
+        result.put("accounts", transactions);
         return result;
+    }
+
+    public List<Transaction> getTransactionsByStartWith(String select, String data) {
+        long startTime = System.currentTimeMillis();
+        List<Transaction> transaction = transactionRespository.selectByStartWith(select, data);
+        long endTime = System.currentTimeMillis();
+        return transaction;
     }
 }

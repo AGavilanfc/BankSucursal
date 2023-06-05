@@ -16,7 +16,9 @@ public interface ITransactionRepository {
 
     public int insertNewTransaction(Transaction transaction, String transaction_number);
 
-    List<Account> getAccountBylimits(int id, int page, int limit);
+    List<Transaction> getAccountBylimits(int id, int page, int limit);
 
     int getAccountBylimitsCount();
+
+    List<Transaction> selectByStartWith(String select, String data);
 }

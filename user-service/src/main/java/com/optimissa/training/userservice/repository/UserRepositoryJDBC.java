@@ -76,10 +76,7 @@ public class UserRepositoryJDBC implements UserRepository {
     }
     @Override
     public List<User> selectByStartWith(String select, String data) {
-
         logger.info("pepe  {} ---- {} {}", SQL_SELECT_BY_StartWith, data,select);
-
-
         return jdbcTemplate.query(
                 "SELECT * FROM USER WHERE "+ select +" LIKE ?",
                 new BeanPropertyRowMapper<>(User.class),
@@ -101,10 +98,6 @@ public class UserRepositoryJDBC implements UserRepository {
         return jdbcTemplate.queryForObject(query, Integer.class);
 
     }
-
-
-
-
     @Override
     public int insert(User user) {
         return jdbcTemplate.update(SQL_INSERT,

@@ -22,7 +22,6 @@ public class AccountResponse {
         this.currencyResponse = currencyResponse;
     }
 
-
     public int getId() {
         return id;
     }
