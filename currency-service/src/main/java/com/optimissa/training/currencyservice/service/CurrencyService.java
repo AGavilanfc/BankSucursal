@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import com.optimissa.training.currencyservice.model.Currency;
 import com.optimissa.training.currencyservice.repository.CurrencyRepository;
 import com.optimissa.training.currencyservice.exception.MyException;
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
 public class CurrencyService {
 
@@ -44,7 +46,7 @@ public class CurrencyService {
         }
 
         }
-
+@Transactional
 public String createCurrency(Currency currency) {
     try {
         int createdCurrency = currencyRepository.createCurrency(currency);
@@ -61,7 +63,7 @@ public String createCurrency(Currency currency) {
     }
 }
 
-
+@Transactional
 public String deleteById(int id) {
     try {
         Currency currency = currencyRepository.findById(id);
@@ -80,7 +82,7 @@ public String deleteById(int id) {
 
 }
 
-
+@Transactional
 public boolean updateCurrency(int id, Currency currency) {
     try {
         Currency existingCurrency = currencyRepository.findById(id);
