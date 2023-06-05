@@ -75,6 +75,14 @@ public class TransactionsController {
 
         }
     }
+    @GetMapping("/get-by-StartWith/{select}/{data}")
+    public ResponseEntity<Object> geByStartWith(@PathVariable String select, @PathVariable String data) {
+        try {
+            return new ResponseEntity<>(tranService.getTransactionsByStartWith(select,data), HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("transaction not found. ", HttpStatus.NOT_FOUND);
+        }
+    }
 
     @GetMapping("/get-all/filter")
     public ResponseEntity<Object> getAllTransactionsByAmount(@RequestParam int min, @RequestParam int max) {
@@ -89,9 +97,7 @@ public class TransactionsController {
         } catch (Exception e) {
             log.error("getAllTransactionsByAmount, Error: {}{}", ResponseEntity.internalServerError().build(), e.getMessage(), e.getStackTrace());
             return new ResponseEntity<>("Not created. " + e.getMessage(), HttpStatus.BAD_REQUEST);
-
         }
-
     }
 
     @PostMapping

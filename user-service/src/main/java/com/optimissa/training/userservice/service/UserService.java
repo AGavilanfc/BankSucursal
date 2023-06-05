@@ -63,18 +63,6 @@ public class UserService {
         return user;
     }
 
-    /* public UserResponse getUserById(int id) {
-        logger.info("Started userService.getUserById()");
-        long startTime = System.currentTimeMillis();
-        User user = userRepository.selectById(id);
-        UserResponse userResponse = new UserResponse(user.getName(), user.getEmail(), user.getPhone());
-        RestTemplate restTemplate = new RestTemplate();
-        List<Object> userClients =  restTemplate.getForObject(URL_USER_CLIENTS + user.getId(), List.class);
-        if (userClients != null) userResponse.setClients(userClients);
-        long endTime = System.currentTimeMillis();
-        logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime-startTime, userResponse );
-        return userResponse;
-    } */
 
     public User getUserByEmail(String email) {
         logger.info("Started userService.getUserById()");
