@@ -9,7 +9,10 @@ import org.springframework.stereotype.Service;
 import com.optimissa.training.currencyservice.model.Currency;
 import com.optimissa.training.currencyservice.repository.CurrencyRepository;
 import com.optimissa.training.currencyservice.exception.MyException;
+import org.springframework.transaction.annotation.Transactional;
+
 @Service
+@Transactional
 public class CurrencyService {
 
     Logger logger = LoggerFactory.getLogger(CurrencyService.class);

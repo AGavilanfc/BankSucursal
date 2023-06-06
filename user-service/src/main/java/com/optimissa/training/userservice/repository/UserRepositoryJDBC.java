@@ -12,17 +12,13 @@ import java.util.List;
 
 @Repository
 public class UserRepositoryJDBC implements UserRepository {
-
     private final Logger logger = LoggerFactory.getLogger(UserRepositoryJDBC.class);
-
     private static final String SQL_SELECT_ALL = "SELECT * FROM USER";
     private static final String SQL_SELECT_ALL_ACTIVE = "SELECT * FROM USER WHERE active = 1";
     private static final String SQL_SELECT_ALL_INACTIVE = "SELECT * FROM USER WHERE active = 0";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM USER WHERE id = ?";
     private static final String SQL_SELECT_BY_EMAIL = "SELECT * FROM USER WHERE email = ?"+" AND ACTIVE=1";
-
     private static final String SQL_SELECT_BY_StartWith = "SELECT * FROM USER WHERE name LIKE ?";
-
     private static final String SQL_INSERT = "INSERT INTO USER (name, last_name1, last_name2, email, phone) " +
             "VALUES (?, ?, ?, ?, ?)";
     private static final String SQL_UPDATE = "UPDATE USER SET name = ?, last_name1 = ?, last_name2 = ?, email = ?, phone = ? " +
@@ -34,7 +30,6 @@ public class UserRepositoryJDBC implements UserRepository {
 
     @Override
     public List<User> selectAll() {
-
         return jdbcTemplate.query(
                 SQL_SELECT_ALL,
                 new BeanPropertyRowMapper<>(User.class)
