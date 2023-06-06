@@ -12,6 +12,7 @@ import com.optimissa.training.currencyservice.exception.MyException;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class CurrencyService {
 
     Logger logger = LoggerFactory.getLogger(CurrencyService.class);
@@ -46,7 +47,7 @@ public class CurrencyService {
         }
 
         }
-@Transactional
+
 public String createCurrency(Currency currency) {
     try {
         int createdCurrency = currencyRepository.createCurrency(currency);
@@ -63,7 +64,7 @@ public String createCurrency(Currency currency) {
     }
 }
 
-@Transactional
+
 public String deleteById(int id) {
     try {
         Currency currency = currencyRepository.findById(id);
@@ -82,7 +83,7 @@ public String deleteById(int id) {
 
 }
 
-@Transactional
+
 public boolean updateCurrency(int id, Currency currency) {
     try {
         Currency existingCurrency = currencyRepository.findById(id);

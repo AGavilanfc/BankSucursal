@@ -12,12 +12,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 import java.util.List;
 import java.util.Random;
 
 
 @Service
+@Transactional
 public class AccountService {
 
     @Autowired
@@ -66,7 +68,7 @@ public class AccountService {
         long start = System.currentTimeMillis();
         CurrencyResponse currencyResponse = restTemplate.getForObject("http://localhost:8093/currencies/get-by-id/" + id, CurrencyResponse.class);
         long end = System.currentTimeMillis();
-        LOGGER.info("Finished AccountService.getByIdAccount(), {} ms, {} " , end-start, currencyResponse.toString() );
+        LOGGER.info("Finished AccountService.getByIdAccount(), {} ms, {} " , end-start );
         return currencyResponse;
     }
 

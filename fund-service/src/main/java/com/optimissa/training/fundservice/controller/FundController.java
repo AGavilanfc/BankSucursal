@@ -22,7 +22,7 @@ public class FundController {
 
     RestTemplate restTemplate = new RestTemplate();
     String urlProduct = "http://localhost:8096/products";
-    private final FundService fundService;
+    private FundService fundService;
 
 
     public FundController(FundService fundService) {
