@@ -7,6 +7,7 @@ public class Account {
     private int iban_id;
     private int client_id;
     private int currency_id;
+    private String currency;
 
     public Account() {
     }
