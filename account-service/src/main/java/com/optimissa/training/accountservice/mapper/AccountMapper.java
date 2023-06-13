@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Optional;
 
 @Component
 public class AccountMapper implements RowMapper<Account> {
@@ -20,6 +21,15 @@ public class AccountMapper implements RowMapper<Account> {
         account.setCurrency_id(rs.getInt("CURRENCY_ID"));
         account.setActive(rs.getBoolean("ACTIVE"));
         account.setIban(rs.getString("IBAN"));
+        account.setCurrency(getCurrency(rs));
         return account;
+    }
+
+    private static String getCurrency(ResultSet rs) throws SQLException {
+        try {
+            return rs.getString("CURRENCY");
+        }catch (SQLException e){
+            return null;
+        }
     }
 }

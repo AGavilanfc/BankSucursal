@@ -125,7 +125,7 @@ public class TransactionsController {
 
         log.info("obtain one fund: {}", id);
         try {
-            return restTemplate.getForObject(urlFund + "/id/" + id, Object.class);
+            return restTemplate.getForObject(urlFund + "/get-by-id/" + id, Object.class);
         } catch (Exception e) {
             log.error("Error: {}", e.getMessage());
         }

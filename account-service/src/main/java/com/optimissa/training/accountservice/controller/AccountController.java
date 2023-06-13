@@ -51,7 +51,6 @@ public class AccountController {
                 return null;
             }
     }
-
     @GetMapping(value = "/get-by-client/{clientId}")
     public List<Account> getAccountByClient(@PathVariable int clientId){
         try {

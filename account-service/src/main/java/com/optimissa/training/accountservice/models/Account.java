@@ -20,18 +20,11 @@ public class Account implements Serializable {
     private int currency_id;
     private String iban;
 
+    private String currency;
+
 //Constructor
 
     public Account() {
-    }
-
-    public Account(int id, double balance, int iban_id, int client_id, int currency_id, boolean active) {
-        this.id = id;
-        this.balance = balance;
-        this.iban_id = iban_id;
-        this.client_id = client_id;
-        this.currency_id = currency_id;
-        this.active = active;
     }
 
     public int getId() {
@@ -89,5 +82,13 @@ public class Account implements Serializable {
 
      public void setIban(String iban) {
          this.iban = iban;
+     }
+
+     public String getCurrency() {
+         return currency;
+     }
+
+     public void setCurrency(String currency) {
+         this.currency = currency;
      }
  }

@@ -42,7 +42,7 @@ public class AccountRepository implements IAccountRepository {
     }
 
     public List<Account> getAccountByClient(int clientid) {
-        return jdbcTemplate.query("SELECT ID, BALANCE, IBAN_ID, CLIENT_ID,CURRENCY_ID,  ACTIVE , IBAN FROM banksucursal.ACCOUNT where CLIENT_ID = ?",
+        return jdbcTemplate.query("SELECT a.ID, a.BALANCE, a.IBAN_ID, a.CLIENT_ID,a.CURRENCY_ID,  a.ACTIVE , a.IBAN, c.NAME CURRENCY FROM banksucursal.ACCOUNT a, banksucursal.CURRENCY c  where CLIENT_ID = ? and c.ID = a.CURRENCY_ID ",
                 new Object[]{clientid}, new AccountMapper());
     }
 
