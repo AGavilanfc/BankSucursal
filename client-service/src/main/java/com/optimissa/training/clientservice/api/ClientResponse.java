@@ -1,7 +1,7 @@
 package com.optimissa.training.clientservice.api;
 
 public class ClientResponse {
-
+    private int id;
     private String name;
 
     private String lastName1;
@@ -13,6 +13,18 @@ public class ClientResponse {
     private String phone;
 
     private String identifier;
+
+    private int user_id;
+
+    private boolean active;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
@@ -60,5 +72,21 @@ public class ClientResponse {
 
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
+    }
+
+    public int getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(int user_id) {
+        this.user_id = user_id;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
     }
 }
