@@ -165,4 +165,8 @@ public class AccountService {
         LOGGER.info("Finished AccountService.DeleteAccount(), {}ms, {}" , end-start, str);
         return new StringResponse(str);
     }
+
+    public int modifyAccount(Account account, int id) {
+        return accountRepository.modifyAccount(account,id);
+    }
 }

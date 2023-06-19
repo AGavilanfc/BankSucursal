@@ -16,4 +16,6 @@ public interface IAccountRepository {
     int detIBANEntity(int ibanEntityId);
 
     String getibanCountry(int ibanCountryId);
+
+    int modifyAccount(Account account, int id);
 }

@@ -58,7 +58,8 @@ public class AccountRepository implements IAccountRepository {
         String sql = "UPDATE ACCOUNT SET active = ?  WHERE id = ?";
         return jdbcTemplate.update(sql, false, id);
     }
-
+    
+            
     public int updateAddBalance(int id, double balance){
 
         double balanceActual= jdbcTemplate.queryForObject(GET_BALANCE , new Object[]{id}, Double.class);
@@ -98,6 +99,21 @@ public class AccountRepository implements IAccountRepository {
     @Override
     public String getibanCountry(int ibanCountryId) {
         return jdbcTemplate.queryForObject(GET_IBAN_COUNTRY, new Object[]{ibanCountryId}, String.class);
+    }
+
+    @Override
+    public int modifyAccount(Account account, int id) {
+        String sql = "UPDATE ACCOUNT SET balance = ?, active = ?, iban_id = ?, client_id = ?, currency_id = ? , iban = ?" +
+                "WHERE id = ?";
+        return jdbcTemplate.update(
+                sql,
+                account.getBalance(),
+                account.isActive(),
+                account.getIban_id(),
+                account.getClient_id(),
+                account.getCurrency_id(),
+                account.getIban(),
+                id);
     }
 
 
