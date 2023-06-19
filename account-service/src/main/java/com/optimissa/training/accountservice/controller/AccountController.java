@@ -90,6 +90,20 @@ public class AccountController {
         }
     }
 
+    @PutMapping("/update/id/{id}")
+    public ResponseEntity<StringResponse> modifyUser(@RequestBody Account account, @PathVariable int id) {
+                try {
+                    if (accountService.modifyAccount(account, id) == 1) {
+                        return new ResponseEntity<>(new StringResponse("Account has been modified"), HttpStatus.ACCEPTED);
+                    } else {
+                        return new ResponseEntity<>(new StringResponse("Account id does not exist"), HttpStatus.NOT_FOUND);
+                    }
+                } catch (Exception e) {
+                    LOGGER.error(e.getCause().getMessage());
+                    return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+    }
+
     @PutMapping(value = "/update/to-account/{id}/substract-balance/{balance}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity substractBalance(@PathVariable int id , @PathVariable double balance){
 
