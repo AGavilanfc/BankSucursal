@@ -22,6 +22,8 @@ public class Account implements Serializable {
 
     private String currency;
 
+     private String rol;
+
 //Constructor
 
     public Account() {
@@ -63,32 +65,32 @@ public class Account implements Serializable {
     public void setIban_id(int iban_id) {
         this.iban_id = iban_id;
     }
-
     public void setClient_id(int client_id) {
         this.client_id = client_id;
     }
-
     public void setCurrency_id(int currency_id) {
         this.currency_id = currency_id;
     }
-
     public void setActive(boolean active) {
         this.active = active;
     }
-
      public String getIban() {
          return iban;
      }
-
      public void setIban(String iban) {
          this.iban = iban;
      }
-
      public String getCurrency() {
          return currency;
      }
-
      public void setCurrency(String currency) {
          this.currency = currency;
+     }
+     public String getRol() {
+         return rol;
+     }
+
+     public void setRol(String rol) {
+         this.rol = rol;
      }
  }

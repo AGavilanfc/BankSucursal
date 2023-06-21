@@ -56,7 +56,9 @@ public class AccountService {
                 account.getIban_id(),
                 account.getClient_id(),
                 getByIdAccount(account.getCurrency_id()),
-                account.getIban());
+                account.getIban(),
+                account.getRol());
+
         long end = System.currentTimeMillis();
         LOGGER.info("Finished AccountService.getAccount(), {} ms, {} " , end-start, accountResponse.toString() );
         return accountResponse;
@@ -168,5 +170,14 @@ public class AccountService {
 
     public int modifyAccount(Account account, int id) {
         return accountRepository.modifyAccount(account,id);
+    }
+
+    public int updateAccountRol(int id, String rol) {
+        return accountRepository.updateAccountRol(id, rol);
+    }
+
+
+    public int updateAccountStatus(int id, int active) {
+        return accountRepository.updateAccountStatus(id, active);
     }
 }

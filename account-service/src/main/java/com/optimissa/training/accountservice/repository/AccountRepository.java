@@ -32,7 +32,7 @@ public class AccountRepository implements IAccountRepository {
 
     //CAMBIAR
     public Account getAccount(int id) {
-        Account account = jdbcTemplate.queryForObject("SELECT ID, BALANCE, IBAN_ID, CLIENT_ID, CURRENCY_ID, ACTIVE ,IBAN  FROM banksucursal.ACCOUNT where id = ?",
+        Account account = jdbcTemplate.queryForObject("SELECT ID, BALANCE, IBAN_ID, CLIENT_ID, CURRENCY_ID, ACTIVE ,IBAN,ROL  FROM banksucursal.ACCOUNT where id = ?",
                 new Object[]{id}, new AccountMapper());
 
         //jdbcTemplate.queryForObject(GET_CURRENCY_DATA, new Object[]{currency_id}, Integer.class);
@@ -42,7 +42,7 @@ public class AccountRepository implements IAccountRepository {
     }
 
     public List<Account> getAccountByClient(int clientid) {
-        return jdbcTemplate.query("SELECT a.ID, a.BALANCE, a.IBAN_ID, a.CLIENT_ID,a.CURRENCY_ID,  a.ACTIVE , a.IBAN, c.NAME CURRENCY FROM banksucursal.ACCOUNT a, banksucursal.CURRENCY c  where CLIENT_ID = ? and c.ID = a.CURRENCY_ID ",
+        return jdbcTemplate.query("SELECT a.ID, a.BALANCE, a.IBAN_ID, a.CLIENT_ID,a.CURRENCY_ID,  a.ACTIVE , a.IBAN, a.ROL,  c.NAME CURRENCY FROM banksucursal.ACCOUNT a, banksucursal.CURRENCY c  where CLIENT_ID = ? and c.ID = a.CURRENCY_ID ",
                 new Object[]{clientid}, new AccountMapper());
     }
 
@@ -103,7 +103,7 @@ public class AccountRepository implements IAccountRepository {
 
     @Override
     public int modifyAccount(Account account, int id) {
-        String sql = "UPDATE ACCOUNT SET balance = ?, active = ?, iban_id = ?, client_id = ?, currency_id = ? , iban = ?" +
+        String sql = "UPDATE ACCOUNT SET balance = ?, active = ?, iban_id = ?, client_id = ?, currency_id = ? , iban = ? , rol= ?" +
                 "WHERE id = ?";
         return jdbcTemplate.update(
                 sql,
@@ -113,9 +113,20 @@ public class AccountRepository implements IAccountRepository {
                 account.getClient_id(),
                 account.getCurrency_id(),
                 account.getIban(),
+                account.getRol(),
                 id);
     }
 
+    @Override
+    public int updateAccountRol(int id, String rol) {
+        String query = "UPDATE ACCOUNT SET ROL = ? WHERE ID = ?";
+        return jdbcTemplate.update(query,rol,id);
+    }
 
+    @Override
+    public int updateAccountStatus(int id, int active) {
+        String query = "UPDATE ACCOUNT SET active = ? WHERE ID = ?";
+        return jdbcTemplate.update(query,active,id);
+    }
 }
 

@@ -124,6 +124,25 @@ public class AccountController {
             return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    
+
+    @PostMapping("/update/id/{id}/rol/{rol}")
+    public ResponseEntity<Object> updateAccountRol(@PathVariable int id, @PathVariable String rol) {
+        try {
+            return new ResponseEntity<>(accountService.updateAccountRol(id, rol), HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getCause().getMessage());
+            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @PostMapping("/update/id/{id}/status/{active}")
+    public ResponseEntity<Object> updateAccountStatus(@PathVariable int id, @PathVariable int active) {
+        try {
+            return new ResponseEntity<>(accountService.updateAccountStatus(id, active), HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getCause().getMessage());
+            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
 }
 
