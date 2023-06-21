@@ -23,13 +23,13 @@ public class TransactionsEntity implements Serializable {
     @Column(name="AMOUNT", nullable = false)
     private double amount;
 
-
     @Column(name="ACCOUNT_ID", nullable = false)
     private int account_Id;
 
     @Column(name="FUND_ID", nullable = false)
     private int fund_Id;
-
+    @Column(name="CONCEPT", nullable = false)
+    private int concept;
 
     public int getId() {
         return id;

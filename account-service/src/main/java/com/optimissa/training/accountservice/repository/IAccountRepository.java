@@ -18,4 +18,8 @@ public interface IAccountRepository {
     String getibanCountry(int ibanCountryId);
 
     int modifyAccount(Account account, int id);
+
+    int updateAccountRol(int id, String rol);
+
+    int updateAccountStatus(int id, int active);
 }

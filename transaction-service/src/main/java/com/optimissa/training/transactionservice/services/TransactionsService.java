@@ -49,6 +49,7 @@ public class TransactionsService {
         return new TransactionResponse(
                 transaction.getDate(),
                 transaction.getAmount(),
+                transaction.getConcept(),
                 account,
                 fund
 

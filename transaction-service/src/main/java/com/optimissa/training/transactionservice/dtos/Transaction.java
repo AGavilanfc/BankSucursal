@@ -10,6 +10,8 @@ public class Transaction {
     private int account_Id;
     private int fund_Id;
 
+    private String concept;
+
     public Transaction() {
     }
 
@@ -68,6 +70,14 @@ public class Transaction {
 
     public void setFund_Id(int fund_Id) {
         this.fund_Id = fund_Id;
+    }
+
+    public String getConcept() {
+        return concept;
+    }
+
+    public void setConcept(String concept) {
+        this.concept = concept;
     }
 
     @Override

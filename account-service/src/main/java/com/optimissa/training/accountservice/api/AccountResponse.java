@@ -10,12 +10,17 @@ public class AccountResponse {
     private CurrencyResponse currencyResponse;
     private String iban;
 
+    private String rol;
 
-    public AccountResponse(int id, double balance, int ibanId, int clientId, CurrencyResponse byIdAccount, String iban) {
+
+    public AccountResponse(int id, double balance, int ibanId, int clientId, CurrencyResponse byIdAccount, String iban , String rol) {
+
     }
 
 
-    public AccountResponse(int id, double balance, boolean active, int iban_id, int client_id, CurrencyResponse currencyResponse, String iban) {
+
+
+    public AccountResponse(int id, double balance, boolean active, int iban_id, int client_id, CurrencyResponse currencyResponse, String iban , String rol) {
         this.id = id;
         this.balance = balance;
         this.active = active;
@@ -23,6 +28,7 @@ public class AccountResponse {
         this.client_id = client_id;
         this.currencyResponse = currencyResponse;
         this.iban = iban;
+        this.rol=rol;
     }
 
 
@@ -81,7 +87,12 @@ public class AccountResponse {
     public void setIban(String iban) {
         this.iban = iban;
     }
-
+    public String getRol() {
+        return rol;
+    }
+    public void setRol(String rol) {
+        this.rol = rol;
+    }
     @Override
     public String toString() {
         return "AccountResponse{" +
