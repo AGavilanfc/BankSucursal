@@ -125,7 +125,7 @@ public class AccountRepository implements IAccountRepository {
 
     @Override
     public int updateAccountStatus(int id, int active) {
-        String query = "UPDATE ACCOUNT SET active = ? WHERE ID = ?";
+        String query = "UPDATE ACCOUNT SET active = ? WHERE ID = ? AND ROL = 'SECOND'";
         return jdbcTemplate.update(query,active,id);
     }
 }
