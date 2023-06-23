@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.HttpStatus;
 import com.optimissa.training.currencyservice.exception.MyException;
 import org.springframework.web.client.RestTemplate;
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/currencies")
 public class CurrencyController {
