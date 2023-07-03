@@ -14,6 +14,8 @@
 		<module>account-service</module>
 		<module>client-service</module>
 		<module>currency-service</module>
+		<module>country-service</module>
+		<module>entity-service</module>
 	</modules>
 	
 </project>
