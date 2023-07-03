@@ -1,8 +1,8 @@
 package com.optimissa.training.entityservice.repository;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.stereotype.Repository;
 import com.optimissa.training.entityservice.models.entity;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
