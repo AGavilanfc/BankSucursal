@@ -12,11 +12,13 @@ public class CountryController {
 
     @Autowired
     private CountryService countryService;
+
     @GetMapping("")
     public List<Country> getAllCountries(){
 
         return countryService.getAll();
-
     }
+
+
 
 }
