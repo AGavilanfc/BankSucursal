@@ -39,6 +39,7 @@ CREATE TABLE `COUNTRY` (
   `ID` int(2) NOT NULL AUTO_INCREMENT,
   `CODE` varchar(2) NOT NULL,
   `NAME` varchar(20) NOT NULL,
+  `PREFIX` varchar(10) NOT NULL,
   PRIMARY KEY (`ID`)
 );
 

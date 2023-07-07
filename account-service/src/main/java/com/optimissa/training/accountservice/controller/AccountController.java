@@ -1,4 +1,5 @@
 package com.optimissa.training.accountservice.controller;
+
 import com.optimissa.training.accountservice.api.AccountRequest;
 import com.optimissa.training.accountservice.api.AccountResponse;
 import com.optimissa.training.accountservice.mapper.AccountRequestMapper;
@@ -14,11 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.logging.Logger;
+
 @CrossOrigin(origins = "*")
-
-
-
 @RestController
 @RequestMapping(value = "/accounts")
 public class AccountController {
