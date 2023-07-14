@@ -77,14 +77,16 @@ public class ClientRepository implements IClientRepository{
 
     public int insertClient(Client newClient) {
         String query = "INSERT INTO CLIENT (NAME, LAST_NAME1, LAST_NAME2, EMAIL, PHONE, IDENTIFIER, USER_ID) " +
-                "VALUES (?, ?, ?, ?, ?, ?, 1)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
         return jdbc.update(query,
                 newClient.getName(),
                 newClient.getLastName1(),
                 newClient.getLastName2(),
                 newClient.getEmail(),
                 newClient.getPhone(),
-                newClient.getIdentifier() );
+                newClient.getIdentifier(),
+                newClient.getUserId()
+        );
     }
 
     public int deleteClient(int id) {
