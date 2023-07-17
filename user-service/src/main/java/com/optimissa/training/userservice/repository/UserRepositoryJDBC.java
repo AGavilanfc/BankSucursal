@@ -19,9 +19,10 @@ public class UserRepositoryJDBC implements UserRepository {
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM USER WHERE id = ?";
     private static final String SQL_SELECT_BY_EMAIL = "SELECT * FROM USER WHERE EMAIL = ? OR PHONE = ? AND ACTIVE = 1";
     private static final String SQL_SELECT_BY_StartWith = "SELECT * FROM USER WHERE name LIKE ?";
-    private static final String SQL_INSERT = "INSERT INTO USER (name, last_name1, last_name2, email, phone) " +
+    private static final String SQL_INSERT = "INSERT INTO USER (name, last_name1, last_name2, email, phone ) " +
             "VALUES (?, ?, ?, ?, ?)";
-    private static final String SQL_UPDATE = "UPDATE USER SET name = ?, last_name1 = ?, last_name2 = ?, email = ?, phone = ? " +
+    private static final String SQL_SELECT_TO_LOGGING = "SELECT * FROM USER WHERE (EMAIL = ? OR PHONE = ?) AND ACTIVE = 1";
+    private static final String SQL_UPDATE = "UPDATE USER SET name = ?, last_name1 = ?, last_name2 = ?, email = ?, phone = ? ,password = ?" +
             "WHERE id = ?";
     private static final String SQL_DELETE = "UPDATE USER SET active = 0 WHERE id = ?";
 
@@ -71,6 +72,17 @@ public class UserRepositoryJDBC implements UserRepository {
 
         );
     }
+
+    @Override
+    public User selectToLogging(String data) {
+        return jdbcTemplate.queryForObject(
+                SQL_SELECT_TO_LOGGING ,
+                new BeanPropertyRowMapper<>(User.class),
+                data,
+                data
+               );
+    }
+
     @Override
     public List<User> selectByStartWith(String select, String data) {
         logger.info("pepe  {} ---- {} {}", SQL_SELECT_BY_StartWith, data,select);
@@ -80,6 +92,7 @@ public class UserRepositoryJDBC implements UserRepository {
                 data+"%"
         );
     }
+
 
     @Override
     public List<User> getUserBylimits(int limit, int page) {
@@ -95,6 +108,8 @@ public class UserRepositoryJDBC implements UserRepository {
         return jdbcTemplate.queryForObject(query, Integer.class);
 
     }
+
+
     @Override
     public int insert(User user) {
         return jdbcTemplate.update(SQL_INSERT,
@@ -103,6 +118,7 @@ public class UserRepositoryJDBC implements UserRepository {
                 user.getLastName2(),
                 user.getEmail(),
                 user.getPhone()
+
         );
     }
 
@@ -129,4 +145,6 @@ public class UserRepositoryJDBC implements UserRepository {
         return jdbcTemplate.update(query, activate, id);
 
     }
+
+
 }

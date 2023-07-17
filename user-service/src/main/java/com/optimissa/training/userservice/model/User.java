@@ -10,10 +10,13 @@ public class User {
     private String phone;
     private Boolean active;
 
+
+    private String password;
+
     public User() {
     }
 
-    public User(int id, String name, String lastName1, String lastName2, String email, String phone, Boolean active) {
+    public User(int id, String name, String lastName1, String lastName2, String email, String phone, Boolean active,String password) {
         this.id = id;
         this.name = name;
         this.lastName1 = lastName1;
@@ -21,15 +24,7 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.active = active;
-    }
-
-    public User(String name, String lastName1, String lastName2, String email, String phone, Boolean active) {
-        this.name = name;
-        this.lastName1 = lastName1;
-        this.lastName2 = lastName2;
-        this.email = email;
-        this.phone = phone;
-        this.active = active;
+        this.password = password;
     }
 
     public int getId() {
@@ -88,6 +83,12 @@ public class User {
         this.active = active;
     }
 
+    public String getPassword() {return password;}
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -97,7 +98,8 @@ public class User {
                 ", lastName2='" + lastName2 + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
-                ", active=" + active +
+                ", active=" + active + '\'' +
+                ",password" +
                 '}';
     }
 }

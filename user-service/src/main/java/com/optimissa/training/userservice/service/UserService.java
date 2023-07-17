@@ -84,6 +84,15 @@ public class UserService {
         return user;
     }
 
+    public User getUserToLogging(String data){
+        logger.info("Started userService.getUserById()");
+        long startTime = System.currentTimeMillis();
+        User user = userRepository.selectToLogging(data);
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime-startTime, user.toString());
+        return user;
+    }
+
     public Object getUserBylimits(int limit, int page) {
         long startTime = System.currentTimeMillis();
         List<User> users = userRepository.getUserBylimits(limit, page);

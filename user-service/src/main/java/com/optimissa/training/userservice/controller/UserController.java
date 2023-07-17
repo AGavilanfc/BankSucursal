@@ -91,6 +91,17 @@ public class UserController {
         }
     }
 
+    @GetMapping("/get-user-to-login/{data}")
+    public ResponseEntity<Object> getUserToLogging(@PathVariable String data){
+        try{
+            return new ResponseEntity<>(userService.getUserToLogging(data),HttpStatus.OK) ;
+        } catch(Exception e){
+            logger.error("Not found");
+            return new ResponseEntity<>(new StringResponse("Not found"), HttpStatus.NOT_FOUND);
+        }
+    }
+
+
     @PostMapping("/create")
     public ResponseEntity<StringResponse> addUser(@RequestBody User user) {
         if (userUtil.checkEmail(user.getEmail())) {

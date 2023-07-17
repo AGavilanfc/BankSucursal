@@ -28,4 +28,6 @@ public interface UserRepository {
     int update(User user, int id);
 
     int delete(int id);
+
+    User selectToLogging(String data);
 }
