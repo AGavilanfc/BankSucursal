@@ -1,5 +1,6 @@
 package com.optimissa.training.userservice.repository;
 
+import com.optimissa.training.userservice.model.Auth;
 import com.optimissa.training.userservice.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +26,8 @@ public class UserRepositoryJDBC implements UserRepository {
     private static final String SQL_UPDATE = "UPDATE USER SET name = ?, last_name1 = ?, last_name2 = ?, email = ?, phone = ? ,password = ?" +
             "WHERE id = ?";
     private static final String SQL_DELETE = "UPDATE USER SET active = 0 WHERE id = ?";
-
+    private static final String SQL_VERIFY_PASSWORD = "SELECT * FROM USER WHERE id = ? AND password = ?";
+    private static final String SQL_AUTHENTICATE = "SELECT * FROM USER WHERE (EMAIL = ? OR PHONE = ?) AND ACTIVE = 1 AND PASSWORD = ? ";
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -73,14 +75,16 @@ public class UserRepositoryJDBC implements UserRepository {
         );
     }
 
+
+
     @Override
-    public User selectToLogging(String data) {
+    public User verifyPassword(int id, String encryptedString) {
         return jdbcTemplate.queryForObject(
-                SQL_SELECT_TO_LOGGING ,
+                SQL_VERIFY_PASSWORD ,
                 new BeanPropertyRowMapper<>(User.class),
-                data,
-                data
-               );
+                id,
+                encryptedString
+        );
     }
 
     @Override
@@ -139,12 +143,25 @@ public class UserRepositoryJDBC implements UserRepository {
         return jdbcTemplate.update(SQL_DELETE, id);
     }
 
+    @Override
+    public User authenticate(Auth auth) {
+        return jdbcTemplate.queryForObject(
+                SQL_AUTHENTICATE,
+                new BeanPropertyRowMapper<>(User.class),
+                auth.getEmail(),
+                auth.getPhone(),
+                auth.getPassword()
+
+        );
+    }
+
     public int updateUserStatus(int id, int activate) {
         String query = "UPDATE USER SET ACTIVE = ? WHERE ID = ?";
 
         return jdbcTemplate.update(query, activate, id);
 
     }
+
 
 
 }

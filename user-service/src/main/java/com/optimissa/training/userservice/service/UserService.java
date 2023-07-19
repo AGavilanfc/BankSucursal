@@ -3,8 +3,10 @@ package com.optimissa.training.userservice.service;
 import com.optimissa.training.userservice.api.UserBasicResponse;
 // import com.optimissa.training.userservice.api.UserResponse;
 import com.optimissa.training.userservice.controller.UserController;
+import com.optimissa.training.userservice.model.Auth;
 import com.optimissa.training.userservice.model.User;
 import com.optimissa.training.userservice.repository.UserRepositoryJDBC;
+import com.optimissa.training.userservice.util.AES;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -84,12 +86,17 @@ public class UserService {
         return user;
     }
 
-    public User getUserToLogging(String data){
-        logger.info("Started userService.getUserById()");
+    public User authenticate(Auth auth){
+        logger.info("Started userService.authenticate()");
         long startTime = System.currentTimeMillis();
-        User user = userRepository.selectToLogging(data);
+        final String secretKey = "12345";
+
+        String encryptedString = AES.encrypt(auth.getPassword(), secretKey);
+        auth.setPassword(encryptedString);
+
+        User user = userRepository.authenticate(auth);
         long endTime = System.currentTimeMillis();
-        logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime-startTime, user.toString());
+        logger.info("Finished userService.authenticate(). Execution took: {}ms. Response: {}", endTime-startTime, user.toString());
         return user;
     }
 
@@ -144,4 +151,12 @@ public class UserService {
         return affectedRows;
     }
 
+    public Object verifyPassword(int id, String encryptedString) {
+        logger.info("Started userService.verifyPassword()");
+        long startTime = System.currentTimeMillis();
+        User affectedRows = userRepository.verifyPassword(id,encryptedString);
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.verifyPassword(). Execution took: {}ms. Response: affectedRows = {}", endTime-startTime, affectedRows );
+        return affectedRows;
+    }
 }

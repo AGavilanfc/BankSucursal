@@ -1,8 +1,10 @@
 package com.optimissa.training.userservice.controller;
 
 import com.optimissa.training.userservice.api.StringResponse;
+import com.optimissa.training.userservice.model.Auth;
 import com.optimissa.training.userservice.model.User;
 import com.optimissa.training.userservice.service.UserService;
+import com.optimissa.training.userservice.util.AES;
 import com.optimissa.training.userservice.util.UserUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import javax.crypto.Cipher;
+import javax.crypto.Cipher;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
+import java.util.Base64;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -23,6 +30,37 @@ public class UserController {
     @Autowired
     UserService userService;
 
+
+//    @PostMapping("/create")
+//    public ResponseEntity<String> saveFund(@RequestBody Fund fund) {
+//        long millis = System.currentTimeMillis();
+//        int result = fundService.saveFund(fund);
+//        if (result > 0) {
+//            logger.info("Fund saved successfully in " + (System.currentTimeMillis() - millis) + " millis");
+//            return ResponseEntity.ok("Fund created successfully");
+//        } else {
+//            logger.error("Failed to create new Fund in " + (System.currentTimeMillis() - millis) + " millis");
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body("Failed to create new Fund");
+//        }
+//    }
+
+    @PostMapping("/verify-password/")
+    public ResponseEntity<Object> verifyPassword(@PathVariable int id, @PathVariable String password) {
+        final String secretKey = "12345";
+
+        String encryptedString = AES.encrypt(password, secretKey);
+        logger.info("Mi pass encriptada es: "+encryptedString);
+
+        String decryptString = AES.decrypt("v4srHIuf2m/W7Q+ZMO9p7A==", secretKey);
+        logger.info("Mi pass desencriptada es: "+decryptString);
+        try {
+            return new ResponseEntity<>(userService.verifyPassword(id,encryptedString), HttpStatus.OK);
+        } catch (Exception e) {
+            logger.error("Password incorrect");
+            return new ResponseEntity<>(new StringResponse("Password incorrect"), HttpStatus.NOT_FOUND);
+        }
+    }
     @GetMapping("/get-all")
     public ResponseEntity<Object> getUsers() {
         try {
@@ -91,13 +129,13 @@ public class UserController {
         }
     }
 
-    @GetMapping("/get-user-to-login/{data}")
-    public ResponseEntity<Object> getUserToLogging(@PathVariable String data){
+    @PostMapping("/authentication")
+    public ResponseEntity<Object> authenticate(@RequestBody Auth auth){
         try{
-            return new ResponseEntity<>(userService.getUserToLogging(data),HttpStatus.OK) ;
+            return new ResponseEntity<>(userService.authenticate(auth),HttpStatus.OK) ;
         } catch(Exception e){
-            logger.error("Not found");
-            return new ResponseEntity<>(new StringResponse("Not found"), HttpStatus.NOT_FOUND);
+            logger.error("USER OR PASSWORD INCORRECT");
+            return new ResponseEntity<>(new StringResponse("USER OR PASSWORD INCORRECT"), HttpStatus.NOT_FOUND);
         }
     }
 

@@ -1,5 +1,6 @@
 package com.optimissa.training.userservice.repository;
 
+import com.optimissa.training.userservice.model.Auth;
 import com.optimissa.training.userservice.model.User;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
@@ -29,5 +30,7 @@ public interface UserRepository {
 
     int delete(int id);
 
-    User selectToLogging(String data);
+    User authenticate(Auth auth);
+
+    User verifyPassword(int id, String encryptedString);
 }
