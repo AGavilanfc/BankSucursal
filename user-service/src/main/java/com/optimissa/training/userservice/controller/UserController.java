@@ -203,7 +203,7 @@ public class UserController {
     }
 
     @PostMapping("/update/id/{id}/status/{activate}")
-    public ResponseEntity<Object> updateActivateUser(@PathVariable int id, @PathVariable int activate) {
+    public ResponseEntity<Object> updateActivateUser(@RequestBody int id, @PathVariable int activate) {
         try {
             return new ResponseEntity<>(userService.updateUserStatus(id, activate), HttpStatus.OK);
         } catch (Exception e) {
@@ -212,4 +212,17 @@ public class UserController {
         }
     }
 
+    @PostMapping("/update/authentication/id/{id}")
+    public ResponseEntity<StringResponse> modifyAuthenticationUser(@RequestBody User user, @PathVariable int id) {
+
+                try {
+                    userService.modifyAuthenticationUser(user, id) ;
+                        return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
+                    }
+                 catch (Exception e) {
+                    logger.error(e.getCause().getMessage());
+                    return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+
+    }
 }

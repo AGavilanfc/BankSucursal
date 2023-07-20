@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
 @Service
 @Transactional
@@ -87,16 +88,18 @@ public class UserService {
     }
 
     public User authenticate(Auth auth){
-        logger.info("Started userService.authenticate()");
+
         long startTime = System.currentTimeMillis();
         final String secretKey = "12345";
 
         String encryptedString = AES.encrypt(auth.getPassword(), secretKey);
         auth.setPassword(encryptedString);
-
+        logger.info(encryptedString);
         User user = userRepository.authenticate(auth);
         long endTime = System.currentTimeMillis();
-        logger.info("Finished userService.authenticate(). Execution took: {}ms. Response: {}", endTime-startTime, user.toString());
+        logger.info(encryptedString);
+
+        logger.info("Finished userService.authenticate(). Execution took: {}ms. Response: {}",endTime-startTime, user.toString());
         return user;
     }
 
@@ -159,4 +162,15 @@ public class UserService {
         logger.info("Finished userService.verifyPassword(). Execution took: {}ms. Response: affectedRows = {}", endTime-startTime, affectedRows );
         return affectedRows;
     }
+
+    public int modifyAuthenticationUser(User user, int id) {
+
+        logger.info("Started userService.modifyUser()");
+        long startTime = System.currentTimeMillis();
+        int affectedRows = userRepository.updateAuthentication(user, id);
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.modifyUser(). Execution took: {}ms. Response: affectedRows = {}", endTime-startTime, affectedRows );
+        return affectedRows;
+    }
+
 }

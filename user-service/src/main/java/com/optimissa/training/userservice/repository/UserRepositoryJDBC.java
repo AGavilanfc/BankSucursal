@@ -28,6 +28,8 @@ public class UserRepositoryJDBC implements UserRepository {
     private static final String SQL_DELETE = "UPDATE USER SET active = 0 WHERE id = ?";
     private static final String SQL_VERIFY_PASSWORD = "SELECT * FROM USER WHERE id = ? AND password = ?";
     private static final String SQL_AUTHENTICATE = "SELECT * FROM USER WHERE (EMAIL = ? OR PHONE = ?) AND ACTIVE = 1 AND PASSWORD = ? ";
+    private static final String queryUpdateAuthentication ="UPDATE USER SET PASSWORD = ? WHERE ID = ?";
+
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -162,6 +164,11 @@ public class UserRepositoryJDBC implements UserRepository {
 
     }
 
+    @Override
+    public int updateAuthentication(User user, int id) {
 
+        return jdbcTemplate.update(queryUpdateAuthentication,user.getPassword(), id);
+
+    }
 
 }

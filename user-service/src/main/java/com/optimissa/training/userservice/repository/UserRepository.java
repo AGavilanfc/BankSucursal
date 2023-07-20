@@ -33,4 +33,6 @@ public interface UserRepository {
     User authenticate(Auth auth);
 
     User verifyPassword(int id, String encryptedString);
+
+    int updateAuthentication(User user, int id);
 }
