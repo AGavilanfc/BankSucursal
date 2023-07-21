@@ -1,6 +1,7 @@
 package com.optimissa.training.userservice.controller;
 
 import com.optimissa.training.userservice.api.StringResponse;
+import com.optimissa.training.userservice.api.UserResponAuth;
 import com.optimissa.training.userservice.model.Auth;
 import com.optimissa.training.userservice.model.User;
 import com.optimissa.training.userservice.service.UserService;
@@ -12,11 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import javax.crypto.Cipher;
-import javax.crypto.Cipher;
-import javax.crypto.spec.SecretKeySpec;
-import java.security.Key;
-import java.util.Base64;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -50,17 +46,18 @@ public class UserController {
         final String secretKey = "12345";
 
         String encryptedString = AES.encrypt(password, secretKey);
-        logger.info("Mi pass encriptada es: "+encryptedString);
+        logger.info("Mi pass encriptada es: " + encryptedString);
 
         String decryptString = AES.decrypt("v4srHIuf2m/W7Q+ZMO9p7A==", secretKey);
-        logger.info("Mi pass desencriptada es: "+decryptString);
+        logger.info("Mi pass desencriptada es: " + decryptString);
         try {
-            return new ResponseEntity<>(userService.verifyPassword(id,encryptedString), HttpStatus.OK);
+            return new ResponseEntity<>(userService.verifyPassword(id, encryptedString), HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Password incorrect");
             return new ResponseEntity<>(new StringResponse("Password incorrect"), HttpStatus.NOT_FOUND);
         }
     }
+
     @GetMapping("/get-all")
     public ResponseEntity<Object> getUsers() {
         try {
@@ -70,15 +67,17 @@ public class UserController {
             return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
     @GetMapping("/get-users/{page}")
     public ResponseEntity<Object> getUserBylimits(@PathVariable int page) {
         try {
-            return new ResponseEntity<>(userService.getUserBylimits(10,page), HttpStatus.OK);
+            return new ResponseEntity<>(userService.getUserBylimits(10, page), HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Not found");
             return new ResponseEntity<>("Client not found. ", HttpStatus.NOT_FOUND);
         }
     }
+
     @GetMapping("/get-all/active")
     public ResponseEntity<Object> getActiveUsers() {
         try {
@@ -122,7 +121,7 @@ public class UserController {
     @GetMapping("/get-by-StartWith/{select}/{data}")
     public ResponseEntity<Object> getUserByStartWith(@PathVariable String select, @PathVariable String data) {
         try {
-            return new ResponseEntity<>(userService.getUserByStartWith(select,data), HttpStatus.OK);
+            return new ResponseEntity<>(userService.getUserByStartWith(select, data), HttpStatus.OK);
         } catch (Exception e) {
             logger.error("Not found");
             return new ResponseEntity<>(new StringResponse("Not found"), HttpStatus.NOT_FOUND);
@@ -130,10 +129,10 @@ public class UserController {
     }
 
     @PostMapping("/authentication")
-    public ResponseEntity<Object> authenticate(@RequestBody Auth auth){
-        try{
-            return new ResponseEntity<>(userService.authenticate(auth),HttpStatus.OK) ;
-        } catch(Exception e){
+    public ResponseEntity<Object> authenticate(@RequestBody Auth auth) {
+        try {
+            return new ResponseEntity<>(userService.authenticate(auth), HttpStatus.OK);
+        } catch (Exception e) {
             logger.error("USER OR PASSWORD INCORRECT");
             return new ResponseEntity<>(new StringResponse("USER OR PASSWORD INCORRECT"), HttpStatus.NOT_FOUND);
         }
@@ -212,17 +211,16 @@ public class UserController {
         }
     }
 
-    @PostMapping("/update/authentication/id/{id}")
-    public ResponseEntity<StringResponse> modifyAuthenticationUser(@RequestBody User user, @PathVariable int id) {
+    @PostMapping("/update/authentication")
+    public ResponseEntity<StringResponse> modifyAuthenticationUser(@RequestBody UserResponAuth userResponAuth) {
 
-                try {
-                    userService.modifyAuthenticationUser(user, id) ;
-                        return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
-                    }
-                 catch (Exception e) {
-                    logger.error(e.getCause().getMessage());
-                    return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
-                }
+        try {
+            userService.modifyAuthenticationUser(userResponAuth);
+            return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            logger.error(e.getCause().getMessage());
+            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
     }
 }

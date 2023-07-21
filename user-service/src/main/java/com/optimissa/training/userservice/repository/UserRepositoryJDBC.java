@@ -1,5 +1,6 @@
 package com.optimissa.training.userservice.repository;
 
+import com.optimissa.training.userservice.api.UserResponAuth;
 import com.optimissa.training.userservice.model.Auth;
 import com.optimissa.training.userservice.model.User;
 import org.slf4j.Logger;
@@ -29,6 +30,7 @@ public class UserRepositoryJDBC implements UserRepository {
     private static final String SQL_VERIFY_PASSWORD = "SELECT * FROM USER WHERE id = ? AND password = ?";
     private static final String SQL_AUTHENTICATE = "SELECT * FROM USER WHERE (EMAIL = ? OR PHONE = ?) AND ACTIVE = 1 AND PASSWORD = ? ";
     private static final String queryUpdateAuthentication ="UPDATE USER SET PASSWORD = ? WHERE ID = ?";
+    private static final String SQL_UPDATE_AUTHENTICATION = "UPDATE USER SET PASSWORD = ? WHERE EMAIL = ?";
 
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -153,7 +155,6 @@ public class UserRepositoryJDBC implements UserRepository {
                 auth.getEmail(),
                 auth.getPhone(),
                 auth.getPassword()
-
         );
     }
 
@@ -165,10 +166,12 @@ public class UserRepositoryJDBC implements UserRepository {
     }
 
     @Override
-    public int updateAuthentication(User user, int id) {
+    public int updateAuthentication(String email, String password) {
 
-        return jdbcTemplate.update(queryUpdateAuthentication,user.getPassword(), id);
-
+        return jdbcTemplate.update(
+                SQL_UPDATE_AUTHENTICATION,
+                email,
+                password);
     }
 
 }

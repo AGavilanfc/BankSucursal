@@ -10,7 +10,6 @@ public class User {
     private String phone;
     private Boolean active;
 
-
     private String password;
 
     public User() {

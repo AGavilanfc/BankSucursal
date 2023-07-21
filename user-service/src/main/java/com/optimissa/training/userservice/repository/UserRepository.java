@@ -1,5 +1,6 @@
 package com.optimissa.training.userservice.repository;
 
+import com.optimissa.training.userservice.api.UserResponAuth;
 import com.optimissa.training.userservice.model.Auth;
 import com.optimissa.training.userservice.model.User;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -34,5 +35,5 @@ public interface UserRepository {
 
     User verifyPassword(int id, String encryptedString);
 
-    int updateAuthentication(User user, int id);
+    int updateAuthentication(String email, String password);
 }
