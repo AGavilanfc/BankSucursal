@@ -33,7 +33,7 @@ public interface UserRepository {
 
     User authenticate(Auth auth);
 
-    User verifyPassword(int id, String encryptedString);
+    boolean isValidPassword(int id, String encryptedString);
 
     int updateAuthentication(String email, String password);
 }

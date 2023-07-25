@@ -19,61 +19,46 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/users")
 public class UserController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
 
-    private final Logger logger = LoggerFactory.getLogger(UserController.class);
     private final UserUtil userUtil = new UserUtil();
 
     @Autowired
     UserService userService;
 
-
-//    @PostMapping("/create")
-//    public ResponseEntity<String> saveFund(@RequestBody Fund fund) {
-//        long millis = System.currentTimeMillis();
-//        int result = fundService.saveFund(fund);
-//        if (result > 0) {
-//            logger.info("Fund saved successfully in " + (System.currentTimeMillis() - millis) + " millis");
-//            return ResponseEntity.ok("Fund created successfully");
-//        } else {
-//            logger.error("Failed to create new Fund in " + (System.currentTimeMillis() - millis) + " millis");
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body("Failed to create new Fund");
+//    @PostMapping("/verify-password")
+//    public ResponseEntity<Object> verifyPassword(@PathVariable int id, @PathVariable String password) {
+//        final String secretKey = "12345";
+//
+//        String encryptedString = AES.encrypt(password, secretKey);
+//        LOGGER.info("The encrypted password is : {} ", encryptedString);
+//
+//        String decryptString = AES.decrypt("v4srHIuf2m/W7Q+ZMO9p7A==", secretKey);
+//        LOGGER.info("The decrypted password is : {}", decryptString);
+//        try {
+//            return new ResponseEntity<>(userService.verifyPassword(id, encryptedString), HttpStatus.OK);
+//        } catch (Exception e) {
+//            LOGGER.error("Incorrect Password");
+//            return new ResponseEntity<>(new StringResponse("Incorrect Password"), HttpStatus.NOT_FOUND);
 //        }
 //    }
-
-    @PostMapping("/verify-password/")
-    public ResponseEntity<Object> verifyPassword(@PathVariable int id, @PathVariable String password) {
-        final String secretKey = "12345";
-
-        String encryptedString = AES.encrypt(password, secretKey);
-        logger.info("Mi pass encriptada es: " + encryptedString);
-
-        String decryptString = AES.decrypt("v4srHIuf2m/W7Q+ZMO9p7A==", secretKey);
-        logger.info("Mi pass desencriptada es: " + decryptString);
-        try {
-            return new ResponseEntity<>(userService.verifyPassword(id, encryptedString), HttpStatus.OK);
-        } catch (Exception e) {
-            logger.error("Password incorrect");
-            return new ResponseEntity<>(new StringResponse("Password incorrect"), HttpStatus.NOT_FOUND);
-        }
-    }
 
     @GetMapping("/get-all")
     public ResponseEntity<Object> getUsers() {
         try {
             return new ResponseEntity<>(userService.getUsers(), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error(e.getCause().getMessage());
+            LOGGER.error(e.getCause().getMessage());
             return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/get-users/{page}")
-    public ResponseEntity<Object> getUserBylimits(@PathVariable int page) {
+    public ResponseEntity<Object> getUserByLimits(@PathVariable int page) {
         try {
-            return new ResponseEntity<>(userService.getUserBylimits(10, page), HttpStatus.OK);
+            return new ResponseEntity<>(userService.getUserByLimits(10, page), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Not found");
+            LOGGER.error("Not found");
             return new ResponseEntity<>("Client not found. ", HttpStatus.NOT_FOUND);
         }
     }
@@ -83,7 +68,7 @@ public class UserController {
         try {
             return new ResponseEntity<>(userService.getActiveUsers(), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error(e.getCause().getMessage());
+            LOGGER.error(e.getCause().getMessage());
             return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -93,7 +78,7 @@ public class UserController {
         try {
             return new ResponseEntity<>(userService.getInactiveUsers(), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error(e.getCause().getMessage());
+            LOGGER.error(e.getCause().getMessage());
             return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -103,7 +88,7 @@ public class UserController {
         try {
             return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Id not found");
+            LOGGER.error("Id not found");
             return new ResponseEntity<>(new StringResponse("Id not found"), HttpStatus.NOT_FOUND);
         }
     }
@@ -113,7 +98,7 @@ public class UserController {
         try {
             return new ResponseEntity<>(userService.getUserByEmail(email), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Email not found");
+            LOGGER.error("Email not found");
             return new ResponseEntity<>(new StringResponse("Email not found"), HttpStatus.NOT_FOUND);
         }
     }
@@ -123,7 +108,7 @@ public class UserController {
         try {
             return new ResponseEntity<>(userService.getUserByStartWith(select, data), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("Not found");
+            LOGGER.error("Not found");
             return new ResponseEntity<>(new StringResponse("Not found"), HttpStatus.NOT_FOUND);
         }
     }
@@ -133,7 +118,7 @@ public class UserController {
         try {
             return new ResponseEntity<>(userService.authenticate(auth), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error("USER OR PASSWORD INCORRECT");
+            LOGGER.error("USER OR PASSWORD INCORRECT");
             return new ResponseEntity<>(new StringResponse("USER OR PASSWORD INCORRECT"), HttpStatus.NOT_FOUND);
         }
     }
@@ -150,15 +135,15 @@ public class UserController {
                         return new ResponseEntity<>(new StringResponse("User has not been created"), HttpStatus.BAD_REQUEST);
                     }
                 } catch (Exception e) {
-                    logger.error(e.getCause().getMessage());
+                    LOGGER.error(e.getCause().getMessage());
                     return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             } else {
-                logger.error("Wrong phone format");
+                LOGGER.error("Wrong phone format");
                 return new ResponseEntity<>(new StringResponse("Wrong phone format"), HttpStatus.BAD_REQUEST);
             }
         } else {
-            logger.error("Wrong email format");
+            LOGGER.error("Wrong email format");
             return new ResponseEntity<>(new StringResponse("Wrong email format"), HttpStatus.BAD_REQUEST);
         }
     }
@@ -174,15 +159,15 @@ public class UserController {
                         return new ResponseEntity<>(new StringResponse("User id does not exist"), HttpStatus.NOT_FOUND);
                     }
                 } catch (Exception e) {
-                    logger.error(e.getCause().getMessage());
+                    LOGGER.error(e.getCause().getMessage());
                     return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             } else {
-                logger.error("Wrong phone format");
+                LOGGER.error("Wrong phone format");
                 return new ResponseEntity<>(new StringResponse("Wrong phone format"), HttpStatus.BAD_REQUEST);
             }
         } else {
-            logger.error("Wrong email format");
+            LOGGER.error("Wrong email format");
             return new ResponseEntity<>(new StringResponse("Wrong email format"), HttpStatus.BAD_REQUEST);
         }
     }
@@ -196,7 +181,7 @@ public class UserController {
                 return new ResponseEntity<>(new StringResponse("User id does not exist"), HttpStatus.NOT_FOUND);
             }
         } catch (Exception e) {
-            logger.error(e.getCause().getMessage());
+            LOGGER.error(e.getCause().getMessage());
             return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -206,7 +191,7 @@ public class UserController {
         try {
             return new ResponseEntity<>(userService.updateUserStatus(id, activate), HttpStatus.OK);
         } catch (Exception e) {
-            logger.error(e.getCause().getMessage());
+            LOGGER.error(e.getCause().getMessage());
             return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -218,7 +203,7 @@ public class UserController {
             userService.modifyAuthenticationUser(userResponAuth);
             return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
         } catch (Exception e) {
-            logger.error(e.getCause().getMessage());
+            LOGGER.error(e.getCause().getMessage());
             return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 

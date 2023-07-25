@@ -10,6 +10,7 @@ import com.optimissa.training.userservice.util.AES;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,9 +25,10 @@ public class UserService {
 
     // private static final String URL_USER_CLIENTS = "http://localhost:8091/clients/get-by-userId/";
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
-
     @Autowired
     UserRepositoryJDBC userRepository;
+    @Value("${auth.secret:12345}")
+    private String secretKey;
 
     public List<User> getUsers() {
         logger.info("Started userService.getUsers()");
@@ -88,20 +90,18 @@ public class UserService {
     public User authenticate(Auth auth) {
 
         long startTime = System.currentTimeMillis();
-        final String secretKey = "12345";
 
         String encryptedString = AES.encrypt(auth.getPassword(), secretKey);
         auth.setPassword(encryptedString);
-        logger.info(encryptedString);
+
         User user = userRepository.authenticate(auth);
         long endTime = System.currentTimeMillis();
-        logger.info(encryptedString);
 
-        logger.info("Finished userService.authenticate(). Execution took: {}ms. Response: {}", endTime - startTime, user.toString());
+        logger.info("Finished userService.authenticate(). Execution took: {}ms. Response: {}", endTime - startTime, user);
         return user;
     }
 
-    public Object getUserBylimits(int limit, int page) {
+    public Object getUserByLimits(int limit, int page) {
         long startTime = System.currentTimeMillis();
         List<User> users = userRepository.getUserBylimits(limit, page);
 
@@ -113,7 +113,7 @@ public class UserService {
         result.put("users", users);
 
         long endTime = System.currentTimeMillis();
-        logger.info("Finished userService.getUserBylimits(). Execution took: {}ms. Response: {}", endTime - startTime, users.toString());
+        logger.info("Finished userService.getUserByLimits(). Execution took: {}ms. Response: {}", endTime - startTime, users.toString());
         return result;
     }
 
@@ -153,22 +153,24 @@ public class UserService {
         return affectedRows;
     }
 
-    public Object verifyPassword(int id, String encryptedString) {
+    public boolean verifyPassword(int id, String encryptedString) {
         logger.info("Started userService.verifyPassword()");
         long startTime = System.currentTimeMillis();
-        User affectedRows = userRepository.verifyPassword(id, encryptedString);
+
+        boolean result = userRepository.isValidPassword(id, encryptedString);
+
         long endTime = System.currentTimeMillis();
-        logger.info("Finished userService.verifyPassword(). Execution took: {}ms. Response: affectedRows = {}", endTime - startTime, affectedRows);
-        return affectedRows;
+        logger.info("Finished userService.verifyPassword(). Execution took: {}ms.", endTime - startTime);
+        return result;
     }
 
     public int modifyAuthenticationUser(UserResponAuth userResponAuth) {
 
         logger.info("Started userService.modifyUser()");
-        long startTime = System.currentTimeMillis();
-        int affectedRows = userRepository
-                .updateAuthentication(userResponAuth.getEmail(), userResponAuth.getPassword());
-        long endTime = System.currentTimeMillis();
+        Long startTime = System.currentTimeMillis();
+        int affectedRows = userRepository.updateAuthentication(userResponAuth.getEmail(), AES.encrypt(userResponAuth.getPassword(), secretKey));
+        Long endTime = System.currentTimeMillis();
+
         return affectedRows;
     }
 

@@ -1,6 +1,5 @@
 package com.optimissa.training.userservice.repository;
 
-import com.optimissa.training.userservice.api.UserResponAuth;
 import com.optimissa.training.userservice.model.Auth;
 import com.optimissa.training.userservice.model.User;
 import org.slf4j.Logger;
@@ -14,7 +13,6 @@ import java.util.List;
 
 @Repository
 public class UserRepositoryJDBC implements UserRepository {
-    private final Logger logger = LoggerFactory.getLogger(UserRepositoryJDBC.class);
     private static final String SQL_SELECT_ALL = "SELECT * FROM USER";
     private static final String SQL_SELECT_ALL_ACTIVE = "SELECT * FROM USER WHERE active = 1";
     private static final String SQL_SELECT_ALL_INACTIVE = "SELECT * FROM USER WHERE active = 0";
@@ -29,9 +27,9 @@ public class UserRepositoryJDBC implements UserRepository {
     private static final String SQL_DELETE = "UPDATE USER SET active = 0 WHERE id = ?";
     private static final String SQL_VERIFY_PASSWORD = "SELECT * FROM USER WHERE id = ? AND password = ?";
     private static final String SQL_AUTHENTICATE = "SELECT * FROM USER WHERE (EMAIL = ? OR PHONE = ?) AND ACTIVE = 1 AND PASSWORD = ? ";
-    private static final String queryUpdateAuthentication ="UPDATE USER SET PASSWORD = ? WHERE ID = ?";
+    private static final String queryUpdateAuthentication = "UPDATE USER SET PASSWORD = ? WHERE ID = ?";
     private static final String SQL_UPDATE_AUTHENTICATION = "UPDATE USER SET PASSWORD = ? WHERE EMAIL = ?";
-
+    private final Logger logger = LoggerFactory.getLogger(UserRepositoryJDBC.class);
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -80,34 +78,32 @@ public class UserRepositoryJDBC implements UserRepository {
     }
 
 
-
     @Override
-    public User verifyPassword(int id, String encryptedString) {
-        return jdbcTemplate.queryForObject(
-                SQL_VERIFY_PASSWORD ,
-                new BeanPropertyRowMapper<>(User.class),
-                id,
-                encryptedString
-        );
+    public boolean isValidPassword(int id, String encryptedString) {
+
+        if (jdbcTemplate.queryForObject(SQL_VERIFY_PASSWORD, new BeanPropertyRowMapper<>(User.class), id, encryptedString) != null)
+            return true;
+
+        return false;
     }
 
     @Override
     public List<User> selectByStartWith(String select, String data) {
-        logger.info("pepe  {} ---- {} {}", SQL_SELECT_BY_StartWith, data,select);
+        logger.info("pepe  {} ---- {} {}", SQL_SELECT_BY_StartWith, data, select);
         return jdbcTemplate.query(
-                "SELECT * FROM USER WHERE "+ select +" LIKE ?",
+                "SELECT * FROM USER WHERE " + select + " LIKE ?",
                 new BeanPropertyRowMapper<>(User.class),
-                data+"%"
+                data + "%"
         );
     }
 
 
     @Override
     public List<User> getUserBylimits(int limit, int page) {
-        int offset = (page-1)*limit;
+        int offset = (page - 1) * limit;
         String query = "SELECT * FROM USER LIMIT ? OFFSET ?";
 
-        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(User.class),limit,offset);
+        return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(User.class), limit, offset);
 
     }
 
@@ -170,8 +166,8 @@ public class UserRepositoryJDBC implements UserRepository {
 
         return jdbcTemplate.update(
                 SQL_UPDATE_AUTHENTICATION,
-                email,
-                password);
+                password,
+                email);
     }
 
 }
