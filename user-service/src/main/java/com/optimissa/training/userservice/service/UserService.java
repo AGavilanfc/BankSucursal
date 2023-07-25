@@ -1,16 +1,18 @@
 package com.optimissa.training.userservice.service;
 
 import com.optimissa.training.userservice.api.UserBasicResponse;
-// import com.optimissa.training.userservice.api.UserResponse;
+import com.optimissa.training.userservice.api.UserResponAuth;
 import com.optimissa.training.userservice.controller.UserController;
+import com.optimissa.training.userservice.model.Auth;
 import com.optimissa.training.userservice.model.User;
 import com.optimissa.training.userservice.repository.UserRepositoryJDBC;
+import com.optimissa.training.userservice.util.AES;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-// import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,16 +25,17 @@ public class UserService {
 
     // private static final String URL_USER_CLIENTS = "http://localhost:8091/clients/get-by-userId/";
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
-
     @Autowired
     UserRepositoryJDBC userRepository;
+    @Value("${auth.secret:12345}")
+    private String secretKey;
 
     public List<User> getUsers() {
         logger.info("Started userService.getUsers()");
         long startTime = System.currentTimeMillis();
         List<User> users = userRepository.selectAll();
         long endTime = System.currentTimeMillis();
-        logger.info("Finished userService.getUsers(). Execution took: {}ms. Response: {}", endTime-startTime, users.toString() );
+        logger.info("Finished userService.getUsers(). Execution took: {}ms. Response: {}", endTime - startTime, users.toString());
         return users;
     }
 
@@ -43,7 +46,7 @@ public class UserService {
         List<UserBasicResponse> usersBasicResponse = new ArrayList<>();
         users.forEach(user -> usersBasicResponse.add(new UserBasicResponse(user.getName() + " " + user.getLastName1(), user.getEmail())));
         long endTime = System.currentTimeMillis();
-        logger.info("Finished userService.getActiveUsers(). Execution took: {}ms. Response: {}", endTime-startTime, usersBasicResponse );
+        logger.info("Finished userService.getActiveUsers(). Execution took: {}ms. Response: {}", endTime - startTime, usersBasicResponse);
         return usersBasicResponse;
     }
 
@@ -52,7 +55,7 @@ public class UserService {
         long startTime = System.currentTimeMillis();
         List<User> users = userRepository.selectAllInactive();
         long endTime = System.currentTimeMillis();
-        logger.info("Finished userService.getInactiveUsers(). Execution took: {}ms. Response: {}", endTime-startTime, users.toString() );
+        logger.info("Finished userService.getInactiveUsers(). Execution took: {}ms. Response: {}", endTime - startTime, users.toString());
         return users;
     }
 
@@ -61,7 +64,7 @@ public class UserService {
         long startTime = System.currentTimeMillis();
         User user = userRepository.selectById(id);
         long endTime = System.currentTimeMillis();
-        logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime-startTime, user );
+        logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime - startTime, user);
         return user;
     }
 
@@ -71,7 +74,7 @@ public class UserService {
         long startTime = System.currentTimeMillis();
         User user = userRepository.selectByEmail(email);
         long endTime = System.currentTimeMillis();
-        logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime-startTime, user.toString() );
+        logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime - startTime, user.toString());
         return user;
     }
 
@@ -80,11 +83,25 @@ public class UserService {
         long startTime = System.currentTimeMillis();
         List<User> user = userRepository.selectByStartWith(select, data);
         long endTime = System.currentTimeMillis();
-        logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime-startTime, user.toString() );
+        logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime - startTime, user.toString());
         return user;
     }
 
-    public Object getUserBylimits(int limit, int page) {
+    public User authenticate(Auth auth) {
+
+        long startTime = System.currentTimeMillis();
+
+        String encryptedString = AES.encrypt(auth.getPassword(), secretKey);
+        auth.setPassword(encryptedString);
+
+        User user = userRepository.authenticate(auth);
+        long endTime = System.currentTimeMillis();
+
+        logger.info("Finished userService.authenticate(). Execution took: {}ms. Response: {}", endTime - startTime, user);
+        return user;
+    }
+
+    public Object getUserByLimits(int limit, int page) {
         long startTime = System.currentTimeMillis();
         List<User> users = userRepository.getUserBylimits(limit, page);
 
@@ -96,15 +113,16 @@ public class UserService {
         result.put("users", users);
 
         long endTime = System.currentTimeMillis();
-        logger.info("Finished userService.getUserBylimits(). Execution took: {}ms. Response: {}", endTime-startTime, users.toString() );
+        logger.info("Finished userService.getUserByLimits(). Execution took: {}ms. Response: {}", endTime - startTime, users.toString());
         return result;
     }
+
     public int addUser(User user) {
         logger.info("Started userService.addUser()");
         long startTime = System.currentTimeMillis();
         int affectedRows = userRepository.insert(user);
         long endTime = System.currentTimeMillis();
-        logger.info("Finished userService.addUser(). Execution took: {}ms. Response: affectedRows = {}", endTime-startTime, affectedRows );
+        logger.info("Finished userService.addUser(). Execution took: {}ms. Response: affectedRows = {}", endTime - startTime, affectedRows);
         return affectedRows;
     }
 
@@ -113,7 +131,7 @@ public class UserService {
         long startTime = System.currentTimeMillis();
         int affectedRows = userRepository.update(user, id);
         long endTime = System.currentTimeMillis();
-        logger.info("Finished userService.modifyUser(). Execution took: {}ms. Response: affectedRows = {}", endTime-startTime, affectedRows );
+        logger.info("Finished userService.modifyUser(). Execution took: {}ms. Response: affectedRows = {}", endTime - startTime, affectedRows);
         return affectedRows;
     }
 
@@ -122,16 +140,37 @@ public class UserService {
         long startTime = System.currentTimeMillis();
         int affectedRows = userRepository.delete(id);
         long endTime = System.currentTimeMillis();
-        logger.info("Finished userService.removeUser(). Execution took: {}ms. Response: affectedRows = {}", endTime-startTime, affectedRows );
+        logger.info("Finished userService.removeUser(). Execution took: {}ms. Response: affectedRows = {}", endTime - startTime, affectedRows);
         return affectedRows;
     }
 
     public int updateUserStatus(int id, int activate) {
         logger.info("Started userService.updateUser()");
         long startTime = System.currentTimeMillis();
-        int affectedRows = userRepository.updateUserStatus(id,activate);
+        int affectedRows = userRepository.updateUserStatus(id, activate);
         long endTime = System.currentTimeMillis();
-        logger.info("Finished userService.updateUser(). Execution took: {}ms. Response: affectedRows = {}", endTime-startTime, affectedRows );
+        logger.info("Finished userService.updateUser(). Execution took: {}ms. Response: affectedRows = {}", endTime - startTime, affectedRows);
+        return affectedRows;
+    }
+
+    public boolean verifyPassword(int id, String encryptedString) {
+        logger.info("Started userService.verifyPassword()");
+        long startTime = System.currentTimeMillis();
+
+        boolean result = userRepository.isValidPassword(id, encryptedString);
+
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.verifyPassword(). Execution took: {}ms.", endTime - startTime);
+        return result;
+    }
+
+    public int modifyAuthenticationUser(UserResponAuth userResponAuth) {
+
+        logger.info("Started userService.modifyUser()");
+        Long startTime = System.currentTimeMillis();
+        int affectedRows = userRepository.updateAuthentication(userResponAuth.getEmail(), AES.encrypt(userResponAuth.getPassword(), secretKey));
+        Long endTime = System.currentTimeMillis();
+
         return affectedRows;
     }
 

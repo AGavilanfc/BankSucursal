@@ -10,6 +10,7 @@ CREATE TABLE `USER` (
   `EMAIL` varchar(50) NOT NULL UNIQUE,
   `PHONE` varchar(20),
   `ACTIVE` Boolean NOT NULL DEFAULT 1,
+  `PASSWORD` varchar(100) NOT NULL DEFAULT "newpassword",
   PRIMARY KEY (`ID`)
 );
 

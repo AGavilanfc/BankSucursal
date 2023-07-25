@@ -77,14 +77,16 @@ public class ClientRepository implements IClientRepository{
 
     public int insertClient(Client newClient) {
         String query = "INSERT INTO CLIENT (NAME, LAST_NAME1, LAST_NAME2, EMAIL, PHONE, IDENTIFIER, USER_ID) " +
-                "VALUES (?, ?, ?, ?, ?, ?, 1)";
+                "VALUES (?, ?, ?, ?, ?, ?, ?)";
         return jdbc.update(query,
                 newClient.getName(),
                 newClient.getLastName1(),
                 newClient.getLastName2(),
                 newClient.getEmail(),
                 newClient.getPhone(),
-                newClient.getIdentifier() );
+                newClient.getIdentifier(),
+                newClient.getUserId()
+        );
     }
 
     public int deleteClient(int id) {
@@ -93,16 +95,7 @@ public class ClientRepository implements IClientRepository{
     }
 
     public int updateClient(Client modifiedClient, int id) {
-        SqlParameterSource params = new MapSqlParameterSource()
-                .addValue("name", modifiedClient.getName())
-                .addValue("lastName1", modifiedClient.getLastName1())
-                .addValue("lastName2", modifiedClient.getLastName2())
-                .addValue("email", modifiedClient.getEmail())
-                .addValue("phone", modifiedClient.getPhone())
-                .addValue("identifier", modifiedClient.getIdentifier())
-                .addValue("userId", modifiedClient.getUserId())
-                .addValue("id", id)
-                ;
+
         String query = "UPDATE CLIENT SET NAME = :name, " +
                 "LAST_NAME1 = :lastName1, " +
                 "LAST_NAME2 = :lastName2, " +
@@ -111,6 +104,18 @@ public class ClientRepository implements IClientRepository{
                 "IDENTIFIER = :identifier, " +
                 "USER_ID = :userId " +
                 "WHERE ID = :id";
+
+        SqlParameterSource params = new MapSqlParameterSource()
+                .addValue("name", modifiedClient.getName())
+                .addValue("lastName1", modifiedClient.getLastName1())
+                .addValue("lastName2", modifiedClient.getLastName2())
+                .addValue("email", modifiedClient.getEmail())
+                .addValue("phone", modifiedClient.getPhone())
+                .addValue("identifier", modifiedClient.getIdentifier())
+                .addValue("userId", modifiedClient.getUserId())
+                .addValue("id", id);
+
+
         return namedJdbc.update(query, params);
     }
     public int updateUserStatus(int id, int activate) {
