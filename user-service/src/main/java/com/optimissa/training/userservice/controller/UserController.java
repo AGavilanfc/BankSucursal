@@ -1,5 +1,6 @@
 package com.optimissa.training.userservice.controller;
 
+import com.optimissa.training.userservice.api.ImageResponse;
 import com.optimissa.training.userservice.api.StringResponse;
 import com.optimissa.training.userservice.api.UserResponAuth;
 import com.optimissa.training.userservice.model.Auth;
@@ -208,4 +209,29 @@ public class UserController {
         }
 
     }
+
+    @GetMapping("/get-image-by-id/{id}")
+    public ResponseEntity<Object> getImageUserById(@PathVariable int id) {
+        try {
+            return new ResponseEntity<>(userService.getImageUserById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error("Id not found");
+            return new ResponseEntity<>(new StringResponse("Id not found"), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/set-image-by-id")
+    public ResponseEntity<StringResponse> updateImageUserById(@RequestBody ImageResponse imageResponse) {
+
+        try {
+            userService.updateImageUserById(imageResponse);
+            return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            LOGGER.error(e.getCause().getMessage());
+            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+
 }

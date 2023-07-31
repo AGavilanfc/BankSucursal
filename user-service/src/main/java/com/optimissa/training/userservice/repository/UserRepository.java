@@ -1,5 +1,6 @@
 package com.optimissa.training.userservice.repository;
 
+import com.optimissa.training.userservice.api.ImageResponse;
 import com.optimissa.training.userservice.api.UserResponAuth;
 import com.optimissa.training.userservice.model.Auth;
 import com.optimissa.training.userservice.model.User;
@@ -36,4 +37,8 @@ public interface UserRepository {
     boolean isValidPassword(int id, String encryptedString);
 
     int updateAuthentication(String email, String password);
+
+    ImageResponse selectImageById(int id);
+
+    int updateImageUserById(String name, int userId);
 }

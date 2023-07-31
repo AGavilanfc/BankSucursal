@@ -1,5 +1,6 @@
 package com.optimissa.training.userservice.service;
 
+import com.optimissa.training.userservice.api.ImageResponse;
 import com.optimissa.training.userservice.api.UserBasicResponse;
 import com.optimissa.training.userservice.api.UserResponAuth;
 import com.optimissa.training.userservice.controller.UserController;
@@ -174,4 +175,21 @@ public class UserService {
         return affectedRows;
     }
 
+    public ImageResponse getImageUserById(int id) {
+        logger.info("Started userService.getUserById()");
+        long startTime = System.currentTimeMillis();
+        ImageResponse imageResponse = userRepository.selectImageById(id);
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime - startTime, imageResponse);
+        return imageResponse;
+    }
+
+    public int updateImageUserById(ImageResponse imageResponse) {
+        logger.info("Started userService.modifyUser()");
+        Long startTime = System.currentTimeMillis();
+        int affectedRows = userRepository.updateImageUserById(imageResponse.getName(), imageResponse.getUserId());
+        Long endTime = System.currentTimeMillis();
+
+        return affectedRows;
+    }
 }
