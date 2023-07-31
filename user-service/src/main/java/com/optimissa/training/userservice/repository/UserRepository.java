@@ -41,4 +41,6 @@ public interface UserRepository {
     ImageResponse selectImageById(int id);
 
     int updateImageUserById(String name, int userId);
+
+    int insertImageUser(String name, int userId);
 }

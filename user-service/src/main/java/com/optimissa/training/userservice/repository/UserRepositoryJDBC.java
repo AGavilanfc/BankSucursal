@@ -34,6 +34,9 @@ public class UserRepositoryJDBC implements UserRepository {
     private static final String SQL_SELECT_IMAGE_BY_ID = "SELECT * FROM PROFILE_IMAGES WHERE USER_ID = ?";
 
     private static final String SQL_UPDATE_IMAGE_USER_BY_ID = "UPDATE PROFILE_IMAGES SET NAME = ? WHERE USER_ID = ?";
+
+        private static final String SQL_INSERT_IMAGE_USER= "INSERT INTO PROFILE_IMAGES (NAME, USER_ID) VALUES (?, ?)";
+
     private final Logger logger = LoggerFactory.getLogger(UserRepositoryJDBC.class);
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -188,6 +191,14 @@ public class UserRepositoryJDBC implements UserRepository {
     public int updateImageUserById(String name, int userId) {
         return jdbcTemplate.update(
                 SQL_UPDATE_IMAGE_USER_BY_ID,
+                name,
+                userId);
+    }
+
+    @Override
+    public int insertImageUser(String name, int userId) {
+        return jdbcTemplate.update(
+                SQL_INSERT_IMAGE_USER,
                 name,
                 userId);
     }

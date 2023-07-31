@@ -14,7 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +30,11 @@ public class UserService {
 
     // private static final String URL_USER_CLIENTS = "http://localhost:8091/clients/get-by-userId/";
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private Path root = null;
+
+
+    @Value("${upload.dir}")
+    private String uploadDir;
     @Autowired
     UserRepositoryJDBC userRepository;
     @Value("${auth.secret:12345}")
@@ -191,5 +200,27 @@ public class UserService {
         Long endTime = System.currentTimeMillis();
 
         return affectedRows;
+    }
+
+        public int insertImageUser(ImageResponse imageResponse) {
+        logger.info("Started userService.modifyUser()");
+        Long startTime = System.currentTimeMillis();
+        int affectedRows = userRepository.insertImageUser(imageResponse.getName(), imageResponse.getUserId());
+        Long endTime = System.currentTimeMillis();
+
+        return affectedRows;
+    }
+    public void saveImageLocal(MultipartFile file, String name) {
+        try {
+            // Copiar el archivo con la opción para sobreescribir si ya existe
+            Path destination = new File("C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//images", name+".jpg").toPath();
+            CopyOption[] options = { StandardCopyOption.REPLACE_EXISTING };
+            Files.copy(file.getInputStream(), destination, options);
+        } catch (Exception e) {
+            if (e instanceof FileAlreadyExistsException) {
+                throw new RuntimeException("A file of that name already exists.");
+            }
+            throw new RuntimeException(e.getMessage());
+        }
     }
 }

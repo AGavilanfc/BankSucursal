@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -233,5 +234,32 @@ public class UserController {
 
     }
 
+    @PostMapping("/insert-image")
+    public ResponseEntity<StringResponse> insertImageUser(@RequestBody ImageResponse imageResponse) {
 
+        try {
+            userService.insertImageUser(imageResponse);
+            return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            LOGGER.error(e.getCause().getMessage());
+            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+    }
+
+
+    @PostMapping("/save-image-local/{name}")
+    public ResponseEntity saveImageLocal(@RequestParam("file") MultipartFile file, @PathVariable String name) {
+
+        try {
+            userService.saveImageLocal(file,name);
+            return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            LOGGER.error(e.getCause().getMessage());
+            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+    }
 }
