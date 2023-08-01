@@ -250,8 +250,7 @@ public class UserController {
 
 
     @PostMapping("/save-image-local/{name}")
-    public ResponseEntity saveImageLocal(@RequestParam("file") MultipartFile file, @PathVariable String name) {
-
+    public ResponseEntity saveImageLocal(@RequestPart("file") MultipartFile file, @PathVariable String name) {
         try {
             userService.saveImageLocal(file,name);
             return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
@@ -259,7 +258,16 @@ public class UserController {
             LOGGER.error(e.getCause().getMessage());
             return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
 
-
+    @DeleteMapping("/delete-image-local/{name}")
+    public ResponseEntity deleteImageLocal( @PathVariable String name){
+        try{
+            userService.deleteImageLocal(name);
+            return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            LOGGER.error(e.getCause().getMessage());
+            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

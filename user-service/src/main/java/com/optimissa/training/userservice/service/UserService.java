@@ -8,14 +8,17 @@ import com.optimissa.training.userservice.model.Auth;
 import com.optimissa.training.userservice.model.User;
 import com.optimissa.training.userservice.repository.UserRepositoryJDBC;
 import com.optimissa.training.userservice.util.AES;
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
@@ -47,6 +50,13 @@ public class UserService {
         long endTime = System.currentTimeMillis();
         logger.info("Finished userService.getUsers(). Execution took: {}ms. Response: {}", endTime - startTime, users.toString());
         return users;
+    }
+
+    @Autowired
+    public UserService(ServletContext servletContext) throws IOException {
+        String projectPath = servletContext.getRealPath("/");
+        this.root = Paths.get(projectPath, "uploads");
+        Files.createDirectories(root); // Crea el directorio si no existe
     }
 
     public List<UserBasicResponse> getActiveUsers() {
@@ -210,13 +220,25 @@ public class UserService {
 
         return affectedRows;
     }
-    public void saveImageLocal(MultipartFile file, String name) {
+    public void saveImageLocal(@RequestParam("file")MultipartFile file, String name) {
         try {
-            // Copiar el archivo con la opción para sobreescribir si ya existe
             Path destination = new File("C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//images", name+".jpg").toPath();
             CopyOption[] options = { StandardCopyOption.REPLACE_EXISTING };
             Files.copy(file.getInputStream(), destination, options);
-        } catch (Exception e) {
+        } catch (IOException e) {
+            if (e instanceof FileAlreadyExistsException) {
+                throw new RuntimeException("A file of that name already exists.");
+            }
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public void deleteImageLocal(String name){
+        try {
+            Path destination = new File("C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//images", name+".jpg").toPath();
+            CopyOption[] options = { StandardCopyOption.REPLACE_EXISTING };
+            Files.delete(destination);
+        } catch (IOException e) {
             if (e instanceof FileAlreadyExistsException) {
                 throw new RuntimeException("A file of that name already exists.");
             }
