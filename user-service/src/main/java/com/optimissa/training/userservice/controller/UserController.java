@@ -1,5 +1,6 @@
 package com.optimissa.training.userservice.controller;
 
+import com.optimissa.training.userservice.api.ImageResponse;
 import com.optimissa.training.userservice.api.StringResponse;
 import com.optimissa.training.userservice.api.UserResponAuth;
 import com.optimissa.training.userservice.model.Auth;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -25,24 +27,7 @@ public class UserController {
 
     @Autowired
     UserService userService;
-
-//    @PostMapping("/verify-password")
-//    public ResponseEntity<Object> verifyPassword(@PathVariable int id, @PathVariable String password) {
-//        final String secretKey = "12345";
-//
-//        String encryptedString = AES.encrypt(password, secretKey);
-//        LOGGER.info("The encrypted password is : {} ", encryptedString);
-//
-//        String decryptString = AES.decrypt("v4srHIuf2m/W7Q+ZMO9p7A==", secretKey);
-//        LOGGER.info("The decrypted password is : {}", decryptString);
-//        try {
-//            return new ResponseEntity<>(userService.verifyPassword(id, encryptedString), HttpStatus.OK);
-//        } catch (Exception e) {
-//            LOGGER.error("Incorrect Password");
-//            return new ResponseEntity<>(new StringResponse("Incorrect Password"), HttpStatus.NOT_FOUND);
-//        }
-//    }
-
+    
     @GetMapping("/get-all")
     public ResponseEntity<Object> getUsers() {
         try {
@@ -207,5 +192,65 @@ public class UserController {
             return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
+    }
+
+    @GetMapping("/get-image-by-id/{id}")
+    public ResponseEntity<Object> getImageUserById(@PathVariable int id) {
+        try {
+            return new ResponseEntity<>(userService.getImageUserById(id), HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error("Id not found");
+            return new ResponseEntity<>(new StringResponse("Id not found"), HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/set-image-by-id")
+    public ResponseEntity<StringResponse> updateImageUserById(@RequestBody ImageResponse imageResponse) {
+
+        try {
+            userService.updateImageUserById(imageResponse);
+            return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            LOGGER.error(e.getCause().getMessage());
+            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+    }
+
+    @PostMapping("/insert-image")
+    public ResponseEntity<StringResponse> insertImageUser(@RequestBody ImageResponse imageResponse) {
+
+        try {
+            userService.insertImageUser(imageResponse);
+            return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            LOGGER.error(e.getCause().getMessage());
+            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+
+    }
+
+
+    @PostMapping("/save-image-local/{name}")
+    public ResponseEntity saveImageLocal(@RequestPart("file") MultipartFile file, @PathVariable String name) {
+        try {
+            userService.saveImageLocal(file,name);
+            return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            LOGGER.error(e.getCause().getMessage());
+            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @DeleteMapping("/delete-image-local/{name}")
+    public ResponseEntity deleteImageLocal( @PathVariable String name){
+        try{
+            userService.deleteImageLocal(name);
+            return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            LOGGER.error(e.getCause().getMessage());
+            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

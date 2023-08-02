@@ -1,5 +1,6 @@
 package com.optimissa.training.userservice.repository;
 
+import com.optimissa.training.userservice.api.ImageResponse;
 import com.optimissa.training.userservice.model.Auth;
 import com.optimissa.training.userservice.model.User;
 import org.slf4j.Logger;
@@ -29,6 +30,13 @@ public class UserRepositoryJDBC implements UserRepository {
     private static final String SQL_AUTHENTICATE = "SELECT * FROM USER WHERE (EMAIL = ? OR PHONE = ?) AND ACTIVE = 1 AND PASSWORD = ? ";
     private static final String queryUpdateAuthentication = "UPDATE USER SET PASSWORD = ? WHERE ID = ?";
     private static final String SQL_UPDATE_AUTHENTICATION = "UPDATE USER SET PASSWORD = ? WHERE EMAIL = ?";
+
+    private static final String SQL_SELECT_IMAGE_BY_ID = "SELECT * FROM PROFILE_IMAGES WHERE USER_ID = ?";
+
+    private static final String SQL_UPDATE_IMAGE_USER_BY_ID = "UPDATE PROFILE_IMAGES SET NAME = ? WHERE USER_ID = ?";
+
+        private static final String SQL_INSERT_IMAGE_USER= "INSERT INTO PROFILE_IMAGES (NAME, USER_ID) VALUES (?, ?)";
+
     private final Logger logger = LoggerFactory.getLogger(UserRepositoryJDBC.class);
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -168,6 +176,31 @@ public class UserRepositoryJDBC implements UserRepository {
                 SQL_UPDATE_AUTHENTICATION,
                 password,
                 email);
+    }
+
+    @Override
+    public ImageResponse selectImageById(int id) {
+        return jdbcTemplate.queryForObject(
+                SQL_SELECT_IMAGE_BY_ID,
+                new BeanPropertyRowMapper<>(ImageResponse.class),
+                id
+        );
+    }
+
+    @Override
+    public int updateImageUserById(String name, int userId) {
+        return jdbcTemplate.update(
+                SQL_UPDATE_IMAGE_USER_BY_ID,
+                name,
+                userId);
+    }
+
+    @Override
+    public int insertImageUser(String name, int userId) {
+        return jdbcTemplate.update(
+                SQL_INSERT_IMAGE_USER,
+                name,
+                userId);
     }
 
 }
