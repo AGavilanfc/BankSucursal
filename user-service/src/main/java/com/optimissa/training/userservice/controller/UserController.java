@@ -27,24 +27,7 @@ public class UserController {
 
     @Autowired
     UserService userService;
-
-//    @PostMapping("/verify-password")
-//    public ResponseEntity<Object> verifyPassword(@PathVariable int id, @PathVariable String password) {
-//        final String secretKey = "12345";
-//
-//        String encryptedString = AES.encrypt(password, secretKey);
-//        LOGGER.info("The encrypted password is : {} ", encryptedString);
-//
-//        String decryptString = AES.decrypt("v4srHIuf2m/W7Q+ZMO9p7A==", secretKey);
-//        LOGGER.info("The decrypted password is : {}", decryptString);
-//        try {
-//            return new ResponseEntity<>(userService.verifyPassword(id, encryptedString), HttpStatus.OK);
-//        } catch (Exception e) {
-//            LOGGER.error("Incorrect Password");
-//            return new ResponseEntity<>(new StringResponse("Incorrect Password"), HttpStatus.NOT_FOUND);
-//        }
-//    }
-
+    
     @GetMapping("/get-all")
     public ResponseEntity<Object> getUsers() {
         try {
