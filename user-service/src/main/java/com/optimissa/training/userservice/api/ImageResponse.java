@@ -4,6 +4,7 @@ public class ImageResponse {
 
     private int userId;
     private String name;
+    private Float size;
 
     public ImageResponse() {
     }
@@ -22,5 +23,13 @@ public class ImageResponse {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Float getSize() {
+        return size;
+    }
+
+    public void setSize(Float size) {
+        this.size = size;
     }
 }

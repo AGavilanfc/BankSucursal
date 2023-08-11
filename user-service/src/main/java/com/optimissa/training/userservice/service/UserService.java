@@ -206,7 +206,7 @@ public class UserService {
     public int updateImageUserById(ImageResponse imageResponse) {
         logger.info("Started userService.modifyUser()");
         Long startTime = System.currentTimeMillis();
-        int affectedRows = userRepository.updateImageUserById(imageResponse.getName(), imageResponse.getUserId());
+        int affectedRows = userRepository.updateImageUserById(imageResponse);
         Long endTime = System.currentTimeMillis();
 
         return affectedRows;
@@ -215,7 +215,7 @@ public class UserService {
         public int insertImageUser(ImageResponse imageResponse) {
         logger.info("Started userService.modifyUser()");
         Long startTime = System.currentTimeMillis();
-        int affectedRows = userRepository.insertImageUser(imageResponse.getName(), imageResponse.getUserId());
+        int affectedRows = userRepository.insertImageUser(imageResponse);
         Long endTime = System.currentTimeMillis();
 
         return affectedRows;

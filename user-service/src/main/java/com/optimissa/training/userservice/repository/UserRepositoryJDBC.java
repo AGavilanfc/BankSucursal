@@ -33,9 +33,9 @@ public class UserRepositoryJDBC implements UserRepository {
 
     private static final String SQL_SELECT_IMAGE_BY_ID = "SELECT * FROM PROFILE_IMAGES WHERE USER_ID = ?";
 
-    private static final String SQL_UPDATE_IMAGE_USER_BY_ID = "UPDATE PROFILE_IMAGES SET NAME = ? WHERE USER_ID = ?";
+    private static final String SQL_UPDATE_IMAGE_USER_BY_ID = "UPDATE PROFILE_IMAGES SET NAME = ? , SIZE = ? WHERE USER_ID = ?";
 
-        private static final String SQL_INSERT_IMAGE_USER= "INSERT INTO PROFILE_IMAGES (NAME, USER_ID) VALUES (?, ?)";
+    private static final String SQL_INSERT_IMAGE_USER= "INSERT INTO PROFILE_IMAGES (NAME, USER_ID ,SIZE) VALUES (?, ?, ? )";
 
     private final Logger logger = LoggerFactory.getLogger(UserRepositoryJDBC.class);
     @Autowired
@@ -188,19 +188,22 @@ public class UserRepositoryJDBC implements UserRepository {
     }
 
     @Override
-    public int updateImageUserById(String name, int userId) {
+    public int updateImageUserById(ImageResponse imageResponse) {
         return jdbcTemplate.update(
                 SQL_UPDATE_IMAGE_USER_BY_ID,
-                name,
-                userId);
+                imageResponse.getName(),
+                imageResponse.getSize(),
+                imageResponse.getUserId());
     }
 
     @Override
-    public int insertImageUser(String name, int userId) {
+    public int insertImageUser(ImageResponse imageResponse) {
         return jdbcTemplate.update(
                 SQL_INSERT_IMAGE_USER,
-                name,
-                userId);
+                imageResponse.getName(),
+                imageResponse.getUserId(),
+                imageResponse.getSize()
+        );
     }
 
 }
