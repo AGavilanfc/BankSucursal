@@ -22,9 +22,9 @@ public interface UserRepository {
 
     List<User> selectByStartWith(String select, String data);
 
-    public List<User> getUserBylimits(int limit, int page);
+    List<User> getUserBylimits(int limit, int page);
 
-    public int getUserBylimitsCount();
+     int getUserBylimitsCount();
 
     int insert(User user);
 

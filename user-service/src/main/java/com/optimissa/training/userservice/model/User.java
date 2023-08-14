@@ -12,9 +12,12 @@ public class User {
 
     private String password;
 
+
+
+
+
     public User() {
     }
-
     public User(int id, String name, String lastName1, String lastName2, String email, String phone, Boolean active,String password) {
         this.id = id;
         this.name = name;
@@ -25,7 +28,6 @@ public class User {
         this.active = active;
         this.password = password;
     }
-
     public int getId() {
         return id;
     }
