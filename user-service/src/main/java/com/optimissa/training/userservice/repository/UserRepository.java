@@ -22,9 +22,9 @@ public interface UserRepository {
 
     List<User> selectByStartWith(String select, String data);
 
-    public List<User> getUserBylimits(int limit, int page);
+    List<User> getUserBylimits(int limit, int page);
 
-    public int getUserBylimitsCount();
+     int getUserBylimitsCount();
 
     int insert(User user);
 
@@ -40,7 +40,7 @@ public interface UserRepository {
 
     ImageResponse selectImageById(int id);
 
-    int updateImageUserById(String name, int userId);
+    int updateImageUserById(ImageResponse imageResponse);
 
-    int insertImageUser(String name, int userId);
+    int insertImageUser(ImageResponse imageResponse);
 }

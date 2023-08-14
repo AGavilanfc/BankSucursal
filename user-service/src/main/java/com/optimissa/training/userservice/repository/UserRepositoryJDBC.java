@@ -15,27 +15,35 @@ import java.util.List;
 @Repository
 public class UserRepositoryJDBC implements UserRepository {
     private static final String SQL_SELECT_ALL = "SELECT * FROM USER";
-    private static final String SQL_SELECT_ALL_ACTIVE = "SELECT * FROM USER WHERE active = 1";
-    private static final String SQL_SELECT_ALL_INACTIVE = "SELECT * FROM USER WHERE active = 0";
+    private static final String SQL_SELECT_ALL_ACTIVE = "SELECT * FROM USER WHERE " +
+            "active = 1";
+    private static final String SQL_SELECT_ALL_INACTIVE = "SELECT * FROM USER WHERE " +
+            "active = 0";
     private static final String SQL_SELECT_BY_ID = "SELECT * FROM USER WHERE id = ?";
-    private static final String SQL_SELECT_BY_EMAIL = "SELECT * FROM USER WHERE EMAIL = ? OR PHONE = ? AND ACTIVE = 1";
+    private static final String SQL_SELECT_BY_EMAIL = "SELECT * FROM USER WHERE EMAIL = ?" +
+            " OR PHONE = ? AND ACTIVE = 1";
     private static final String SQL_SELECT_BY_StartWith = "SELECT * FROM USER WHERE name LIKE ?";
-    private static final String SQL_INSERT = "INSERT INTO USER (name, last_name1, last_name2, email, phone ) " +
+    private static final String SQL_INSERT = "INSERT INTO USER (name, last_name1, last_name2," +
+            " email, phone ) " +
             "VALUES (?, ?, ?, ?, ?)";
-    private static final String SQL_SELECT_TO_LOGGING = "SELECT * FROM USER WHERE (EMAIL = ? OR PHONE = ?) AND ACTIVE = 1";
-    private static final String SQL_UPDATE = "UPDATE USER SET name = ?, last_name1 = ?, last_name2 = ?, email = ?, phone = ? ,password = ?" +
+    private static final String SQL_SELECT_TO_LOGGING = "SELECT * FROM USER WHERE (EMAIL = ? OR " +
+            "PHONE = ?) AND ACTIVE = 1";
+    private static final String SQL_UPDATE = "UPDATE USER SET name = ?, last_name1 = ?, last_name2 = ?," +
+            " email = ?, phone = ? ,password = ?" +
             "WHERE id = ?";
     private static final String SQL_DELETE = "UPDATE USER SET active = 0 WHERE id = ?";
     private static final String SQL_VERIFY_PASSWORD = "SELECT * FROM USER WHERE id = ? AND password = ?";
-    private static final String SQL_AUTHENTICATE = "SELECT * FROM USER WHERE (EMAIL = ? OR PHONE = ?) AND ACTIVE = 1 AND PASSWORD = ? ";
+    private static final String SQL_AUTHENTICATE = "SELECT * FROM USER WHERE (EMAIL = ? OR PHONE = ?)" +
+            " AND ACTIVE = 1 AND PASSWORD = ? ";
     private static final String queryUpdateAuthentication = "UPDATE USER SET PASSWORD = ? WHERE ID = ?";
     private static final String SQL_UPDATE_AUTHENTICATION = "UPDATE USER SET PASSWORD = ? WHERE EMAIL = ?";
 
     private static final String SQL_SELECT_IMAGE_BY_ID = "SELECT * FROM PROFILE_IMAGES WHERE USER_ID = ?";
 
-    private static final String SQL_UPDATE_IMAGE_USER_BY_ID = "UPDATE PROFILE_IMAGES SET NAME = ? WHERE USER_ID = ?";
+    private static final String SQL_UPDATE_IMAGE_USER_BY_ID = "UPDATE PROFILE_IMAGES SET NAME = ? , SIZE = ? " +
+            "WHERE USER_ID = ?";
 
-        private static final String SQL_INSERT_IMAGE_USER= "INSERT INTO PROFILE_IMAGES (NAME, USER_ID) VALUES (?, ?)";
+    private static final String SQL_INSERT_IMAGE_USER= "INSERT INTO PROFILE_IMAGES (NAME, USER_ID ,SIZE) VALUES (?, ?, ? )";
 
     private final Logger logger = LoggerFactory.getLogger(UserRepositoryJDBC.class);
     @Autowired
@@ -48,7 +56,6 @@ public class UserRepositoryJDBC implements UserRepository {
                 new BeanPropertyRowMapper<>(User.class)
         );
     }
-
     @Override
     public List<User> selectAllActive() {
         return jdbcTemplate.query(
@@ -56,7 +63,6 @@ public class UserRepositoryJDBC implements UserRepository {
                 new BeanPropertyRowMapper<>(User.class)
         );
     }
-
     @Override
     public List<User> selectAllInactive() {
         return jdbcTemplate.query(
@@ -64,7 +70,6 @@ public class UserRepositoryJDBC implements UserRepository {
                 new BeanPropertyRowMapper<>(User.class)
         );
     }
-
     @Override
     public User selectById(int id) {
         return jdbcTemplate.queryForObject(
@@ -73,7 +78,6 @@ public class UserRepositoryJDBC implements UserRepository {
                 id
         );
     }
-
     @Override
     public User selectByEmail(String email) {
         return jdbcTemplate.queryForObject(
@@ -84,8 +88,6 @@ public class UserRepositoryJDBC implements UserRepository {
 
         );
     }
-
-
     @Override
     public boolean isValidPassword(int id, String encryptedString) {
 
@@ -94,7 +96,6 @@ public class UserRepositoryJDBC implements UserRepository {
 
         return false;
     }
-
     @Override
     public List<User> selectByStartWith(String select, String data) {
         logger.info("pepe  {} ---- {} {}", SQL_SELECT_BY_StartWith, data, select);
@@ -104,8 +105,6 @@ public class UserRepositoryJDBC implements UserRepository {
                 data + "%"
         );
     }
-
-
     @Override
     public List<User> getUserBylimits(int limit, int page) {
         int offset = (page - 1) * limit;
@@ -114,14 +113,11 @@ public class UserRepositoryJDBC implements UserRepository {
         return jdbcTemplate.query(query, new BeanPropertyRowMapper<>(User.class), limit, offset);
 
     }
-
     public int getUserBylimitsCount() {
         String query = "SELECT COUNT(*) FROM USER";
         return jdbcTemplate.queryForObject(query, Integer.class);
 
     }
-
-
     @Override
     public int insert(User user) {
         return jdbcTemplate.update(SQL_INSERT,
@@ -166,9 +162,7 @@ public class UserRepositoryJDBC implements UserRepository {
         String query = "UPDATE USER SET ACTIVE = ? WHERE ID = ?";
 
         return jdbcTemplate.update(query, activate, id);
-
     }
-
     @Override
     public int updateAuthentication(String email, String password) {
 
@@ -177,7 +171,6 @@ public class UserRepositoryJDBC implements UserRepository {
                 password,
                 email);
     }
-
     @Override
     public ImageResponse selectImageById(int id) {
         return jdbcTemplate.queryForObject(
@@ -186,21 +179,21 @@ public class UserRepositoryJDBC implements UserRepository {
                 id
         );
     }
-
     @Override
-    public int updateImageUserById(String name, int userId) {
+    public int updateImageUserById(ImageResponse imageResponse) {
         return jdbcTemplate.update(
                 SQL_UPDATE_IMAGE_USER_BY_ID,
-                name,
-                userId);
+                imageResponse.getName(),
+                imageResponse.getSize(),
+                imageResponse.getUserId());
     }
-
     @Override
-    public int insertImageUser(String name, int userId) {
+    public int insertImageUser(ImageResponse imageResponse) {
         return jdbcTemplate.update(
                 SQL_INSERT_IMAGE_USER,
-                name,
-                userId);
+                imageResponse.getName(),
+                imageResponse.getUserId(),
+                imageResponse.getSize()
+        );
     }
-
 }

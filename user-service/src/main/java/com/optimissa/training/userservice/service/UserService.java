@@ -1,5 +1,4 @@
 package com.optimissa.training.userservice.service;
-
 import com.optimissa.training.userservice.api.ImageResponse;
 import com.optimissa.training.userservice.api.UserBasicResponse;
 import com.optimissa.training.userservice.api.UserResponAuth;
@@ -8,7 +7,6 @@ import com.optimissa.training.userservice.model.Auth;
 import com.optimissa.training.userservice.model.User;
 import com.optimissa.training.userservice.repository.UserRepositoryJDBC;
 import com.optimissa.training.userservice.util.AES;
-import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +33,6 @@ public class UserService {
     private final Logger logger = LoggerFactory.getLogger(UserController.class);
     private Path root = null;
 
-
     @Value("${upload.dir}")
     private String uploadDir;
     @Autowired
@@ -51,14 +48,12 @@ public class UserService {
         logger.info("Finished userService.getUsers(). Execution took: {}ms. Response: {}", endTime - startTime, users.toString());
         return users;
     }
-
     @Autowired
     public UserService(ServletContext servletContext) throws IOException {
         String projectPath = servletContext.getRealPath("/");
         this.root = Paths.get(projectPath, "uploads");
         Files.createDirectories(root); // Crea el directorio si no existe
     }
-
     public List<UserBasicResponse> getActiveUsers() {
         logger.info("Started userService.getActiveUsers()");
         long startTime = System.currentTimeMillis();
@@ -69,7 +64,6 @@ public class UserService {
         logger.info("Finished userService.getActiveUsers(). Execution took: {}ms. Response: {}", endTime - startTime, usersBasicResponse);
         return usersBasicResponse;
     }
-
     public List<User> getInactiveUsers() {
         logger.info("Started userService.getInactiveUsers()");
         long startTime = System.currentTimeMillis();
@@ -78,7 +72,6 @@ public class UserService {
         logger.info("Finished userService.getInactiveUsers(). Execution took: {}ms. Response: {}", endTime - startTime, users.toString());
         return users;
     }
-
     public User getUserById(int id) {
         logger.info("Started userService.getUserById()");
         long startTime = System.currentTimeMillis();
@@ -87,8 +80,6 @@ public class UserService {
         logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime - startTime, user);
         return user;
     }
-
-
     public User getUserByEmail(String email) {
         logger.info("Started userService.getUserById()");
         long startTime = System.currentTimeMillis();
@@ -97,7 +88,6 @@ public class UserService {
         logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime - startTime, user.toString());
         return user;
     }
-
     public List<User> getUserByStartWith(String select, String data) {
         logger.info("Started userService.getUserById()");
         long startTime = System.currentTimeMillis();
@@ -106,7 +96,6 @@ public class UserService {
         logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime - startTime, user.toString());
         return user;
     }
-
     public User authenticate(Auth auth) {
 
         long startTime = System.currentTimeMillis();
@@ -120,7 +109,6 @@ public class UserService {
         logger.info("Finished userService.authenticate(). Execution took: {}ms. Response: {}", endTime - startTime, user);
         return user;
     }
-
     public Object getUserByLimits(int limit, int page) {
         long startTime = System.currentTimeMillis();
         List<User> users = userRepository.getUserBylimits(limit, page);
@@ -136,7 +124,6 @@ public class UserService {
         logger.info("Finished userService.getUserByLimits(). Execution took: {}ms. Response: {}", endTime - startTime, users.toString());
         return result;
     }
-
     public int addUser(User user) {
         logger.info("Started userService.addUser()");
         long startTime = System.currentTimeMillis();
@@ -145,7 +132,6 @@ public class UserService {
         logger.info("Finished userService.addUser(). Execution took: {}ms. Response: affectedRows = {}", endTime - startTime, affectedRows);
         return affectedRows;
     }
-
     public int modifyUser(User user, int id) {
         logger.info("Started userService.modifyUser()");
         long startTime = System.currentTimeMillis();
@@ -154,7 +140,6 @@ public class UserService {
         logger.info("Finished userService.modifyUser(). Execution took: {}ms. Response: affectedRows = {}", endTime - startTime, affectedRows);
         return affectedRows;
     }
-
     public int removeUser(int id) {
         logger.info("Started userService.removeUser()");
         long startTime = System.currentTimeMillis();
@@ -206,7 +191,7 @@ public class UserService {
     public int updateImageUserById(ImageResponse imageResponse) {
         logger.info("Started userService.modifyUser()");
         Long startTime = System.currentTimeMillis();
-        int affectedRows = userRepository.updateImageUserById(imageResponse.getName(), imageResponse.getUserId());
+        int affectedRows = userRepository.updateImageUserById(imageResponse);
         Long endTime = System.currentTimeMillis();
 
         return affectedRows;
@@ -215,9 +200,8 @@ public class UserService {
         public int insertImageUser(ImageResponse imageResponse) {
         logger.info("Started userService.modifyUser()");
         Long startTime = System.currentTimeMillis();
-        int affectedRows = userRepository.insertImageUser(imageResponse.getName(), imageResponse.getUserId());
+        int affectedRows = userRepository.insertImageUser(imageResponse);
         Long endTime = System.currentTimeMillis();
-
         return affectedRows;
     }
     public void saveImageLocal(@RequestParam("file")MultipartFile file, String name) {
