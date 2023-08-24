@@ -209,25 +209,26 @@ public class UserService {
         Long endTime = System.currentTimeMillis();
         return affectedRows;
     }
-    public void saveImageLocal(@RequestParam("file")MultipartFile file, String name ,int userId) {
+//    public void saveImageLocal(@RequestParam("file")MultipartFile file, String name ,int userId) {
+    public void saveImageLocal(@RequestParam("file")MultipartFile file, String name ) {
         try {
             Path destination = new File("C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//images", name+".jpg").toPath();
             CopyOption[] options = { StandardCopyOption.REPLACE_EXISTING };
             Files.copy(file.getInputStream(), destination, options);
 
-            long timeHistoryImage= Instant.now().getEpochSecond();
+//            long timeHistoryImage= Instant.now().getEpochSecond();
 
 
-            String folderPath = "C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//users_images//user_"+userId;
-
-            Path folderPathObj = Paths.get(folderPath);
-
-            if (!Files.exists(folderPathObj)) {
-                Files.createDirectories(folderPathObj);
-            }
-            Path destinationUserCarpet = new File("C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//users_images//user_"+userId, timeHistoryImage+".jpg").toPath();
-            CopyOption[] optionsUser = { StandardCopyOption.REPLACE_EXISTING };
-            Files.copy(file.getInputStream(), destinationUserCarpet, optionsUser);
+//            String folderPath = "C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//users_images//user_"+userId;
+//
+//            Path folderPathObj = Paths.get(folderPath);
+//
+//            if (!Files.exists(folderPathObj)) {
+//                Files.createDirectories(folderPathObj);
+//            }
+//            Path destinationUserCarpet = new File("C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//users_images//user_"+userId, timeHistoryImage+".jpg").toPath();
+//            CopyOption[] optionsUser = { StandardCopyOption.REPLACE_EXISTING };
+//            Files.copy(file.getInputStream(), destinationUserCarpet, optionsUser);
 
 
 

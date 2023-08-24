@@ -231,10 +231,11 @@ public class UserController {
             return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PostMapping("/save-image-local/{name}/{userId}")
-    public ResponseEntity saveImageLocal(@RequestPart("file") MultipartFile file, @PathVariable String name, @PathVariable int userId) {
+    @PostMapping("/save-image-local/{name}")
+    public ResponseEntity saveImageLocal(@RequestPart("file") MultipartFile file, @PathVariable String name) {
         try {
-            userService.saveImageLocal(file,name,userId);
+//            userService.saveImageLocal(file,name,userId);
+            userService.saveImageLocal(file,name);
             return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
         } catch (Exception e) {
             LOGGER.error(e.getCause().getMessage());
@@ -242,6 +243,17 @@ public class UserController {
         }
     }
 
+//    @PostMapping("/save-image-local/{name}/{userId}")
+//    public ResponseEntity saveImageLocal(@RequestPart("file") MultipartFile file, @PathVariable String name, @PathVariable int userId) {
+//        try {
+//            userService.saveImageLocal(file,name,userId);
+//            userService.saveImageLocal(file,name);
+//            return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
+//        } catch (Exception e) {
+//            LOGGER.error(e.getCause().getMessage());
+//            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
     @DeleteMapping("/delete-image-local/{name}")
     public ResponseEntity deleteImageLocal( @PathVariable String name){
         try{
