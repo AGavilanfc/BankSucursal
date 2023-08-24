@@ -11,6 +11,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +24,7 @@ import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -204,11 +209,28 @@ public class UserService {
         Long endTime = System.currentTimeMillis();
         return affectedRows;
     }
-    public void saveImageLocal(@RequestParam("file")MultipartFile file, String name) {
+    public void saveImageLocal(@RequestParam("file")MultipartFile file, String name ,int userId) {
         try {
             Path destination = new File("C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//images", name+".jpg").toPath();
             CopyOption[] options = { StandardCopyOption.REPLACE_EXISTING };
             Files.copy(file.getInputStream(), destination, options);
+
+            long timeHistoryImage= Instant.now().getEpochSecond();
+
+
+            String folderPath = "C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//users_images//user_"+userId;
+
+            Path folderPathObj = Paths.get(folderPath);
+
+            if (!Files.exists(folderPathObj)) {
+                Files.createDirectories(folderPathObj);
+            }
+            Path destinationUserCarpet = new File("C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//users_images//user_"+userId, timeHistoryImage+".jpg").toPath();
+            CopyOption[] optionsUser = { StandardCopyOption.REPLACE_EXISTING };
+            Files.copy(file.getInputStream(), destinationUserCarpet, optionsUser);
+
+
+
         } catch (IOException e) {
             if (e instanceof FileAlreadyExistsException) {
                 throw new RuntimeException("A file of that name already exists.");
@@ -216,8 +238,7 @@ public class UserService {
             throw new RuntimeException(e.getMessage());
         }
     }
-
-    public void deleteImageLocal(String name){
+   public void deleteImageLocal(String name){
         try {
             Path destination = new File("C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//images", name+".jpg").toPath();
             CopyOption[] options = { StandardCopyOption.REPLACE_EXISTING };
@@ -229,4 +250,14 @@ public class UserService {
             throw new RuntimeException(e.getMessage());
         }
     }
+
 }
+
+
+
+
+
+
+
+
+

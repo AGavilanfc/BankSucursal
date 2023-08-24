@@ -11,10 +11,15 @@ import com.optimissa.training.userservice.util.UserUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -226,10 +231,10 @@ public class UserController {
             return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PostMapping("/save-image-local/{name}")
-    public ResponseEntity saveImageLocal(@RequestPart("file") MultipartFile file, @PathVariable String name) {
+    @PostMapping("/save-image-local/{name}/{userId}")
+    public ResponseEntity saveImageLocal(@RequestPart("file") MultipartFile file, @PathVariable String name, @PathVariable int userId) {
         try {
-            userService.saveImageLocal(file,name);
+            userService.saveImageLocal(file,name,userId);
             return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
         } catch (Exception e) {
             LOGGER.error(e.getCause().getMessage());
@@ -246,5 +251,12 @@ public class UserController {
             LOGGER.error(e.getCause().getMessage());
             return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
+    }
+    @GetMapping("/open-file/{userId}")
+    public ResponseEntity<Resource> openFileBrowser(@PathVariable int userId) throws IOException {
+        String filePathAbsolute = "C:\\Users\\antuanel.medina\\Documents\\bankSucursalFront\\src\\assets\\users_images\\user_"+userId ;
+
+        Process process = Runtime.getRuntime().exec("explorer "+ filePathAbsolute);
+        return null;
     }
 }
