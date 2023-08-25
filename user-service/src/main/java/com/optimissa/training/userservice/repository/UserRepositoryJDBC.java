@@ -2,6 +2,7 @@ package com.optimissa.training.userservice.repository;
 
 import com.optimissa.training.userservice.api.ImageResponse;
 import com.optimissa.training.userservice.model.Auth;
+import com.optimissa.training.userservice.model.ImageHistory;
 import com.optimissa.training.userservice.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,9 +43,9 @@ public class UserRepositoryJDBC implements UserRepository {
 
     private static final String SQL_UPDATE_IMAGE_USER_BY_ID = "UPDATE PROFILE_IMAGES SET NAME = ? , SIZE = ? " +
             "WHERE USER_ID = ?";
-
     private static final String SQL_INSERT_IMAGE_USER= "INSERT INTO PROFILE_IMAGES (NAME, USER_ID ,SIZE) VALUES (?, ?, ? )";
 
+    private static final String SQL_SELECT_ALL_IMAGES_FROM_HISTORY= "SELECT * FROM IMAGE_HISTORY";
     private final Logger logger = LoggerFactory.getLogger(UserRepositoryJDBC.class);
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -196,4 +197,14 @@ public class UserRepositoryJDBC implements UserRepository {
                 imageResponse.getSize()
         );
     }
+
+    @Override
+    public List<ImageHistory> selectAllFromHistory() {
+        return jdbcTemplate.query(
+                SQL_SELECT_ALL_IMAGES_FROM_HISTORY,
+                new BeanPropertyRowMapper<>(ImageHistory.class)
+        );
+    }
+
+
 }

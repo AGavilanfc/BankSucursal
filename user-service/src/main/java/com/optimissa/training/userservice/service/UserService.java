@@ -4,6 +4,7 @@ import com.optimissa.training.userservice.api.UserBasicResponse;
 import com.optimissa.training.userservice.api.UserResponAuth;
 import com.optimissa.training.userservice.controller.UserController;
 import com.optimissa.training.userservice.model.Auth;
+import com.optimissa.training.userservice.model.ImageHistory;
 import com.optimissa.training.userservice.model.User;
 import com.optimissa.training.userservice.repository.UserRepositoryJDBC;
 import com.optimissa.training.userservice.util.AES;
@@ -11,10 +12,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -209,27 +206,26 @@ public class UserService {
         Long endTime = System.currentTimeMillis();
         return affectedRows;
     }
-//    public void saveImageLocal(@RequestParam("file")MultipartFile file, String name ,int userId) {
-    public void saveImageLocal(@RequestParam("file")MultipartFile file, String name ) {
+    public void saveImageLocal(@RequestParam("file")MultipartFile file, String name ,int userId) {
+//    public void saveImageLocal(@RequestParam("file")MultipartFile file, String name ) {
         try {
             Path destination = new File("C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//images", name+".jpg").toPath();
             CopyOption[] options = { StandardCopyOption.REPLACE_EXISTING };
             Files.copy(file.getInputStream(), destination, options);
 
-//            long timeHistoryImage= Instant.now().getEpochSecond();
+            long timeHistoryImage= Instant.now().getEpochSecond();
 
 
-//            String folderPath = "C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//users_images//user_"+userId;
-//
-//            Path folderPathObj = Paths.get(folderPath);
-//
-//            if (!Files.exists(folderPathObj)) {
-//                Files.createDirectories(folderPathObj);
-//            }
-//            Path destinationUserCarpet = new File("C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//users_images//user_"+userId, timeHistoryImage+".jpg").toPath();
-//            CopyOption[] optionsUser = { StandardCopyOption.REPLACE_EXISTING };
-//            Files.copy(file.getInputStream(), destinationUserCarpet, optionsUser);
+            String folderPath = "C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//users_images//user_"+userId;
 
+            Path folderPathObj = Paths.get(folderPath);
+
+            if (!Files.exists(folderPathObj)) {
+                Files.createDirectories(folderPathObj);
+            }
+            Path destinationUserCarpet = new File("C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//users_images//user_"+userId, timeHistoryImage+".jpg").toPath();
+            CopyOption[] optionsUser = { StandardCopyOption.REPLACE_EXISTING };
+            Files.copy(file.getInputStream(), destinationUserCarpet, optionsUser);
 
 
         } catch (IOException e) {
@@ -250,6 +246,16 @@ public class UserService {
             }
             throw new RuntimeException(e.getMessage());
         }
+    }
+
+    public List<ImageHistory> getNumberOfImagesHistory() {
+
+        logger.info("Started userService.getUserById()");
+        long startTime = System.currentTimeMillis();
+        List<ImageHistory> imageHistory = userRepository.selectAllFromHistory();
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime - startTime, imageHistory);
+        return imageHistory;
     }
 
 }
