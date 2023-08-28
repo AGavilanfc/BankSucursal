@@ -45,7 +45,7 @@ public class UserRepositoryJDBC implements UserRepository {
             "WHERE USER_ID = ?";
     private static final String SQL_INSERT_IMAGE_USER= "INSERT INTO PROFILE_IMAGES (NAME, USER_ID ,SIZE) VALUES (?, ?, ? )";
 
-    private static final String SQL_SELECT_ALL_IMAGES_FROM_HISTORY= "SELECT * FROM IMAGE_HISTORY";
+    private static final String SQL_SELECT_COUNT_OF_IMAGES_FROM_HISTORY= "SELECT COUNT(*) FROM IMAGE_HISTORY";
     private final Logger logger = LoggerFactory.getLogger(UserRepositoryJDBC.class);
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -199,12 +199,9 @@ public class UserRepositoryJDBC implements UserRepository {
     }
 
     @Override
-    public List<ImageHistory> selectAllFromHistory() {
-        return jdbcTemplate.query(
-                SQL_SELECT_ALL_IMAGES_FROM_HISTORY,
-                new BeanPropertyRowMapper<>(ImageHistory.class)
-        );
+    public int selectAllFromHistory() {
+        return jdbcTemplate.queryForObject(
+                SQL_SELECT_COUNT_OF_IMAGES_FROM_HISTORY,
+                Integer.class);
     }
-
-
 }

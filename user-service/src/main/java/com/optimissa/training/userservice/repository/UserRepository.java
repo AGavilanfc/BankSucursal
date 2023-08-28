@@ -46,5 +46,5 @@ public interface UserRepository {
     int insertImageUser(ImageResponse imageResponse);
 
 
-    List<ImageHistory> selectAllFromHistory();
+    int selectAllFromHistory();
 }

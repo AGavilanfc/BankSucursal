@@ -248,14 +248,15 @@ public class UserService {
         }
     }
 
-    public List<ImageHistory> getNumberOfImagesHistory() {
+    public int getNumberOfImagesHistory() {
 
         logger.info("Started userService.getUserById()");
         long startTime = System.currentTimeMillis();
-        List<ImageHistory> imageHistory = userRepository.selectAllFromHistory();
+        int imageHistory = userRepository.selectAllFromHistory();
         long endTime = System.currentTimeMillis();
         logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime - startTime, imageHistory);
         return imageHistory;
+
     }
 
 }
