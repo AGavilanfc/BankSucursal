@@ -248,11 +248,24 @@ public class UserService {
         }
     }
 
-    public int getNumberOfImagesHistory() {
+    public int getNumberOfImagesHistory(int user_id) throws IOException {
 
         logger.info("Started userService.getUserById()");
         long startTime = System.currentTimeMillis();
-        int imageHistory = userRepository.selectAllFromHistory();
+        int imageHistory = userRepository.selectAllFromHistory(user_id);
+
+        if(imageHistory >=5){
+            userRepository.deleteFirstRecord(user_id);
+            String name=userRepository.getNameOfFirtRecord(user_id).toString();
+
+
+            Path destination = new File ("C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//images", name+".jpg").toPath();
+            CopyOption[] options = { StandardCopyOption.REPLACE_EXISTING };
+            Files.delete(destination);
+
+        }
+
+
         long endTime = System.currentTimeMillis();
         logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime - startTime, imageHistory);
         return imageHistory;

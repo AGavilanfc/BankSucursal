@@ -45,7 +45,10 @@ public class UserRepositoryJDBC implements UserRepository {
             "WHERE USER_ID = ?";
     private static final String SQL_INSERT_IMAGE_USER= "INSERT INTO PROFILE_IMAGES (NAME, USER_ID ,SIZE) VALUES (?, ?, ? )";
 
-    private static final String SQL_SELECT_COUNT_OF_IMAGES_FROM_HISTORY= "SELECT COUNT(*) FROM IMAGE_HISTORY";
+    private static final String SQL_SELECT_COUNT_OF_IMAGES_FROM_HISTORY= "SELECT COUNT(*) FROM IMAGE_HISTORY WHERE USER_ID=?";
+    private static final String SQL_DELETE_FIRST_IMAGE_FROM_HISTORY = "DELETE FROM IMAGE_HISTORY WHERE USER_ID=? ORDER BY NAME ASC LIMIT 1";
+
+    private static final String SQL_DELETE_IMAGE_FROM_LOCAL_IMAGE_HISTORY = "SELECT NAME FROM IMAGE_HISTORY WHERE USER_ID=? ORDER BY NAME ASC LIMIT 1";
     private final Logger logger = LoggerFactory.getLogger(UserRepositoryJDBC.class);
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -199,9 +202,26 @@ public class UserRepositoryJDBC implements UserRepository {
     }
 
     @Override
-    public int selectAllFromHistory() {
+    public int selectAllFromHistory(int userId)  {
         return jdbcTemplate.queryForObject(
                 SQL_SELECT_COUNT_OF_IMAGES_FROM_HISTORY,
-                Integer.class);
+                Integer.class , userId);
     }
+
+    @Override
+    public int deleteFirstRecord(int userId) {
+        return jdbcTemplate.update(
+                SQL_DELETE_FIRST_IMAGE_FROM_HISTORY , userId
+                );
+    }
+
+    @Override
+    public ImageHistory getNameOfFirtRecord(int userId) {
+        return jdbcTemplate.queryForObject(
+                SQL_DELETE_IMAGE_FROM_LOCAL_IMAGE_HISTORY,
+                new BeanPropertyRowMapper<>(ImageHistory.class),
+                userId
+        );
+    }
+
 }
