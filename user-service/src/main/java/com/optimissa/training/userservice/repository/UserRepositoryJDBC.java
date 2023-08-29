@@ -2,7 +2,6 @@ package com.optimissa.training.userservice.repository;
 
 import com.optimissa.training.userservice.api.ImageResponse;
 import com.optimissa.training.userservice.model.Auth;
-import com.optimissa.training.userservice.model.ImageHistory;
 import com.optimissa.training.userservice.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,10 +44,10 @@ public class UserRepositoryJDBC implements UserRepository {
             "WHERE USER_ID = ?";
     private static final String SQL_INSERT_IMAGE_USER= "INSERT INTO PROFILE_IMAGES (NAME, USER_ID ,SIZE) VALUES (?, ?, ? )";
 
-    private static final String SQL_SELECT_COUNT_OF_IMAGES_FROM_HISTORY= "SELECT COUNT(*) FROM IMAGE_HISTORY WHERE USER_ID=?";
-    private static final String SQL_DELETE_FIRST_IMAGE_FROM_HISTORY = "DELETE FROM IMAGE_HISTORY WHERE USER_ID=? ORDER BY NAME ASC LIMIT 1";
+    private static final String SQL_SELECT_COUNT_OF_IMAGES_FROM_HISTORY= "SELECT COUNT(*) FROM IMAGE_HISTORY WHERE USER_ID = ?";
+    private static final String SQL_DELETE_FIRST_IMAGE_FROM_HISTORY = "DELETE FROM IMAGE_HISTORY WHERE USER_ID = ? ORDER BY NAME ASC LIMIT 1";
 
-    private static final String SQL_DELETE_IMAGE_FROM_LOCAL_IMAGE_HISTORY = "SELECT NAME FROM IMAGE_HISTORY WHERE USER_ID=? ORDER BY NAME ASC LIMIT 1";
+    private static final String SQL_DELETE_IMAGE_FROM_LOCAL_IMAGE_HISTORY = "SELECT NAME FROM IMAGE_HISTORY WHERE USER_ID = ? ORDER BY NAME ASC LIMIT 1";
     private final Logger logger = LoggerFactory.getLogger(UserRepositoryJDBC.class);
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -202,7 +201,7 @@ public class UserRepositoryJDBC implements UserRepository {
     }
 
     @Override
-    public int selectAllFromHistory(int userId)  {
+    public int selectFromHistory(int userId)  {
         return jdbcTemplate.queryForObject(
                 SQL_SELECT_COUNT_OF_IMAGES_FROM_HISTORY,
                 Integer.class , userId);
@@ -216,10 +215,10 @@ public class UserRepositoryJDBC implements UserRepository {
     }
 
     @Override
-    public ImageHistory getNameOfFirtRecord(int userId) {
+    public int getNameOfFirtRecord(int userId) {
         return jdbcTemplate.queryForObject(
                 SQL_DELETE_IMAGE_FROM_LOCAL_IMAGE_HISTORY,
-                new BeanPropertyRowMapper<>(ImageHistory.class),
+                Integer.class,
                 userId
         );
     }

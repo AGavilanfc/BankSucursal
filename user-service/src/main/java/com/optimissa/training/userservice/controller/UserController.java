@@ -6,14 +6,12 @@ import com.optimissa.training.userservice.api.UserResponAuth;
 import com.optimissa.training.userservice.model.Auth;
 import com.optimissa.training.userservice.model.User;
 import com.optimissa.training.userservice.service.UserService;
-import com.optimissa.training.userservice.util.AES;
 import com.optimissa.training.userservice.util.UserUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +26,9 @@ public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
     private final UserUtil userUtil = new UserUtil();
+    String filePath;
+    @Value("${rute.absolute.user.id.image}")
+    String filePathAbsolute;
 
     @Autowired
     UserService userService;
@@ -255,10 +256,10 @@ public class UserController {
 
 
 
-    @GetMapping ("/get-number/image-history/{user_id}")
-    public ResponseEntity<Object> getNumberOfImagesHistory(@PathVariable int user_id) {
+    @DeleteMapping ("/delete-image-history/{user_id}")
+    public ResponseEntity<Object> ImageHistoryUser(@PathVariable int user_id) {
         try {
-            return new ResponseEntity<>(userService.getNumberOfImagesHistory(user_id), HttpStatus.OK);
+            return new ResponseEntity<>(userService.modifyNumberOfImagesHistory(user_id), HttpStatus.OK);
         } catch (Exception e) {
             LOGGER.error(e.getMessage());
             return new ResponseEntity<>(new StringResponse(e.getMessage()), HttpStatus.NOT_FOUND);
@@ -277,9 +278,9 @@ public class UserController {
     }
     @GetMapping("/open-file/{userId}")
     public ResponseEntity<Resource> openFileBrowser(@PathVariable int userId) throws IOException {
-        String filePathAbsolute = "C:\\Users\\antuanel.medina\\Documents\\bankSucursalFront\\src\\assets\\users_images\\user_"+userId ;
+        filePath = filePathAbsolute+userId ;
 
-        Process process = Runtime.getRuntime().exec("explorer "+ filePathAbsolute);
+        Process process = Runtime.getRuntime().exec("explorer "+ filePath);
         return null;
     }
 

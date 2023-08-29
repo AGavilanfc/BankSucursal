@@ -248,21 +248,23 @@ public class UserService {
         }
     }
 
-    public int getNumberOfImagesHistory(int user_id) throws IOException {
+    public int modifyNumberOfImagesHistory(int userId) {
 
         logger.info("Started userService.getUserById()");
         long startTime = System.currentTimeMillis();
-        int imageHistory = userRepository.selectAllFromHistory(user_id);
+        int imageHistory = userRepository.selectFromHistory(userId);
 
-        if(imageHistory >=5){
-            userRepository.deleteFirstRecord(user_id);
-            String name=userRepository.getNameOfFirtRecord(user_id).toString();
-
-
-            Path destination = new File ("C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//images", name+".jpg").toPath();
+        if(imageHistory >5){
+            int name=userRepository.getNameOfFirtRecord(userId);
+            String filePathAbsolute = "C:\\Users\\antuanel.medina\\Documents\\bankSucursalFront\\src\\assets\\users_images\\user_"+userId;
+            Path destination = new File (filePathAbsolute, name+".jpg").toPath();
             CopyOption[] options = { StandardCopyOption.REPLACE_EXISTING };
-            Files.delete(destination);
-
+            try {
+                Files.delete(destination);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            userRepository.deleteFirstRecord(userId);
         }
 
 
