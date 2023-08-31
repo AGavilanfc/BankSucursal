@@ -48,6 +48,7 @@ public class UserRepositoryJDBC implements UserRepository {
     private static final String SQL_DELETE_FIRST_IMAGE_FROM_HISTORY = "DELETE FROM IMAGE_HISTORY WHERE USER_ID = ? ORDER BY NAME ASC LIMIT 1";
 
     private static final String SQL_DELETE_IMAGE_FROM_LOCAL_IMAGE_HISTORY = "SELECT NAME FROM IMAGE_HISTORY WHERE USER_ID = ? ORDER BY NAME ASC LIMIT 1";
+    private static final String SQL_SAVE_IMAGE_HISTORY = "INSERT INTO IMAGE_HISTORY (NAME, USER_ID) VALUES (?, ?) ";
     private final Logger logger = LoggerFactory.getLogger(UserRepositoryJDBC.class);
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -219,6 +220,15 @@ public class UserRepositoryJDBC implements UserRepository {
         return jdbcTemplate.queryForObject(
                 SQL_DELETE_IMAGE_FROM_LOCAL_IMAGE_HISTORY,
                 Integer.class,
+                userId
+        );
+    }
+
+    @Override
+    public int saveInHistory(String name, int userId) {
+        return jdbcTemplate.update(
+                SQL_SAVE_IMAGE_HISTORY,
+                name,
                 userId
         );
     }

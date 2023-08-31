@@ -228,6 +228,7 @@ public class UserService {
             Files.copy(file.getInputStream(), destinationUserCarpet, optionsUser);
 
 
+
         } catch (IOException e) {
             if (e instanceof FileAlreadyExistsException) {
                 throw new RuntimeException("A file of that name already exists.");
@@ -267,13 +268,22 @@ public class UserService {
             userRepository.deleteFirstRecord(userId);
         }
 
-
         long endTime = System.currentTimeMillis();
         logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime - startTime, imageHistory);
         return imageHistory;
 
     }
 
+
+
+    public int saveImageHistory(String name, int userId){
+        logger.info("Started userService.modifyUser()");
+        Long startTime = System.currentTimeMillis();
+        int affectedRows = userRepository.saveInHistory(name, userId);
+        Long endTime = System.currentTimeMillis();
+
+        return affectedRows;
+    }
 }
 
 

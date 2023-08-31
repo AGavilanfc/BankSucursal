@@ -285,4 +285,14 @@ public class UserController {
     }
 
 
+    @PostMapping("/save-image-history/{name}/{userId}")
+    public ResponseEntity saveImageHistory( @PathVariable String name, @PathVariable int userId){
+        try{
+            userService.saveImageHistory(name,userId);
+            return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            LOGGER.error(e.getCause().getMessage());
+            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
 }

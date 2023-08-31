@@ -50,4 +50,5 @@ public interface UserRepository {
     int getNameOfFirtRecord(int userId);
 
 
+    int saveInHistory(String name, int userId);
 }
