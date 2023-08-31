@@ -6,15 +6,18 @@ import com.optimissa.training.userservice.api.UserResponAuth;
 import com.optimissa.training.userservice.model.Auth;
 import com.optimissa.training.userservice.model.User;
 import com.optimissa.training.userservice.service.UserService;
-import com.optimissa.training.userservice.util.AES;
 import com.optimissa.training.userservice.util.UserUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -22,8 +25,10 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
-
     private final UserUtil userUtil = new UserUtil();
+    String filePath;
+    @Value("${rute.absolute.user.id.image}")
+    String filePathAbsolute;
 
     @Autowired
     UserService userService;
@@ -226,10 +231,11 @@ public class UserController {
             return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    @PostMapping("/save-image-local/{name}")
-    public ResponseEntity saveImageLocal(@RequestPart("file") MultipartFile file, @PathVariable String name) {
+
+    @PostMapping("/save-image-local/{name}/{userId}")
+    public ResponseEntity saveImageLocal(@RequestPart("file") MultipartFile file, @PathVariable String name, @PathVariable int userId) {
         try {
-            userService.saveImageLocal(file,name);
+            userService.saveImageLocal(file,name,userId);
             return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
         } catch (Exception e) {
             LOGGER.error(e.getCause().getMessage());
@@ -237,10 +243,52 @@ public class UserController {
         }
     }
 
+//    @PostMapping("/history-image/{name}/{userId}")
+//    public ResponseEntity saveHistoryImages(@PathVariable String name , @PathVariable int userId){
+//        try {
+//            userService.saveImageLocal(file,name,userId);
+//            return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
+//        }catch (Exception e) {
+//            LOGGER.error(e.getCause().getMessage());
+//            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+
+
+
+    @DeleteMapping ("/delete-image-history/{user_id}")
+    public ResponseEntity<Object> ImageHistoryUser(@PathVariable int user_id) {
+        try {
+            return new ResponseEntity<>(userService.modifyNumberOfImagesHistory(user_id), HttpStatus.OK);
+        } catch (Exception e) {
+            LOGGER.error(e.getMessage());
+            return new ResponseEntity<>(new StringResponse(e.getMessage()), HttpStatus.NOT_FOUND);
+        }
+    }
+
     @DeleteMapping("/delete-image-local/{name}")
     public ResponseEntity deleteImageLocal( @PathVariable String name){
         try{
             userService.deleteImageLocal(name);
+            return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
+        } catch (Exception e) {
+            LOGGER.error(e.getCause().getMessage());
+            return new ResponseEntity<>(new StringResponse(e.getCause().getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+    @GetMapping("/open-file/{userId}")
+    public ResponseEntity<Resource> openFileBrowser(@PathVariable int userId) throws IOException {
+        filePath = filePathAbsolute+userId ;
+
+        Process process = Runtime.getRuntime().exec("explorer "+ filePath);
+        return null;
+    }
+
+
+    @PostMapping("/save-image-history/{name}/{userId}")
+    public ResponseEntity saveImageHistory( @PathVariable String name, @PathVariable int userId){
+        try{
+            userService.saveImageHistory(name,userId);
             return new ResponseEntity<>(new StringResponse("User has been modified"), HttpStatus.ACCEPTED);
         } catch (Exception e) {
             LOGGER.error(e.getCause().getMessage());

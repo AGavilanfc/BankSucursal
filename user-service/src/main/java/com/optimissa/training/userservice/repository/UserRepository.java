@@ -1,10 +1,8 @@
 package com.optimissa.training.userservice.repository;
 
 import com.optimissa.training.userservice.api.ImageResponse;
-import com.optimissa.training.userservice.api.UserResponAuth;
 import com.optimissa.training.userservice.model.Auth;
 import com.optimissa.training.userservice.model.User;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 
 import java.util.List;
 
@@ -43,4 +41,14 @@ public interface UserRepository {
     int updateImageUserById(ImageResponse imageResponse);
 
     int insertImageUser(ImageResponse imageResponse);
+
+
+    int selectFromHistory(int user_id);
+
+    int deleteFirstRecord(int user_id);
+
+    int getNameOfFirtRecord(int userId);
+
+
+    int saveInHistory(String name, int userId);
 }

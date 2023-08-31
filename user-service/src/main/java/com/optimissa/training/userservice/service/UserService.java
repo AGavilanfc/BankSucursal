@@ -4,6 +4,7 @@ import com.optimissa.training.userservice.api.UserBasicResponse;
 import com.optimissa.training.userservice.api.UserResponAuth;
 import com.optimissa.training.userservice.controller.UserController;
 import com.optimissa.training.userservice.model.Auth;
+import com.optimissa.training.userservice.model.ImageHistory;
 import com.optimissa.training.userservice.model.User;
 import com.optimissa.training.userservice.repository.UserRepositoryJDBC;
 import com.optimissa.training.userservice.util.AES;
@@ -20,6 +21,7 @@ import javax.servlet.ServletContext;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.*;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -204,11 +206,29 @@ public class UserService {
         Long endTime = System.currentTimeMillis();
         return affectedRows;
     }
-    public void saveImageLocal(@RequestParam("file")MultipartFile file, String name) {
+    public void saveImageLocal(@RequestParam("file")MultipartFile file, String name ,int userId) {
+//    public void saveImageLocal(@RequestParam("file")MultipartFile file, String name ) {
         try {
             Path destination = new File("C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//images", name+".jpg").toPath();
             CopyOption[] options = { StandardCopyOption.REPLACE_EXISTING };
             Files.copy(file.getInputStream(), destination, options);
+
+            long timeHistoryImage= Instant.now().getEpochSecond();
+
+
+            String folderPath = "C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//users_images//user_"+userId;
+
+            Path folderPathObj = Paths.get(folderPath);
+
+            if (!Files.exists(folderPathObj)) {
+                Files.createDirectories(folderPathObj);
+            }
+            Path destinationUserCarpet = new File("C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//users_images//user_"+userId, timeHistoryImage+".jpg").toPath();
+            CopyOption[] optionsUser = { StandardCopyOption.REPLACE_EXISTING };
+            Files.copy(file.getInputStream(), destinationUserCarpet, optionsUser);
+
+
+
         } catch (IOException e) {
             if (e instanceof FileAlreadyExistsException) {
                 throw new RuntimeException("A file of that name already exists.");
@@ -216,8 +236,7 @@ public class UserService {
             throw new RuntimeException(e.getMessage());
         }
     }
-
-    public void deleteImageLocal(String name){
+   public void deleteImageLocal(String name){
         try {
             Path destination = new File("C://Users//antuanel.medina//Documents//bankSucursalFront//src//assets//images", name+".jpg").toPath();
             CopyOption[] options = { StandardCopyOption.REPLACE_EXISTING };
@@ -229,4 +248,49 @@ public class UserService {
             throw new RuntimeException(e.getMessage());
         }
     }
+
+    public int modifyNumberOfImagesHistory(int userId) {
+
+        logger.info("Started userService.getUserById()");
+        long startTime = System.currentTimeMillis();
+        int imageHistory = userRepository.selectFromHistory(userId);
+
+        if(imageHistory >5){
+            int name=userRepository.getNameOfFirtRecord(userId);
+            String filePathAbsolute = "C:\\Users\\antuanel.medina\\Documents\\bankSucursalFront\\src\\assets\\users_images\\user_"+userId;
+            Path destination = new File (filePathAbsolute, name+".jpg").toPath();
+            CopyOption[] options = { StandardCopyOption.REPLACE_EXISTING };
+            try {
+                Files.delete(destination);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            userRepository.deleteFirstRecord(userId);
+        }
+
+        long endTime = System.currentTimeMillis();
+        logger.info("Finished userService.getUserById(). Execution took: {}ms. Response: {}", endTime - startTime, imageHistory);
+        return imageHistory;
+
+    }
+
+
+
+    public int saveImageHistory(String name, int userId){
+        logger.info("Started userService.modifyUser()");
+        Long startTime = System.currentTimeMillis();
+        int affectedRows = userRepository.saveInHistory(name, userId);
+        Long endTime = System.currentTimeMillis();
+
+        return affectedRows;
+    }
 }
+
+
+
+
+
+
+
+
+
